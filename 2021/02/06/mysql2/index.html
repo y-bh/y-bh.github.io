@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+  <!-- 元数据 -->
+  <meta charset="utf-8">
+  <link rel="icon" href="">
+  <title>MySQL--后半部分 | 青い栞</title>
+  <meta name="author" content="FunnyLs" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index,follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="format-detection" content="telphone=no, email=no" />
+  
+    <meta name="keywords" content="" />
+  
+  <meta name="description" content="TCL（Transaction Control Language）事务：事务由单独单元的一个或多个SQL语句组成，在这个单元中，每个SQL语句是相互依赖的。而整个单独单元作为一个不可分割的整体，如果单元中某条SQL语句一旦执行失败或产生错误，整个单元将会回滚。所有受到影响的是数据将返回到事务开始以前的状态。如果单元中的所有SQL语句均执行成功，则事务顺利执行。 事物的属性： 原子性（Atomici">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL--后半部分">
+<meta property="og:url" content="http://example.com/2021/02/06/mysql2/index.html">
+<meta property="og:site_name" content="青い栞">
+<meta property="og:description" content="TCL（Transaction Control Language）事务：事务由单独单元的一个或多个SQL语句组成，在这个单元中，每个SQL语句是相互依赖的。而整个单独单元作为一个不可分割的整体，如果单元中某条SQL语句一旦执行失败或产生错误，整个单元将会回滚。所有受到影响的是数据将返回到事务开始以前的状态。如果单元中的所有SQL语句均执行成功，则事务顺利执行。 事物的属性： 原子性（Atomici">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/null">
+<meta property="article:published_time" content="2021-02-05T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-03-01T13:37:32.034Z">
+<meta property="article:author" content="FunnyLs">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/null">
+<meta name="twitter:site" content="@null">
+  
+  <!-- 站点验证相关 -->
+  
+    
+    
+    
+  
+  <!-- 样式表文件 -->
+  <link rel="stylesheet" id="kratos-css" href="/css/kratosr.min.css" type="text/css" media="all">
+  
+    <link rel="stylesheet" id="highlight-css" href="/css/highlight/night-blue.min.css" type="text/css" media="all">
+  
+  
+  <link rel="stylesheet" id="fontawe-css" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" type="text/css" media="all">
+  <link rel="stylesheet" id="nprogress-css" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" type="text/css" media="all">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+  
+  
+    <link rel="stylesheet" id="darkmode-css" href="/css/kr-dark.min.css" type="text/css" media="all">
+  
+  <!-- 不得不预先加载的一些JS文件 -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+    <body class="custom-background">
+        <div id="kratos-wrapper">
+    <div id="kratos-page">
+        <div id="kratos-header">
+            <header id="kratos-desktop-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="nav-header">
+                        <nav id="kratos-menu-wrap">
+                            <ul id="kratos-primary-menu" class="sf-menu">
+                                
+                                    
+                                        <li><a href="/"><i class="fa fa-home"></i>首页</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/archives/"><i class="fa fa-file"></i>档案馆</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/friends/"></a></li>
+                                    
+                                
+                                    
+                                        <li>
+                                            <a><i class="fa fa-link"></i>链接</a>
+                                            <ul class="sub-menu">
+                                                
+                                                    
+                                                
+                                                    
+                                                        <li><a target="_blank" rel="noopener" href="https://candinya.com">作者博客</a></li>
+                                                    
+                                                
+                                                    
+                                                        <li><a target="_blank" rel="noopener" href="https://github.com/Candinya/Kratos-Rebirth">项目链接</a></li>
+                                                    
+                                                
+                                            </ul>
+                                        </li>
+                                    
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <header id="kratos-mobile-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="color-logo"><a href="/">青い栞</a></div>
+                    <div class="nav-toggle">
+                        <a class="kratos-nav-toggle js-kratos-nav-toggle">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="kratos-start kratos-hero-2">
+            <!-- <div class="kratos-overlay"></div> -->
+            <div class="kratos-cover kratos-cover-2 text-center">
+                <div class="desc desc2 animate-box">
+                    <a href="/">
+                        <h2>青い栞</h2> <br />
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="kratos-blog-post">
+            <div class="container">
+                <div id="main" class="row">
+                    
+
+        <section class="col-md-8">
+            <article>
+    <div class="kratos-hentry kratos-post-inner clearfix">
+        <header class="kratos-entry-header">
+            
+                <h1 class="kratos-entry-title text-center">MySQL--后半部分</h1>
+            
+            
+            <ul class="kratos-post-meta text-center">
+                <li><i class="fa fa-calendar"></i> 2021-02-06</li>
+                <li><i class="fa fa-user"></i> 作者 FunnyLs</li>
+                <li>
+                    <i class="fa fa-edit"></i> 
+                    
+                    
+                        ~5.49K
+                    
+                    字
+                </li>
+                
+            </ul>
+        </header>
+        <div class="kratos-post-content">
+            <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                本文最后编辑于 <time datetime="1614605852034"></time> 前，其中的内容可能需要更新。
+            </div>
+            
+                <div class="kratos-post-inner-toc">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#TCL%EF%BC%88Transaction-Control-Language%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">TCL（Transaction Control Language）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E7%89%A9%E7%9A%84%E5%B1%9E%E6%80%A7%EF%BC%9A"><span class="toc-number">1.1.</span> <span class="toc-text">事物的属性：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1%E5%88%86%E7%B1%BB%EF%BC%9A"><span class="toc-number">1.2.</span> <span class="toc-text">事务分类：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%90%E5%BC%8F%E4%BA%8B%E5%8A%A1"><span class="toc-number">1.2.1.</span> <span class="toc-text">隐式事务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%BE%E5%BC%8F%E4%BA%8B%E5%8A%A1"><span class="toc-number">1.2.2.</span> <span class="toc-text">显式事务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B6%E5%8F%91%E4%BA%8B%E5%8A%A1"><span class="toc-number">1.2.3.</span> <span class="toc-text">并发事务</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A7%86%E5%9B%BE"><span class="toc-number">2.</span> <span class="toc-text">视图</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E8%A7%86%E5%9B%BE"><span class="toc-number">2.1.</span> <span class="toc-text">创建视图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E8%A7%86%E5%9B%BE"><span class="toc-number">2.2.</span> <span class="toc-text">修改视图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E8%A7%86%E5%9B%BE"><span class="toc-number">2.3.</span> <span class="toc-text">删除视图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E8%A7%86%E5%9B%BE"><span class="toc-number">2.4.</span> <span class="toc-text">查看视图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DML%E6%93%8D%E4%BD%9C%E6%9B%B4%E6%96%B0%E8%A7%86%E5%9B%BE"><span class="toc-number">2.5.</span> <span class="toc-text">DML操作更新视图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%86%E5%9B%BE%E5%92%8C%E8%A1%A8%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="toc-number">2.6.</span> <span class="toc-text">视图和表的对比</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%98%E9%87%8F"><span class="toc-number">3.</span> <span class="toc-text">变量</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E5%8F%98%E9%87%8F"><span class="toc-number">3.1.</span> <span class="toc-text">系统变量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F"><span class="toc-number">3.1.1.</span> <span class="toc-text">全局变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%9A%E8%AF%9D%E5%8F%98%E9%87%8F"><span class="toc-number">3.1.2.</span> <span class="toc-text">会话变量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F"><span class="toc-number">3.2.</span> <span class="toc-text">自定义变量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E5%8F%98%E9%87%8F"><span class="toc-number">3.2.1.</span> <span class="toc-text">用户变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F"><span class="toc-number">3.2.2.</span> <span class="toc-text">局部变量</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E5%92%8C%E5%87%BD%E6%95%B0"><span class="toc-number">4.</span> <span class="toc-text">存储过程和函数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B"><span class="toc-number">4.1.</span> <span class="toc-text">存储过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0"><span class="toc-number">4.2.</span> <span class="toc-text">函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%92%8C%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">4.3.</span> <span class="toc-text">函数和存储过程的区别</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6%E7%BB%93%E6%9E%84"><span class="toc-number">5.</span> <span class="toc-text">流程控制结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E6%94%AF%E7%BB%93%E6%9E%84"><span class="toc-number">5.1.</span> <span class="toc-text">分支结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#if%E5%87%BD%E6%95%B0"><span class="toc-number">5.1.1.</span> <span class="toc-text">if函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#case%E8%AF%AD%E5%8F%A5"><span class="toc-number">5.1.2.</span> <span class="toc-text">case语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#if-elseif%E8%AF%AD%E5%8F%A5"><span class="toc-number">5.1.3.</span> <span class="toc-text">if elseif语句</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF%E7%BB%93%E6%9E%84"><span class="toc-number">5.2.</span> <span class="toc-text">循环结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#while"><span class="toc-number">5.2.1.</span> <span class="toc-text">while</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#loop"><span class="toc-number">5.2.2.</span> <span class="toc-text">loop</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#repeat"><span class="toc-number">5.2.3.</span> <span class="toc-text">repeat</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5"><span class="toc-number">5.2.4.</span> <span class="toc-text">循环控制语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E6%AF%94"><span class="toc-number">5.2.5.</span> <span class="toc-text">对比</span></a></li></ol></li></ol></li></ol>
+                </div>
+            
+            <hr />
+            <h1 id="TCL（Transaction-Control-Language）"><a href="#TCL（Transaction-Control-Language）" class="headerlink" title="TCL（Transaction Control Language）"></a>TCL（Transaction Control Language）</h1><p><strong>事务</strong>：事务由单独单元的一个或多个SQL语句组成，在这个单元中，每个SQL语句是相互依赖的。而整个单独单元作为一个不可分割的整体，如果单元中某条SQL语句一旦执行失败或产生错误，整个单元将会回滚。所有受到影响的是数据将返回到事务开始以前的状态。如果单元中的所有SQL语句均执行成功，则事务顺利执行。</p>
+<h2 id="事物的属性："><a href="#事物的属性：" class="headerlink" title="事物的属性："></a>事物的属性：</h2><ol>
+<li>原子性（Atomicity）：原子性是指事务是一个不可分割的工作单位，事务中的操作要么都发生，要么都不发生。</li>
+<li>一致性（Consistency）：事务必须使数据库从一个一致性状态变换到另外一个一致性状态</li>
+<li>隔离性（Isolation）：事物的隔离性是指一个事务的执行不能被其他事务干扰，即一个事物内部的操作及使用的数据对并发的其他事务是隔离的，并发执行的各个事务之间不能相互干扰</li>
+<li>持久性（Durability）：持久性是指一个事务一旦被提交，它对数据库中数据的改变就是永久性的，接下来的其他操作和数据库故障不应该对其有任何影响</li>
+</ol>
+<h2 id="事务分类："><a href="#事务分类：" class="headerlink" title="事务分类："></a>事务分类：</h2><h3 id="隐式事务"><a href="#隐式事务" class="headerlink" title="隐式事务"></a><strong>隐式事务</strong></h3><p>没有明显的开启和结束，本身就是一条事务可以自动提交，比如：INSERT、UPDATE、DELETE、</p>
+<h3 id="显式事务"><a href="#显式事务" class="headerlink" title="显式事务"></a><strong>显式事务</strong></h3><p>步骤：</p>
+<ol>
+<li><p>开启事务：</p>
+<p>set autocommit=0;</p>
+<p>start transaction;(可以省略)</p>
+</li>
+<li><p>编写一组逻辑SQL语句（注意：SQL语句支持的是INSERT、UPDATE、DELETE）</p>
+<p>设置回滚点：savepoint 回滚点名;</p>
+</li>
+<li><p>结束事务</p>
+<p>·提交：commit;</p>
+<p>-回滚：rollback;</p>
+<p>-回滚到指定地方：rollback to 回滚点名;</p>
+</li>
+</ol>
+<h3 id="并发事务"><a href="#并发事务" class="headerlink" title="并发事务"></a>并发事务</h3><p>多个事务同时操作同一个数据的相同数据时会引发下列并发问题</p>
+<ul>
+<li>脏读：对于两个事务 T1, T2,。T1 读取了已经被 T2 更新但还没有被提交的字段之后, 若 T2 回滚, T1读取的内容就是临时且无效的.</li>
+<li>不可重复读：对于两个事务T1, T2。T1 读取了一个字段, 然后 T2 更新了该字段. 之后, T1再次读取同一个字段, 值就不同了.</li>
+<li>幻读：对于两个事务T1, T2。T1 从一个表中读取了一个字段, 然后 T2 在该表中插 入了一些新的行. 之后, 如果 T1 再次读取同一个表, 就会多出几行.</li>
+</ul>
+<p>解决方法：</p>
+<p>通过设置隔离级别来解决并发问题</p>
+<p><strong>数据库事务的隔离性：</strong>数据库系统必须具有隔离并发运行各个事务的能力，使它们不会相互影响，避免各种并发问题。</p>
+<p>隔离级别：一个事务与其他事务隔离的程度。数据库规定了多种事务隔离级别，不同隔离级别对应不同的干扰程度，隔离级别越高，数据一致性就越好，但并发性越弱。</p>
+<p><strong>四种事务隔离级别</strong></p>
+<table>
+<thead>
+<tr>
+<th>隔离级别</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>READ UNCOMMITTED(读未提交数据)</td>
+<td>允许事务读取未被其他事务提交的变更。脏读、不可重复读、幻读的问题都会出现。</td>
+</tr>
+<tr>
+<td>READ COMMITTED(读已提交数据)</td>
+<td>只允许事务读取已经被其他事务提交的变更，可以避免脏读，但不可重复读和幻读问题仍可能出现。</td>
+</tr>
+<tr>
+<td>REPEATABLE READ(可重复读)</td>
+<td>确保事务可以多次从一个字段中读取相同的值，在这个事务持续期间，禁止其他事务对这个字段进行更新。可以避免脏读和不可重复读，但幻读的问题仍然存在。</td>
+</tr>
+<tr>
+<td>SERIALIZABLE(串行化)</td>
+<td>确保事务可以从一个表中读取相同的行，在这个事务持续期间，禁止其他事务对该表执行插入、更新和删除操作，所有并发问题都i可以避免，但性能十分低下。</td>
+</tr>
+</tbody></table>
+<p><strong>设置隔离级别</strong></p>
+<p>每启动一个 mysql 程序, 就会获得一个单独的数据库连接. 每 个数据库连接都有一个全局变量 @@tx_isolation, 表示当前的 事务隔离级别. </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#设置隔离级别</span><br><span class="line"><span class="keyword">set</span> session<span class="operator">/</span><span class="keyword">global</span>  transaction isolation level 隔离级别名;</span><br><span class="line">#查看隔离级别</span><br><span class="line"><span class="keyword">select</span> @<span class="variable">@tx</span>_isolation;<span class="operator">/</span><span class="operator">/</span>MySQL5<span class="number">.7</span></span><br><span class="line"><span class="keyword">select</span> @<span class="variable">@transaction</span>_isolation;<span class="operator">/</span><span class="operator">/</span>MySQL8<span class="number">.0</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h1><p>MySQL从5.0.1版本开始提供视图功能。一种虚拟存在的表，行和列的数据来自定义视图的查询中使用的表，并且是在使用视图时动态生成的，只保存了SQL逻辑，不保存查询结果</p>
+<p>应用于：</p>
+<ul>
+<li>多个地方用到同样的查询结果</li>
+<li>该查询结果使用的SQL语句较复杂</li>
+</ul>
+<p>好处：</p>
+<ul>
+<li>重用SQL语句</li>
+<li>简化复杂的SQL操作，不必知道它的查询细节</li>
+<li>保护数据，提高安全性</li>
+</ul>
+<p>语法：</p>
+<h2 id="创建视图"><a href="#创建视图" class="headerlink" title="创建视图"></a>创建视图</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CREATE [OR REPLACE] [ALGORITHM=&#123;UNDEFINED|MERGE|TEMPTABLE&#125;] VIEW 视图名[(column_list)]</span><br><span class="line"><span class="keyword">As</span> </span><br><span class="line">查询语句</span><br><span class="line">[<span class="keyword">WITH</span>[<span class="keyword">CASCADED</span><span class="operator">|</span><span class="keyword">LOCAL</span>] <span class="keyword">CHECK</span> OPTION]</span><br></pre></td></tr></table></figure>
+
+<p><code>OR REPLACE</code>：表示在创建视图时候会替换已有视图</p>
+<p><code>ALGORITHM</code>：表示视图选择算法</p>
+<p><code>[WITH [CASCADED | LOCAL] CHECK OPTION]</code>：表示视图在更新时保证在视图的权限范围之内</p>
+<p>推荐使用<code>WHIT [CASCADED|LOCAL] CHECK OPTION</code>选项，可以保证数据的安全性</p>
+<h2 id="修改视图"><a href="#修改视图" class="headerlink" title="修改视图"></a>修改视图</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#方式一</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> REPLACE <span class="keyword">VIEW</span> 视图名</span><br><span class="line"><span class="keyword">AS</span></span><br><span class="line">查询语句;</span><br><span class="line">#方式二</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">VIEW</span> 视图名</span><br><span class="line"><span class="keyword">AS</span></span><br><span class="line">查询语句;</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除视图"><a href="#删除视图" class="headerlink" title="删除视图"></a>删除视图</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">view</span> 视图<span class="number">1</span>，视图<span class="number">2</span>，...;</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看视图"><a href="#查看视图" class="headerlink" title="查看视图"></a>查看视图</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DESC</span> 视图名;</span><br><span class="line"><span class="keyword">SHOW</span> <span class="keyword">CREATE</span> <span class="keyword">VIEW</span> 视图名;</span><br></pre></td></tr></table></figure>
+
+<h2 id="DML操作更新视图"><a href="#DML操作更新视图" class="headerlink" title="DML操作更新视图"></a>DML操作更新视图</h2><p>因为视图本身并没有数据，因此对视图的DML操作最终都体现在基表上。</p>
+<p>插入：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> 视图名 <span class="keyword">VALUES</span>()</span><br></pre></td></tr></table></figure>
+
+<p>修改：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE 视图名 <span class="keyword">SET</span> 列名<span class="operator">=</span>新值 <span class="keyword">WHERE</span> 列名<span class="operator">=</span>旧值;</span><br></pre></td></tr></table></figure>
+
+<p>删除</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> 视图名 <span class="keyword">WHERE</span> 列名<span class="operator">=</span>值;</span><br></pre></td></tr></table></figure>
+
+<p>注意：视图一般用于查询，而不是更新，所以具备以下特点的视图都不允许更新</p>
+<ol>
+<li>包含分组函数：GROUP BY、DISTINCT、HAVING、UNION</li>
+<li>JOIN</li>
+<li>常量视图</li>
+<li>WHRER后的子查询用到了FROM中的表</li>
+<li>用到了不可更新的视图</li>
+</ol>
+<h2 id="视图和表的对比"><a href="#视图和表的对比" class="headerlink" title="视图和表的对比"></a>视图和表的对比</h2><table>
+<thead>
+<tr>
+<th></th>
+<th>关键字</th>
+<th>是否占用物理空间</th>
+<th>使用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>视图</td>
+<td>VIEW</td>
+<td>占用较小，只保存SQL逻辑</td>
+<td>一般用于查询</td>
+</tr>
+<tr>
+<td>表</td>
+<td>TABLE</td>
+<td>保存实际的数据</td>
+<td>增删改查</td>
+</tr>
+</tbody></table>
+<h1 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h1><h2 id="系统变量"><a href="#系统变量" class="headerlink" title="系统变量"></a>系统变量</h2><p>说明：变量由系统提供，不用自定义.分为全局变量和会话变量</p>
+<h3 id="全局变量"><a href="#全局变量" class="headerlink" title="全局变量"></a><strong>全局变量</strong></h3><p>服务器层面上的，必须拥有super权限才能为系统变量赋值，作用域为整个服务器，也就是针对于所有连接(会话)有效</p>
+<p>语法：</p>
+<p>查看全局变量</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> <span class="keyword">GLOBAL</span> VARISBLES;</span><br></pre></td></tr></table></figure>
+
+<p>查看满足条件的部分全局变量</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> <span class="keyword">GLOBAL</span> VARISBLES <span class="keyword">LIKE</span> <span class="string">&#x27;%char%&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>查看指定的全局变量的值</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> @<span class="variable">@GLOBAL</span>.autocommit;</span><br></pre></td></tr></table></figure>
+
+<p>为全局变量赋值</p>
+<p>方式一：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> <span class="keyword">GLOBAL</span> autocommit<span class="operator">=</span><span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+
+<p>方式二：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> @<span class="variable">@GLOBAL</span>.autocommit<span class="operator">=</span><span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+
+<p>注意：如果没有显式声明GLOBAL还是SESSION，默认SESSION</p>
+<h3 id="会话变量"><a href="#会话变量" class="headerlink" title="会话变量"></a><strong>会话变量</strong></h3><p>服务器为每一个连接的客户端都提供了系统变量，作用域为当前的连接(会话)</p>
+<p>查看所有会话变量</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> SESSION VARIABLES;</span><br></pre></td></tr></table></figure>
+
+<p>查看满足条件的部分会话变量</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> SESSION VARIABLES <span class="keyword">LIKE</span> <span class="string">&#x27;%char%&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>查看指定的会话变量的值</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> @<span class="variable">@autocommit</span>;</span><br><span class="line"><span class="keyword">SELECT</span> @<span class="variable">@session</span>.tx_isolation;</span><br></pre></td></tr></table></figure>
+
+<p>为某个会话变量赋值</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> @<span class="variable">@session</span>.tx_isolation<span class="operator">=</span><span class="string">&#x27;read-uncommitted&#x27;</span>;</span><br><span class="line"><span class="keyword">SET</span> SESSION tx_isolation<span class="operator">=</span><span class="string">&#x27;read-committed&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="自定义变量"><a href="#自定义变量" class="headerlink" title="自定义变量"></a>自定义变量</h2><h3 id="用户变量"><a href="#用户变量" class="headerlink" title="用户变量"></a><strong>用户变量</strong></h3><p>作用域：针对于当前连接(会话)生效</p>
+<p>位置：BEGIN END里面，也可以放在外面</p>
+<p>使用：</p>
+<ol>
+<li><p>赋值</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> @变量名<span class="operator">=</span>值;或</span><br><span class="line"><span class="keyword">SET</span> @变量名：<span class="operator">=</span>值;或</span><br><span class="line"><span class="keyword">SELECT</span> @变量名：<span class="operator">=</span>值;</span><br></pre></td></tr></table></figure></li>
+<li><p>更新值</p>
+<p>方式一：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> @变量名<span class="operator">=</span>值;或</span><br><span class="line"><span class="keyword">SET</span> @变量名:<span class="operator">=</span>值;或</span><br><span class="line"><span class="keyword">SELECT</span> @变量名:<span class="operator">=</span>值;</span><br></pre></td></tr></table></figure>
+
+<p>方式二：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> XX <span class="keyword">INTO</span> @变量名 <span class="keyword">FROM</span> 表;</span><br></pre></td></tr></table></figure></li>
+<li><p>使用</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> @变量名;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="局部变量"><a href="#局部变量" class="headerlink" title="局部变量"></a><strong>局部变量</strong></h3><p>作用域：仅仅在定义它的BEGIN END中有效</p>
+<p>位置：只能放在BEGIN END 中，而且只能放在第一句</p>
+<p>使用：</p>
+<ol>
+<li><p>声明</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DECLARE</span> 变量名 类型 [<span class="keyword">default</span> 值];</span><br></pre></td></tr></table></figure></li>
+<li><p>赋值或更新</p>
+<p>方式一：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> 变量名<span class="operator">=</span>值;或</span><br><span class="line"><span class="keyword">SET</span> 变量名:<span class="operator">=</span>值;或</span><br><span class="line"><span class="keyword">SELECT</span> 变量名:<span class="operator">=</span>值;</span><br></pre></td></tr></table></figure>
+
+<p>方式二：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> XX <span class="keyword">INTO</span> 变量名 <span class="keyword">FROM</span> 表; </span><br></pre></td></tr></table></figure></li>
+<li><p>使用</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 变量名;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="存储过程和函数"><a href="#存储过程和函数" class="headerlink" title="存储过程和函数"></a>存储过程和函数</h1><p>事先经过编译并存储在数据库中的一段SQL语句的集合。</p>
+<p>好处：</p>
+<ul>
+<li>简化应用开发人员的很多工作</li>
+<li>减少数据在数据库和应用服务器之间的传输</li>
+<li>提高了数据处理效率</li>
+</ul>
+<h2 id="存储过程"><a href="#存储过程" class="headerlink" title="存储过程"></a>存储过程</h2><p><strong>创建存储过程</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> 存储过程名(参数模式、参数名、参数类型)</span><br><span class="line"><span class="keyword">BEGIN</span> </span><br><span class="line">		存储过程体</span><br><span class="line"><span class="keyword">END</span></span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<ol>
+<li>参数模式：IN、OUT、INOUT，其中IN可以省略</li>
+<li>存储过程体的每一条SQL语句都需要用分号结尾</li>
+</ol>
+<p><strong>调用</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CALL</span> 存储过程名(实参列表)</span><br><span class="line">调用<span class="keyword">IN</span>模式的参数：<span class="keyword">CALL</span> SP1(<span class="string">&#x27;值&#x27;</span>);</span><br><span class="line">调用<span class="keyword">OUT</span>模式的参数：<span class="keyword">SET</span> @变量名; <span class="keyword">CALL</span> SP1(@变量名);<span class="keyword">SELECT</span> @变量名;</span><br><span class="line">调用<span class="keyword">INOUT</span>模式的参数：<span class="keyword">SET</span> @变量名<span class="operator">=</span>值; <span class="keyword">CALL</span> SP1(@变量名);<span class="keyword">SELECT</span> @变量名;</span><br></pre></td></tr></table></figure>
+
+<p><strong>查看</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> <span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> 存储过程名;</span><br></pre></td></tr></table></figure>
+
+<p>删除</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">PROCEDURE</span> 存储过程名;</span><br></pre></td></tr></table></figure>
+
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p><strong>创建函数</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">FUNCTION</span> 函数名(参数名 参数类型,...) <span class="keyword">RETURNS</span> 返回类型</span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">	函数体</span><br><span class="line">	</span><br><span class="line"><span class="keyword">END</span></span><br></pre></td></tr></table></figure>
+
+<p>注意：函数体中肯定会有RETURN语句</p>
+<p>调用函数</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 函数名 (实参列表)</span><br></pre></td></tr></table></figure>
+
+<p>查看函数</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> <span class="keyword">CREATE</span> <span class="keyword">FUNCTION</span> 函数名;</span><br></pre></td></tr></table></figure>
+
+<p>删除函数</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">FUNCTION</span> 函数名;</span><br></pre></td></tr></table></figure>
+
+<h2 id="函数和存储过程的区别"><a href="#函数和存储过程的区别" class="headerlink" title="函数和存储过程的区别"></a>函数和存储过程的区别</h2><table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">关键字</th>
+<th align="center">调用语法</th>
+<th align="center">返回值</th>
+<th align="center">应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">函数</td>
+<td align="center">FUNCTION</td>
+<td align="center">SELECT 函数()</td>
+<td align="center">只能有一个</td>
+<td align="center">一般用于查询结果为一个值并返回时，当有返回值而且仅仅一个</td>
+</tr>
+<tr>
+<td align="center">存储过程</td>
+<td align="center">PROCEDURE</td>
+<td align="center">CALL 存储过程()</td>
+<td align="center">可以有0个或多个</td>
+<td align="center">一般用于更新</td>
+</tr>
+</tbody></table>
+<h1 id="流程控制结构"><a href="#流程控制结构" class="headerlink" title="流程控制结构"></a>流程控制结构</h1><h2 id="分支结构"><a href="#分支结构" class="headerlink" title="分支结构"></a>分支结构</h2><h3 id="if函数"><a href="#if函数" class="headerlink" title="if函数"></a>if函数</h3><p>功能：实现简单双分支</p>
+<p>语法：if(条件，值1，值2)</p>
+<p>特点：可以用在任何位置</p>
+<h3 id="case语句"><a href="#case语句" class="headerlink" title="case语句"></a>case语句</h3><p>功能：实现多分支</p>
+<p>语法1：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CASE</span> 表达式或字段</span><br><span class="line"><span class="keyword">when</span> 值<span class="number">1</span> <span class="keyword">then</span> 结果<span class="number">1</span>或语句<span class="number">1</span>(如果是语句，需要加分号)</span><br><span class="line"><span class="keyword">when</span> 值<span class="number">2</span> <span class="keyword">then</span> 结果<span class="number">2</span>或语句<span class="number">2</span>(如果是语句，需要加分号)</span><br><span class="line">...</span><br><span class="line"><span class="keyword">else</span> 结果n或语句n(如果是语句，需要加分号)</span><br><span class="line"><span class="keyword">END</span> [<span class="keyword">case</span>](如果是放在<span class="keyword">begin</span> <span class="keyword">end</span>中需要加上<span class="keyword">case</span>，如果放在<span class="keyword">select</span>后面不需要)</span><br></pre></td></tr></table></figure>
+
+<p>语法2:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CASE</span> 表达式或字段</span><br><span class="line"><span class="keyword">when</span> 条件<span class="number">1</span> <span class="keyword">then</span> 结果<span class="number">1</span>或语句<span class="number">1</span>(如果是语句，需要加分号)</span><br><span class="line"><span class="keyword">when</span> 条件<span class="number">2</span> <span class="keyword">then</span> 结果<span class="number">2</span>或语句<span class="number">2</span>(如果是语句，需要加分号)</span><br><span class="line">...</span><br><span class="line"><span class="keyword">else</span> 结果n或语句n(如果是语句，需要加分号)</span><br><span class="line"><span class="keyword">END</span> [<span class="keyword">case</span>](如果是放在<span class="keyword">begin</span> <span class="keyword">end</span>中需要加上<span class="keyword">case</span>，如果放在<span class="keyword">select</span>后面不需要)</span><br></pre></td></tr></table></figure>
+
+<p>特点：</p>
+<p>可以放在任何位置</p>
+<ul>
+<li><p>如果放在BEGIN END外面，作为表达式结合着其他语句使用</p>
+</li>
+<li><p>如果放在BEGIN END里面，一般作为独立的语句使用</p>
+</li>
+</ul>
+<h3 id="if-elseif语句"><a href="#if-elseif语句" class="headerlink" title="if elseif语句"></a>if elseif语句</h3><p>功能：实现多分支</p>
+<p>语法：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if 条件<span class="number">1</span> <span class="keyword">then</span> 语句<span class="number">1</span>;</span><br><span class="line">elseif 条件<span class="number">2</span> <span class="keyword">then</span> 语句<span class="number">2</span>;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">else</span> 语句n;</span><br><span class="line"><span class="keyword">END</span> IF;</span><br></pre></td></tr></table></figure>
+
+<p>位置：</p>
+<p>只能放在 BEGIN END中</p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">应用场合</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">if函数</td>
+<td align="center">简单双分支</td>
+</tr>
+<tr>
+<td align="center">case结构</td>
+<td align="center">等值判断的多分支</td>
+</tr>
+<tr>
+<td align="center">if结构</td>
+<td align="center">区间判断的多分支</td>
+</tr>
+</tbody></table>
+<h2 id="循环结构"><a href="#循环结构" class="headerlink" title="循环结构"></a>循环结构</h2><p>位置：</p>
+<p>只能放在BEGIN END中</p>
+<p>特点：都能实现循环结构</p>
+<h3 id="while"><a href="#while" class="headerlink" title="while"></a>while</h3><p>语法：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[名称:]while 循环条件 do</span><br><span class="line">		循环体</span><br><span class="line"><span class="keyword">end</span> while [名称];</span><br></pre></td></tr></table></figure>
+
+<h3 id="loop"><a href="#loop" class="headerlink" title="loop"></a>loop</h3><p>语法：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[名称:]loop</span><br><span class="line">	循环体</span><br><span class="line"><span class="keyword">end</span> loop [名称];</span><br></pre></td></tr></table></figure>
+
+<h3 id="repeat"><a href="#repeat" class="headerlink" title="repeat"></a>repeat</h3><p>语法：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[名称:]repeat</span><br><span class="line">	循环体</span><br><span class="line">until 结束条件</span><br><span class="line"><span class="keyword">end</span> repeat [名称];</span><br></pre></td></tr></table></figure>
+
+<h3 id="循环控制语句"><a href="#循环控制语句" class="headerlink" title="循环控制语句"></a>循环控制语句</h3><ol>
+<li>leave:类似于break，用于跳出所在循环</li>
+<li>iterate:类似于continue，用于结束本次循环，继续下一次</li>
+</ol>
+<h3 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h3><ol>
+<li><p>这三种循环都可以省略名称，但如果循环中加入了循环控制语句则必须添加名称</p>
+</li>
+<li><p>loop：一般用于实现简单的死循环</p>
+<p>while：先判断后执行</p>
+<p>repeat：先执行后判断，无条件至少执行一次</p>
+</li>
+</ol>
+
+        </div>
+        
+            <div class="kratos-copyright text-center clearfix">
+                <h5>本作品采用 <a rel="license nofollow" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可</h5>
+            </div>
+        
+        <footer class="kratos-entry-footer clearfix">
+            
+                <div class="post-like-donate text-center clearfix" id="post-like-donate">
+                
+                
+                    <a class="share" href="javascript:;"><i class="fa fa-share-alt"></i> 分享</a>
+                    <div class="share-wrap" style="display: none;">
+    <div class="share-group">
+        <a href="javascript:;" class="share-plain qq" onclick="share('qq');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-qq"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain qzone" onclick="share('qzone');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-star"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weixin pop style-plain" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weixin"></i>
+            </div>
+            <div class="share-int">
+                <div class="qrcode" id="wechat-qr"></div>
+                <p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weibo" onclick="share('weibo');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weibo"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain facebook style-plain" onclick="share('facebook');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-facebook"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain twitter style-plain" onclick="share('twitter');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-twitter"></i>
+            </div>
+        </a>
+    </div>
+    <script type="text/javascript">
+        $(()=>{
+            new QRCode("wechat-qr", {
+                text: "http://example.com/2021/02/06/mysql2/",
+                width: 150,
+                height: 150,
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+        function share(dest) {
+            const qqBase        = "https://connect.qq.com/widget/shareqq/index.html?";
+            const weiboBase     = "https://service.weibo.com/share/share.php?";
+            const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+            const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
+            const twitterBase   = "https://twitter.com/intent/tweet?";
+            const hostUrl       = "http://example.com/2021/02/06/mysql2/";
+            const title         = "「MySQL--后半部分」";
+            const excerpt       = `TCL（Transaction Control Language）事务：事务由单独单元的一个或多个SQL语句组成，在这个单元中，每个SQL语句是相互依赖的。而整个单独单元作为一个不可分割的整体，如果单元中某条SQL语句一旦执行失败或产...`;
+            let _URL;
+            switch (dest) {
+                case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
+                case "weibo"    : _URL = weiboBase+"url="+hostUrl+"&title="+title+excerpt;                                 break;
+                case "qzone"    : _URL = qzoneBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";  break;
+                case "facebook" : _URL = facebookBase+"u="+hostUrl;                                                        break;
+                case "twitter"  : _URL = twitterBase+"text="+title+excerpt+"&url="+hostUrl;                                break;
+            }
+            window.open(_URL);
+        };
+    </script>
+</div>
+                
+                </div>
+            
+            <div class="footer-tag clearfix">
+                <div class="pull-left">
+                <i class="fa fa-tags"></i>
+                    
+                </div>
+                <div class="pull-date">
+                <span>最后编辑：2021-03-01</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+        <nav class="navigation post-navigation clearfix" role="navigation">
+            
+            <div class="nav-previous clearfix">
+                <a title=" MySQL--前半部分" href="/2021/02/06/mysql1/">&lt; 上一篇</a>
+            </div>
+            
+            
+            <div class="nav-next clearfix">
+                <a title=" MySQL--MySQL使用" href="/2021/02/06/mysql/">下一篇 &gt;</a>
+            </div>
+            
+        </nav>
+    
+    
+</article>
+        </section>
+
+                
+            
+
+<section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
+    <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
+    
+    
+                <aside id="krw-about" class="widget widget-kratos-about clearfix">
+    <div class="photo-background"></div>
+    <div class="photo-wrapper clearfix">
+        <div class="photo-wrapper-tip text-center">
+            <img class="about-photo" src="/images/avatar.webp" />
+        </div>
+    </div>
+    <div class="textwidget">
+        <p class="text-center">永远不要放弃自己的理想主义！</p>
+    </div>
+</aside>
+            
+                    <div class="sticky-area">
+                
+                    <aside id="krw-toc" class="widget widget-kratos-toc clearfix">
+    <div class="photo-background"></div>
+    <h4 class="widget-title no-after">
+        <i class="fa fa-compass"></i>
+        文章目录
+        <span class="toc-progress-bar"></span>
+    </h4>
+    <div class="textwidget">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#TCL%EF%BC%88Transaction-Control-Language%EF%BC%89"><span class="toc-text">TCL（Transaction Control Language）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E7%89%A9%E7%9A%84%E5%B1%9E%E6%80%A7%EF%BC%9A"><span class="toc-text">事物的属性：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1%E5%88%86%E7%B1%BB%EF%BC%9A"><span class="toc-text">事务分类：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%90%E5%BC%8F%E4%BA%8B%E5%8A%A1"><span class="toc-text">隐式事务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%BE%E5%BC%8F%E4%BA%8B%E5%8A%A1"><span class="toc-text">显式事务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B6%E5%8F%91%E4%BA%8B%E5%8A%A1"><span class="toc-text">并发事务</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A7%86%E5%9B%BE"><span class="toc-text">视图</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E8%A7%86%E5%9B%BE"><span class="toc-text">创建视图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E8%A7%86%E5%9B%BE"><span class="toc-text">修改视图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E8%A7%86%E5%9B%BE"><span class="toc-text">删除视图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E8%A7%86%E5%9B%BE"><span class="toc-text">查看视图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DML%E6%93%8D%E4%BD%9C%E6%9B%B4%E6%96%B0%E8%A7%86%E5%9B%BE"><span class="toc-text">DML操作更新视图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%86%E5%9B%BE%E5%92%8C%E8%A1%A8%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="toc-text">视图和表的对比</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%98%E9%87%8F"><span class="toc-text">变量</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E5%8F%98%E9%87%8F"><span class="toc-text">系统变量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F"><span class="toc-text">全局变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%9A%E8%AF%9D%E5%8F%98%E9%87%8F"><span class="toc-text">会话变量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F"><span class="toc-text">自定义变量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E5%8F%98%E9%87%8F"><span class="toc-text">用户变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F"><span class="toc-text">局部变量</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E5%92%8C%E5%87%BD%E6%95%B0"><span class="toc-text">存储过程和函数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B"><span class="toc-text">存储过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0"><span class="toc-text">函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%92%8C%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">函数和存储过程的区别</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6%E7%BB%93%E6%9E%84"><span class="toc-text">流程控制结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E6%94%AF%E7%BB%93%E6%9E%84"><span class="toc-text">分支结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#if%E5%87%BD%E6%95%B0"><span class="toc-text">if函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#case%E8%AF%AD%E5%8F%A5"><span class="toc-text">case语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#if-elseif%E8%AF%AD%E5%8F%A5"><span class="toc-text">if elseif语句</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF%E7%BB%93%E6%9E%84"><span class="toc-text">循环结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#while"><span class="toc-text">while</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#loop"><span class="toc-text">loop</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#repeat"><span class="toc-text">repeat</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5"><span class="toc-text">循环控制语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E6%AF%94"><span class="toc-text">对比</span></a></li></ol></li></ol></li></ol>
+    </div>
+</aside>
+                
+                
+  <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
+    <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Error/">Error</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JDBC/">JDBC</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-Web/">Java Web</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SSM/">SSM</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ssm/">ssm</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%91%E5%B9%B4%E3%81%AE%E6%97%A5%E5%B8%B8/">少年の日常</a><span class="category-list-count">2</span></li></ul>
+  </aside>
+
+
+            
+                
+  <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
+    <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
+      <div class="tag-clouds">
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 0.6em;">数据结构</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 0.6em;">算法</a>
+      </div>
+  </aside>
+
+            
+                
+  <aside id="krw-posts" class="widget widget-kratos-posts">
+  <h4 class="widget-title"><i class="fa fa-file"></i>最新文章</h4>
+  <div class="tab-content">
+      <ul class="list-group">
+        
+        
+          
+          
+            <a class="list-group-item" href="/2021/06/09/202169-%E5%93%88%E5%B8%8C%E8%A1%A8/"><i class="fa  fa-book"></i> 哈希表</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/06/09/202169-%E4%BA%8C%E5%8F%89%E6%A0%91/"><i class="fa  fa-book"></i> 二叉树</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/06/04/202164-%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95/"><i class="fa  fa-book"></i> 查找算法</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/06/02/202162-%E9%80%92%E5%BD%92/"><i class="fa  fa-book"></i> 递归</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/06/02/202162-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/"><i class="fa  fa-book"></i> 排序算法</a>
+            
+          
+        
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+      </ul>
+  </div>
+  </aside>
+
+            
+    </div>
+</section>
+        
+        </div>
+    </div>
+</div>
+<footer>
+    <div id="footer"  class="ap-lrc"  >
+        <div class="kr-tool text-center">
+            <div class="tool">
+                
+                    <div class="box search-box">
+                        <a href="/search/">
+                            <span class="fa fa-search"></span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="box theme-box" id="darkmode-switch">
+                        <span class="fa fa-adjust"></span>
+                    </div>
+                
+                
+            </div>
+            <div class="box gotop-box">
+                <span class="fa fa-chevron-up"></span>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 footer-list text-center">
+                    <ul class="kratos-social-icons">
+                        
+                        <li><a href="mailto:1922856021@qq.com"><i class="fa fa-envelope"></i></a></li>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    </ul>
+                    <ul class="kratos-copyright">
+                        <div>
+                            <li>&copy; 2021 青い栞 版权所有.</li>
+                            <li>本站已运行<span id="span_dt">Loading...</span></li>
+                        </div>
+                        <div>
+                            <li>Theme <a href="https://github.com/Candinya/Kratos-Rebirth" target="_blank">Kratos:Rebirth</a></li>
+                            <li>Site built with&nbsp;<i class="fa fa-heart throb" style="color:#d43f57"></i>&nbsp;by FunnyLs.</li>
+                        </div>
+                        <div>
+                            <li>Powered by <a href="https://hexo.io" target="_blank" rel="nofollow">Hexo</a></li>
+                            <li>Hosted on <a href="https://github.io" target="_blank">Github Pages</a></li>
+                        </div>
+                        <div>
+                            
+                            
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+
+        <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.4/dist/js/bootstrap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+<script>const notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));</script>
+
+    <div>
+        <canvas id="snow"></canvas>
+        <script async type="text/javascript" src="/js/snow.min.js"></script>
+    </div>
+
+<script async src="/js/candy.min.js"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+    <meting-js
+        server="netease"
+        type="playlist"
+        id="3204190542"
+        order="random"
+        fixed="true"
+    >
+    </meting-js>
+
+
+
+    <script defer src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script defer src="/js/kratosr.min.js"></script>
+<script defer src="/js/pjax.min.js"></script>
+
+
+    <script defer src="/js/kr-dark.min.js"></script>
+
+
+
+<!-- Extra support for third-party plguins  -->
+
+
+    </body>
+</html>

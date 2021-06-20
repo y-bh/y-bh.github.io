@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+  <!-- 元数据 -->
+  <meta charset="utf-8">
+  <link rel="icon" href="">
+  <title>SpringMVC2 | 青い栞</title>
+  <meta name="author" content="FunnyLs" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index,follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="format-detection" content="telphone=no, email=no" />
+  
+    <meta name="keywords" content="" />
+  
+  <meta name="description" content="数据绑定流程：  Spring MVC 主框架将 ServletRequest 对象及目标方法的参数实例传递给 WebDataBinderFactory 实例，以创建 DataBinder 实例对象 DataBinder 调用装配在 Spring MVC 上下文中的 ConversionService 组件进行数据类型转换、数据格式化工作。将 Servlet 中的请求信息填充到参数对象中 调用 V">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringMVC2">
+<meta property="og:url" content="http://example.com/2021/05/16/SpringMVC2/index.html">
+<meta property="og:site_name" content="青い栞">
+<meta property="og:description" content="数据绑定流程：  Spring MVC 主框架将 ServletRequest 对象及目标方法的参数实例传递给 WebDataBinderFactory 实例，以创建 DataBinder 实例对象 DataBinder 调用装配在 Spring MVC 上下文中的 ConversionService 组件进行数据类型转换、数据格式化工作。将 Servlet 中的请求信息填充到参数对象中 调用 V">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/null">
+<meta property="article:published_time" content="2021-05-15T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-05-16T12:31:47.642Z">
+<meta property="article:author" content="FunnyLs">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/null">
+<meta name="twitter:site" content="@null">
+  
+  <!-- 站点验证相关 -->
+  
+    
+    
+    
+  
+  <!-- 样式表文件 -->
+  <link rel="stylesheet" id="kratos-css" href="/css/kratosr.min.css" type="text/css" media="all">
+  
+    <link rel="stylesheet" id="highlight-css" href="/css/highlight/night-blue.min.css" type="text/css" media="all">
+  
+  
+  <link rel="stylesheet" id="fontawe-css" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" type="text/css" media="all">
+  <link rel="stylesheet" id="nprogress-css" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" type="text/css" media="all">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+  
+  
+    <link rel="stylesheet" id="darkmode-css" href="/css/kr-dark.min.css" type="text/css" media="all">
+  
+  <!-- 不得不预先加载的一些JS文件 -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+    <body class="custom-background">
+        <div id="kratos-wrapper">
+    <div id="kratos-page">
+        <div id="kratos-header">
+            <header id="kratos-desktop-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="nav-header">
+                        <nav id="kratos-menu-wrap">
+                            <ul id="kratos-primary-menu" class="sf-menu">
+                                
+                                    
+                                        <li><a href="/"><i class="fa fa-home"></i>首页</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/archives/"><i class="fa fa-file"></i>档案馆</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/friends/"></a></li>
+                                    
+                                
+                                    
+                                        <li>
+                                            <a><i class="fa fa-link"></i>链接</a>
+                                            <ul class="sub-menu">
+                                                
+                                                    
+                                                
+                                                    
+                                                        <li><a target="_blank" rel="noopener" href="https://candinya.com">作者博客</a></li>
+                                                    
+                                                
+                                                    
+                                                        <li><a target="_blank" rel="noopener" href="https://github.com/Candinya/Kratos-Rebirth">项目链接</a></li>
+                                                    
+                                                
+                                            </ul>
+                                        </li>
+                                    
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <header id="kratos-mobile-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="color-logo"><a href="/">青い栞</a></div>
+                    <div class="nav-toggle">
+                        <a class="kratos-nav-toggle js-kratos-nav-toggle">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="kratos-start kratos-hero-2">
+            <!-- <div class="kratos-overlay"></div> -->
+            <div class="kratos-cover kratos-cover-2 text-center">
+                <div class="desc desc2 animate-box">
+                    <a href="/">
+                        <h2>青い栞</h2> <br />
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="kratos-blog-post">
+            <div class="container">
+                <div id="main" class="row">
+                    
+
+        <section class="col-md-8">
+            <article>
+    <div class="kratos-hentry kratos-post-inner clearfix">
+        <header class="kratos-entry-header">
+            
+                <h1 class="kratos-entry-title text-center">SpringMVC2</h1>
+            
+            
+            <ul class="kratos-post-meta text-center">
+                <li><i class="fa fa-calendar"></i> 2021-05-16</li>
+                <li><i class="fa fa-user"></i> 作者 FunnyLs</li>
+                <li>
+                    <i class="fa fa-edit"></i> 
+                    
+                    
+                        ~12.01K
+                    
+                    字
+                </li>
+                
+            </ul>
+        </header>
+        <div class="kratos-post-content">
+            <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                本文最后编辑于 <time datetime="1621168307642"></time> 前，其中的内容可能需要更新。
+            </div>
+            
+                <div class="kratos-post-inner-toc">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A"><span class="toc-number">1.</span> <span class="toc-text">数据绑定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2"><span class="toc-number">2.</span> <span class="toc-text">数据转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%99%A8"><span class="toc-number">2.1.</span> <span class="toc-text">自定义类型转换器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lt-mvc-annotation-driven-gt"><span class="toc-number">2.2.</span> <span class="toc-text">&lt;mvc:annotation-driven &#x2F;&gt;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F%E5%8C%96"><span class="toc-number">2.3.</span> <span class="toc-text">数据格式化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%A1%E9%AA%8C"><span class="toc-number">3.</span> <span class="toc-text">数据校验</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#JSR303"><span class="toc-number">3.1.</span> <span class="toc-text">JSR303</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8E%E7%AB%AF%E6%A0%A1%E9%AA%8C"><span class="toc-number">3.2.</span> <span class="toc-text">后端校验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BD%E9%99%85%E5%8C%96%E5%AE%9A%E5%88%B6%E8%87%AA%E5%B7%B1%E7%9A%84%E9%94%99%E8%AF%AF%E6%B6%88%E6%81%AF%E6%98%BE%E7%A4%BA"><span class="toc-number">3.3.</span> <span class="toc-text">国际化定制自己的错误消息显示</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8B%A6%E6%88%AA%E5%99%A8"><span class="toc-number">4.</span> <span class="toc-text">拦截器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86"><span class="toc-number">5.</span> <span class="toc-text">异常处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SpringMVC%E7%9A%84%E8%BF%90%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="toc-number">6.</span> <span class="toc-text">SpringMVC的运行流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SpringMVC%E4%B8%8ESpring%E6%95%B4%E5%90%88"><span class="toc-number">7.</span> <span class="toc-text">SpringMVC与Spring整合</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SpringMVC%E5%92%8CSpring%E4%BD%BF%E7%94%A8%E5%90%8C%E4%B8%80%E4%B8%AA%E5%AE%B9%E5%99%A8"><span class="toc-number">7.1.</span> <span class="toc-text">SpringMVC和Spring使用同一个容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SpringMVC%E5%92%8CSpring%E5%88%86%E5%AE%B9%E5%99%A8"><span class="toc-number">7.2.</span> <span class="toc-text">SpringMVC和Spring分容器</span></a></li></ol></li></ol>
+                </div>
+            
+            <hr />
+            <h2 id="数据绑定"><a href="#数据绑定" class="headerlink" title="数据绑定"></a>数据绑定</h2><p>流程：</p>
+<ol>
+<li>Spring MVC 主框架将 ServletRequest 对象及目标方法的参数实例传递给 WebDataBinderFactory 实例，以创建 <strong>DataBinder</strong> 实例对象</li>
+<li>DataBinder 调用装配在 Spring MVC 上下文中的 <strong>ConversionService</strong> 组件进行<strong>数据类型转换、数据格式化</strong>工作。将 Servlet 中的请求信息填充到参数对象中</li>
+<li>调用 <strong>Validator</strong> 组件对已经绑定了请求消息的参数对象进行数据合法性校验，并最终生成数据绑定结果 <strong>BindingData</strong> 对象</li>
+<li>Spring MVC 抽取 <strong>BindingResult</strong> 中的入参对象和校验错误对象，将它们赋给处理方法的响应参数</li>
+</ol>
+<h2 id="数据转换"><a href="#数据转换" class="headerlink" title="数据转换"></a>数据转换</h2><p>Spring MVC 上下文中内建了很多转换器，可完成大多数 Java 类型的转换工作</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">ConversionService converters =  </span><br><span class="line">java.lang.Boolean -&gt; java.lang.String : org.springframework.core.convert.support.ObjectToStringConverter<span class="meta">@f874ca</span></span><br><span class="line">java.lang.Character -&gt; java.lang.Number : CharacterToNumberFactory<span class="meta">@f004c9</span></span><br><span class="line">java.lang.Character -&gt; java.lang.String : ObjectToStringConverter@68a961</span><br><span class="line">java.lang.Enum -&gt; java.lang.String : EnumToStringConverter@12f060a</span><br><span class="line">java.lang.Number -&gt; java.lang.Character : NumberToCharacterConverter@1482ac5</span><br><span class="line">java.lang.Number -&gt; java.lang.Number : NumberToNumberConverterFactory@126c6f</span><br><span class="line">java.lang.Number -&gt; java.lang.String : ObjectToStringConverter@<span class="number">14888e8</span></span><br><span class="line">java.lang.String -&gt; java.lang.Boolean : StringToBooleanConverter@1ca6626</span><br><span class="line">java.lang.String -&gt; java.lang.Character : StringToCharacterConverter@<span class="number">1143800</span></span><br><span class="line">java.lang.String -&gt; java.lang.Enum : StringToEnumConverterFactory@1bba86e</span><br><span class="line">java.lang.String -&gt; java.lang.Number : StringToNumberConverterFactory@18d2c12</span><br><span class="line">java.lang.String -&gt; java.util.Locale : StringToLocaleConverter@<span class="number">3598e1</span></span><br><span class="line">java.lang.String -&gt; java.util.Properties : StringToPropertiesConverter<span class="meta">@c90828</span></span><br><span class="line">java.lang.String -&gt; java.util.UUID : StringToUUIDConverter<span class="meta">@a42f23</span></span><br><span class="line">java.util.Locale -&gt; java.lang.String : ObjectToStringConverter<span class="meta">@c7e20a</span></span><br><span class="line">java.util.Properties -&gt; java.lang.String : PropertiesToStringConverter@367a7f</span><br><span class="line">java.util.UUID -&gt; java.lang.String : ObjectToStringConverter@112b07f  ……</span><br></pre></td></tr></table></figure>
+
+<h3 id="自定义类型转换器"><a href="#自定义类型转换器" class="headerlink" title="自定义类型转换器"></a>自定义类型转换器</h3><ul>
+<li>ConversionService:是一个接口。它里面有Converter（转换器）进行工作</li>
+<li>Converter是ConversionService中的组件</li>
+</ul>
+<p>实现过程：</p>
+<ol>
+<li>自定义的Converter得放进ConversionService 中</li>
+<li>将WebDataBinder中的ConversionService设置成我们这个加了自定义类型转换器的ConversionService</li>
+</ol>
+<p>步骤：</p>
+<ol>
+<li><p>实现Converter接口，写一个自定义的类型转换器</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyStringToEmployeeConverter</span> <span class="keyword">implements</span> <span class="title">Converter</span>&lt;<span class="title">String</span>, <span class="title">Employee</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    DepartmentDao departmentDao;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Employee <span class="title">convert</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;页面提交的将要转换的字符串&quot;</span>+s);</span><br><span class="line">        Employee employee=<span class="keyword">new</span> Employee();</span><br><span class="line">        <span class="keyword">if</span> (s.contains(<span class="string">&quot;-&quot;</span>))&#123;</span><br><span class="line">            String[] split = s.split(<span class="string">&quot;-&quot;</span>);</span><br><span class="line">            employee.setLastName(split[<span class="number">0</span>]);</span><br><span class="line">            employee.setEmail(split[<span class="number">1</span>]);</span><br><span class="line">            employee.setGender(Integer.parseInt(split[<span class="number">2</span>]));</span><br><span class="line">            employee.setDepartment(departmentDao.getDepartment(Integer.parseInt(split[<span class="number">3</span>])));</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> employee;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>配置出ConversionService</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 告诉SpringMVC别用默认的ConversionService，</span></span><br><span class="line"><span class="comment">           而用自定义的ConversionService,有自定义的Converter； --&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;conversionService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.context.support.ConversionServiceFactoryBean&quot;</span>&gt;</span></span><br><span class="line">       <span class="comment">&lt;!--converters转换器中添加我们自定义的类型转换器  --&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;converters&quot;</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">set</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;com.atguigu.component.MyStringToEmployeeConverter&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">set</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>让SpringMVC用自定义的ConversionService</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--告诉SpringMVC别用默认的ConversionService，而是用自定义的ConversionService，有自定义的Converter--&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--以后写自定义类型转换器的时候，就使用FormattingConversionServiceFactoryBean--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;conversionService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.format.support.FormattingConversionServiceFactoryBean&quot;</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--converters转换器中添加我们自定义的类型转换器--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;converters&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">set</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;com.ybh.component.MyStringToEmployeeConverter&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">set</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>源码上WebDataBinder上的ConversionService组件就会被替换</p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java.lang.String -&gt; com.atguigu.bean.Employee : com.atguigu.component.MyStringToEmployeeConverter@3dc22c7a</span><br></pre></td></tr></table></figure>
+
+<h3 id="lt-mvc-annotation-driven-gt"><a href="#lt-mvc-annotation-driven-gt" class="headerlink" title="&lt;mvc:annotation-driven /&gt;"></a>&lt;mvc:annotation-driven /&gt;</h3><ul>
+<li><p>&lt;mvc:annotation-driven /&gt; 会自动注册<strong>RequestMappingHandlerMapping</strong> 、<strong>RequestMappingHandlerAdapter</strong> 与 <strong>ExceptionHandlerExceptionResolver</strong> 三个bean。</p>
+</li>
+<li><p>还将提供以下支持：</p>
+<p>支持使用 <strong>ConversionService</strong> 实例对表单参数进行类型转换</p>
+<p>支持使用 @NumberFormat annotation、@DateTimeFormat注解完成数据类型的格式化</p>
+<p>支持使用 <strong>@Valid</strong> 注解对 JavaBean 实例进行 JSR 303 验证</p>
+<p>支持使用 <strong>@RequestBody</strong> 和 <strong>@ResponseBody</strong> 注解</p>
+</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--默认前端控制器是拦截所有资源（除了jsp）--&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--告诉SpringMVC，自己映射的请求自己处理，不能处理的请求直接交给tomcat--&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--静态资源能访问，动态映射的请求不行--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:default-servlet-handler</span>/&gt;</span>    </span><br><span class="line">    <span class="comment">&lt;!--springMVC可以保证动态请求和静态请求都能访问--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:annotation-driven</span>&gt;</span><span class="tag">&lt;/<span class="name">mvc:annotation-driven</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="数据格式化"><a href="#数据格式化" class="headerlink" title="数据格式化"></a>数据格式化</h3><ul>
+<li>FormattingConversionServiceFactroyBean 内部已经注册了 :<ul>
+<li>NumberFormatAnnotationFormatterFactroy：支持对数字类型的属性使用 <strong>@NumberFormat</strong> 注解</li>
+<li>JodaDateTimeFormatAnnotationFormatterFactroy：支持对日期类型的属性使用 <strong>@DateTimeFormat</strong> 注解</li>
+</ul>
+</li>
+<li>装配了 FormattingConversionServiceFactroyBean 后，就可以在 Spring MVC 入参绑定及模型数据输出时使用注解驱动了&lt; mvc:annotation-driven/&gt;默认创建的ConversionService 实例即为 FormattingConversionServiceFactroyBean </li>
+</ul>
+<p>例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@DateTimeFormat(pattern = &quot;yyyy-MM-dd&quot;)</span></span><br><span class="line"><span class="keyword">private</span> Date birth=<span class="keyword">new</span> Date();</span><br><span class="line"><span class="meta">@NumberFormat(pattern = &quot;#,###,###.##&quot;)</span></span><br><span class="line">	<span class="keyword">private</span> Double salary;</span><br></pre></td></tr></table></figure>
+
+<h2 id="数据校验"><a href="#数据校验" class="headerlink" title="数据校验"></a>数据校验</h2><p>只做前端校验是不安全的；在重要数据一定要加上后端验证</p>
+<h3 id="JSR303"><a href="#JSR303" class="headerlink" title="JSR303"></a>JSR303</h3><ul>
+<li><strong>JSR 303</strong> 是 Java 为 Bean 数据合法性校验提供的标准框架，它已经包含在 JavaEE 6.0 中 </li>
+<li>JSR 303 通过<strong>在</strong> <strong>Bean</strong> <strong>属性上标注</strong>类似于 @NotNull、@Max 等标准的注解指定校验规则，并通过标准的验证接口对 Bean 进行验证</li>
+</ul>
+<h3 id="后端校验"><a href="#后端校验" class="headerlink" title="后端校验"></a>后端校验</h3><ol>
+<li><p>导入校验框架的jar包–Hibernate Validator</p>
+<p>有几个带el的jar不导入；tomcat中有；如果tomcat的版本是*     7.0以下；tomcat7.0以上el表达式比较强大 ，如果是7.0以下将带el的几个jar放在tomcat的lib文件夹下</p>
+</li>
+<li><p>只需要给javaBean的属性添加上校验注解</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@NotEmpty</span></span><br><span class="line"><span class="meta">@Length(min=6,max=18)</span></span><br><span class="line"><span class="keyword">private</span> String lastName;</span><br><span class="line"><span class="comment">//规定页面提交的日期格式</span></span><br><span class="line"><span class="meta">@DateTimeFormat(pattern = &quot;yyyy-MM-dd&quot;)</span></span><br><span class="line"><span class="meta">@Past</span><span class="comment">//规定页面提交的日期格式</span></span><br><span class="line">	<span class="comment">// @Past：必须是一个过去的时间</span></span><br><span class="line">	<span class="comment">//@Future:必须是一个未来的时间</span></span><br><span class="line"><span class="meta">@JsonFormat(pattern = &quot;yyyy=MM-dd&quot;)</span></span><br><span class="line"><span class="keyword">private</span> Date birth=<span class="keyword">new</span> Date();</span><br><span class="line"><span class="comment">//假设页面，为了显示方便提交的工资是10,000.98￥</span></span><br><span class="line"><span class="meta">@NumberFormat(pattern = &quot;#,###,###.##&quot;)</span></span><br><span class="line"><span class="keyword">private</span> Double salary;</span><br><span class="line"><span class="meta">@Email</span></span><br><span class="line"><span class="keyword">private</span> String email;</span><br><span class="line"><span class="comment">//1 male, 0 female</span></span><br><span class="line"><span class="keyword">private</span> Integer gender;</span><br><span class="line"><span class="meta">@JsonIgnore</span></span><br><span class="line"><span class="keyword">private</span> Department department;</span><br></pre></td></tr></table></figure></li>
+<li><p>在SpringMVC封装对象的时候，告诉SpringMVC这个javaBean需要校验</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">addEmp</span><span class="params">(<span class="meta">@Valid</span> Employee employee, BindingResult result,Model model)</span></span></span><br></pre></td></tr></table></figure></li>
+<li><p>校验结果</p>
+<p>给需要校验的javaBean后面紧跟一个BindingResult。这个BindingResult就是封装前一个bean的校验结果</p>
+</li>
+<li><p>来到页面使用form:errors取出错误信息即可</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lastName:&lt;form:input path=<span class="string">&quot;lastName&quot;</span>/&gt;</span><br><span class="line">$&#123;errorInfo.lastName&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/ggKyhn"><img src="https://z3.ax1x.com/2021/05/16/ggKyhn.png" alt="ggKyhn.png"></a></p>
+<p>Hibernate-Validator拓展</p>
+<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/ggK2cV"><img src="https://z3.ax1x.com/2021/05/16/ggK2cV.png" alt="ggK2cV.png"></a></p>
+<h3 id="国际化定制自己的错误消息显示"><a href="#国际化定制自己的错误消息显示" class="headerlink" title="国际化定制自己的错误消息显示"></a>国际化定制自己的错误消息显示</h3><ol>
+<li><p>编写国际化配置文件</p>
+</li>
+<li><p>让SpringMVC管理国际化资源文件</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 管理国际化资源文件 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;messageSource&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.context.support.ResourceBundleMessageSource&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;basename&quot;</span> <span class="attr">value</span>=<span class="string">&quot;errors&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 支持UTF-8的中文 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;cacheSeconds&quot;</span> <span class="attr">value</span>=<span class="string">&quot;0&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;defaultEncoding&quot;</span> <span class="attr">value</span>=<span class="string">&quot;UTF-8&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>来到页面取值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lastName:&lt;form:input path&#x3D;&quot;lastName&quot;&#x2F;&gt;</span><br><span class="line">    &lt;form:errors path&#x3D;&quot;lastName&quot;&gt;&lt;&#x2F;form:errors&gt;--&gt;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="拦截器"><a href="#拦截器" class="headerlink" title="拦截器"></a>拦截器</h2><p>SpringMVC提供了拦截器机制；允许运行目标方法之前进行一些拦截工作，或者目标方法运行之后进行一些其他处理。</p>
+<ul>
+<li>preHandle：在目标方法运行之前调用</li>
+<li>postHandle：在目标方法运行之后调用</li>
+<li>afterCompletion：在请求整个完成之后</li>
+</ul>
+<p>步骤：</p>
+<ol>
+<li>实现HandlerInterceptor接口</li>
+<li>配置拦截器</li>
+<li>拦截器的运行流程</li>
+</ol>
+<p>正常运行流程：</p>
+<p>拦截器的preHandle——目标方法—–拦截器postHandle—–页面——-拦截器的afterCompletion</p>
+<p>其他流程：</p>
+<ul>
+<li>只要preHandle不放行就没有以后的流程</li>
+<li>只要放行了，afterCompletion都会执行</li>
+</ul>
+<p>多个拦截器：</p>
+<p>正常流程：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">MyFirstInterceptor...preHandle...</span><br><span class="line">MySecondInterceptor...preHandle...</span><br><span class="line">test01....</span><br><span class="line">MySecondInterceptor...postHandle...</span><br><span class="line">MyFirstInterceptor...postHandle...</span><br><span class="line">success.jsp....</span><br><span class="line">MySecondInterceptor...afterCompletion...</span><br><span class="line">MyFirstInterceptor...afterCompletion</span><br></pre></td></tr></table></figure>
+
+<p>异常流程：</p>
+<p>MySecondInterceptor不放行；但是他前面已经放行了的拦截器的afterCompletion总会执行</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MyFirstInterceptor...preHandle...</span><br><span class="line">MySecondInterceptor...preHandle...</span><br><span class="line">MyFirstInterceptor...afterCompletion</span><br></pre></td></tr></table></figure>
+
+<p>流程：</p>
+<p>filter的流程；</p>
+<p>拦截器的preHandle：是按照顺序执行</p>
+<p>拦截器的postHandle：是按照逆序执行</p>
+<p>拦截器的afterCompletion：是按照逆序执行；</p>
+<p>已经放行了的拦截器的afterCompletion总会执行；</p>
+<h2 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h2><p>默认就是这几个</p>
+<ul>
+<li><p>HandlerExceptionResolver</p>
+</li>
+<li><p>ExceptionHandlerExceptionResolver</p>
+</li>
+<li><p>ResponseStatusExceptionResolver</p>
+</li>
+<li><p>DefaultHandlerExceptionResolver</p>
+</li>
+</ul>
+<p>如果异常解析器都不能处理就直接抛出去</p>
+<p>配置文件中写入</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.web.servlet.handler.SimpleMappingExceptionResolver&quot;</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--exceptionMappings:配置哪些异常去哪些页面--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;exceptionMappings&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">props</span>&gt;</span></span><br><span class="line">                <span class="comment">&lt;!--key:异常全类名;value:要去的页面视图名;--&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">&quot;java.lang.NullPointerException&quot;</span>&gt;</span>error<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">props</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--指定错误信息取出时使用的key--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;exceptionAttribute&quot;</span> <span class="attr">value</span>=<span class="string">&quot;ex&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>自定义异常</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ResponseStatus(reason = &quot;用户被拒绝登录&quot;,value = HttpStatus.NOT_EXTENDED)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UsernameNotFoundException</span> <span class="keyword">extends</span> <span class="title">RuntimeException</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> servialVersionUID=<span class="number">1L</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>controller</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;/handle02&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">handle02</span><span class="params">(<span class="meta">@RequestParam(&quot;username&quot;)</span> String username)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!<span class="string">&quot;admin&quot;</span>.equals(username))&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;登陆失败&quot;</span>);</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> UsernameNotFoundException();</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">&quot;登陆成功！。。。&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;success&quot;</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>告诉SpringMVC这个方法专门处理这个类发生的异常</p>
+<ol>
+<li>给方法参数中写上一个Exception，用来接收发生的异常</li>
+<li>要携带异常信息不能给参数位置写model</li>
+<li>返回ModelAndView即可</li>
+<li>如果有多个@ExceptionHandler都能处理这个异常，精确优先</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ExceptionHandler(value = ArithmeticException.class)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ModelAndView <span class="title">handleException01</span><span class="params">(Exception exception)</span></span>&#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;本类的:handleException01...&quot;</span>+exception);</span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    ModelAndView view = <span class="keyword">new</span> ModelAndView(<span class="string">&quot;error&quot;</span>);</span><br><span class="line">    view.addObject(<span class="string">&quot;ex&quot;</span>,exception);</span><br><span class="line">    <span class="comment">//视图解析器拼串</span></span><br><span class="line">    <span class="keyword">return</span> view;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="SpringMVC的运行流程"><a href="#SpringMVC的运行流程" class="headerlink" title="SpringMVC的运行流程"></a>SpringMVC的运行流程</h2><ol>
+<li>所有请求，前端控制器（DispatcherServlet）收到请求，调用doDispatch进行处理</li>
+<li>根据HandlerMapping中保存的请求映射信息找到，处理当前请求的，处理器执行链（包含拦截器）</li>
+<li>根据当前处理器找到他的HandlerAdapter（适配器）</li>
+<li>拦截器的preHandle先执行</li>
+<li>适配器执行目标方法，并返回ModelAndView<ol>
+<li>ModelAttribute注解标注的方法提前运行</li>
+<li>有注解</li>
+<li>没注解<ol>
+<li>看是否是Model、Map以及其他的</li>
+<li>如果是自定义类型<ol>
+<li>从隐含模型中看有没有，如果有就从隐含模型中拿</li>
+<li>如果没有，再看是否SessionAttributes标注的属性，如果是从Session中拿，如果拿不到会抛异常</li>
+<li>都不是，就利用反射创建对象</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>拦截器的postHandle执行</li>
+<li>处理结果；（页面渲染流程）<ol>
+<li>如果有异常使用异常解析器处理异常；处理完后还会返回ModelAndView</li>
+<li>调用render进行页面渲染<ol>
+<li>视图解析器根据视图名得到视图对象</li>
+<li>视图对象调用render方法</li>
+</ol>
+</li>
+<li>执行拦截器的afterCompletion</li>
+</ol>
+</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/gg1DK0"><img src="https://z3.ax1x.com/2021/05/16/gg1DK0.png" alt="gg1DK0.png"></a></p>
+<h2 id="SpringMVC与Spring整合"><a href="#SpringMVC与Spring整合" class="headerlink" title="SpringMVC与Spring整合"></a>SpringMVC与Spring整合</h2><p>SpringMVC和Spring整合的目的；分工明确</p>
+<p>SpringMVC的配置文件就来配置和网站转发逻辑以及网站功能有关的（视图解析器，文件上传解析器，支持ajax，xxx）</p>
+<p>Spring的配置文件来配置和业务有关的（事务控制，数据源，xxx）</p>
+<h3 id="SpringMVC和Spring使用同一个容器"><a href="#SpringMVC和Spring使用同一个容器" class="headerlink" title="SpringMVC和Spring使用同一个容器"></a>SpringMVC和Spring使用同一个容器</h3><p>&lt;import resource=*”spring.xml”*/&gt;：可以合并配置文件</p>
+<h3 id="SpringMVC和Spring分容器"><a href="#SpringMVC和Spring分容器" class="headerlink" title="SpringMVC和Spring分容器"></a>SpringMVC和Spring分容器</h3><p>web.xml中配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">context-param</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextConfigLocation<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>classpath:spring.xml<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">context-param</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">listener</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">listener-class</span>&gt;</span>org.springframework.web.context.ContextLoaderListener<span class="tag">&lt;/<span class="name">listener-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">listener</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>springmvc<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextConfigLocation<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>classpath:springmvc.xml<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">load-on-startup</span>&gt;</span>1<span class="tag">&lt;/<span class="name">load-on-startup</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>springmvc<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>spring.xml中配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">&quot;com.ybh&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">context:exclude-filter</span> <span class="attr">type</span>=<span class="string">&quot;annotation&quot;</span> <span class="attr">expression</span>=<span class="string">&quot;org.springframework.stereotype.Controller&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">context:component-scan</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>springMVC.xml中配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">&quot;com.ybh&quot;</span> <span class="attr">use-default-filters</span>=<span class="string">&quot;false&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">context:include-filter</span> <span class="attr">type</span>=<span class="string">&quot;annotation&quot;</span> <span class="attr">expression</span>=<span class="string">&quot;org.springframework.stereotype.Controller&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">context:component-scan</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Spring是一个父容器，SpringMVC是一个子容器；</p>
+<p>子容器还可以引用父容器的组件；</p>
+<p>父容器不能引用子容器的组件；</p>
+
+        </div>
+        
+            <div class="kratos-copyright text-center clearfix">
+                <h5>本作品采用 <a rel="license nofollow" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可</h5>
+            </div>
+        
+        <footer class="kratos-entry-footer clearfix">
+            
+                <div class="post-like-donate text-center clearfix" id="post-like-donate">
+                
+                
+                    <a class="share" href="javascript:;"><i class="fa fa-share-alt"></i> 分享</a>
+                    <div class="share-wrap" style="display: none;">
+    <div class="share-group">
+        <a href="javascript:;" class="share-plain qq" onclick="share('qq');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-qq"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain qzone" onclick="share('qzone');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-star"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weixin pop style-plain" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weixin"></i>
+            </div>
+            <div class="share-int">
+                <div class="qrcode" id="wechat-qr"></div>
+                <p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weibo" onclick="share('weibo');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weibo"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain facebook style-plain" onclick="share('facebook');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-facebook"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain twitter style-plain" onclick="share('twitter');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-twitter"></i>
+            </div>
+        </a>
+    </div>
+    <script type="text/javascript">
+        $(()=>{
+            new QRCode("wechat-qr", {
+                text: "http://example.com/2021/05/16/SpringMVC2/",
+                width: 150,
+                height: 150,
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+        function share(dest) {
+            const qqBase        = "https://connect.qq.com/widget/shareqq/index.html?";
+            const weiboBase     = "https://service.weibo.com/share/share.php?";
+            const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+            const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
+            const twitterBase   = "https://twitter.com/intent/tweet?";
+            const hostUrl       = "http://example.com/2021/05/16/SpringMVC2/";
+            const title         = "「SpringMVC2」";
+            const excerpt       = `数据绑定流程：
+
+Spring MVC 主框架将 ServletRequest 对象及目标方法的参数实例传递给 WebDataBinderFactory 实例，以创建 DataBinder 实例对象
+DataBinder 调用装配在 ...`;
+            let _URL;
+            switch (dest) {
+                case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
+                case "weibo"    : _URL = weiboBase+"url="+hostUrl+"&title="+title+excerpt;                                 break;
+                case "qzone"    : _URL = qzoneBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";  break;
+                case "facebook" : _URL = facebookBase+"u="+hostUrl;                                                        break;
+                case "twitter"  : _URL = twitterBase+"text="+title+excerpt+"&url="+hostUrl;                                break;
+            }
+            window.open(_URL);
+        };
+    </script>
+</div>
+                
+                </div>
+            
+            <div class="footer-tag clearfix">
+                <div class="pull-left">
+                <i class="fa fa-tags"></i>
+                    
+                </div>
+                <div class="pull-date">
+                <span>最后编辑：2021-05-16</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+        <nav class="navigation post-navigation clearfix" role="navigation">
+            
+            <div class="nav-previous clearfix">
+                <a title=" SpringMVC1" href="/2021/05/15/SpringMVC1/">&lt; 上一篇</a>
+            </div>
+            
+            
+            <div class="nav-next clearfix">
+                <a title=" Mybatis" href="/2021/05/17/Mybatis/">下一篇 &gt;</a>
+            </div>
+            
+        </nav>
+    
+    
+</article>
+        </section>
+
+                
+            
+
+<section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
+    <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
+    
+    
+                <aside id="krw-about" class="widget widget-kratos-about clearfix">
+    <div class="photo-background"></div>
+    <div class="photo-wrapper clearfix">
+        <div class="photo-wrapper-tip text-center">
+            <img class="about-photo" src="/images/avatar.webp" />
+        </div>
+    </div>
+    <div class="textwidget">
+        <p class="text-center">永远不要放弃自己的理想主义！</p>
+    </div>
+</aside>
+            
+                    <div class="sticky-area">
+                
+                    <aside id="krw-toc" class="widget widget-kratos-toc clearfix">
+    <div class="photo-background"></div>
+    <h4 class="widget-title no-after">
+        <i class="fa fa-compass"></i>
+        文章目录
+        <span class="toc-progress-bar"></span>
+    </h4>
+    <div class="textwidget">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A"><span class="toc-text">数据绑定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2"><span class="toc-text">数据转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%99%A8"><span class="toc-text">自定义类型转换器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lt-mvc-annotation-driven-gt"><span class="toc-text">&lt;mvc:annotation-driven &#x2F;&gt;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F%E5%8C%96"><span class="toc-text">数据格式化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%A1%E9%AA%8C"><span class="toc-text">数据校验</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#JSR303"><span class="toc-text">JSR303</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8E%E7%AB%AF%E6%A0%A1%E9%AA%8C"><span class="toc-text">后端校验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BD%E9%99%85%E5%8C%96%E5%AE%9A%E5%88%B6%E8%87%AA%E5%B7%B1%E7%9A%84%E9%94%99%E8%AF%AF%E6%B6%88%E6%81%AF%E6%98%BE%E7%A4%BA"><span class="toc-text">国际化定制自己的错误消息显示</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8B%A6%E6%88%AA%E5%99%A8"><span class="toc-text">拦截器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86"><span class="toc-text">异常处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SpringMVC%E7%9A%84%E8%BF%90%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="toc-text">SpringMVC的运行流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SpringMVC%E4%B8%8ESpring%E6%95%B4%E5%90%88"><span class="toc-text">SpringMVC与Spring整合</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SpringMVC%E5%92%8CSpring%E4%BD%BF%E7%94%A8%E5%90%8C%E4%B8%80%E4%B8%AA%E5%AE%B9%E5%99%A8"><span class="toc-text">SpringMVC和Spring使用同一个容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SpringMVC%E5%92%8CSpring%E5%88%86%E5%AE%B9%E5%99%A8"><span class="toc-text">SpringMVC和Spring分容器</span></a></li></ol></li></ol>
+    </div>
+</aside>
+                
+                
+  <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
+    <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Error/">Error</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JDBC/">JDBC</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-Web/">Java Web</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SSM/">SSM</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ssm/">ssm</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%91%E5%B9%B4%E3%81%AE%E6%97%A5%E5%B8%B8/">少年の日常</a><span class="category-list-count">2</span></li></ul>
+  </aside>
+
+
+            
+                
+  <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
+    <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
+      <div class="tag-clouds">
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 0.6em;">数据结构</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 0.6em;">算法</a>
+      </div>
+  </aside>
+
+            
+                
+  <aside id="krw-posts" class="widget widget-kratos-posts">
+  <h4 class="widget-title"><i class="fa fa-file"></i>最新文章</h4>
+  <div class="tab-content">
+      <ul class="list-group">
+        
+        
+          
+          
+            <a class="list-group-item" href="/2021/06/09/202169-%E5%93%88%E5%B8%8C%E8%A1%A8/"><i class="fa  fa-book"></i> 哈希表</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/06/09/202169-%E4%BA%8C%E5%8F%89%E6%A0%91/"><i class="fa  fa-book"></i> 二叉树</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/06/04/202164-%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95/"><i class="fa  fa-book"></i> 查找算法</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/06/02/202162-%E9%80%92%E5%BD%92/"><i class="fa  fa-book"></i> 递归</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/06/02/202162-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/"><i class="fa  fa-book"></i> 排序算法</a>
+            
+          
+        
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+      </ul>
+  </div>
+  </aside>
+
+            
+    </div>
+</section>
+        
+        </div>
+    </div>
+</div>
+<footer>
+    <div id="footer"  class="ap-lrc"  >
+        <div class="kr-tool text-center">
+            <div class="tool">
+                
+                    <div class="box search-box">
+                        <a href="/search/">
+                            <span class="fa fa-search"></span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="box theme-box" id="darkmode-switch">
+                        <span class="fa fa-adjust"></span>
+                    </div>
+                
+                
+            </div>
+            <div class="box gotop-box">
+                <span class="fa fa-chevron-up"></span>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 footer-list text-center">
+                    <ul class="kratos-social-icons">
+                        
+                        <li><a href="mailto:1922856021@qq.com"><i class="fa fa-envelope"></i></a></li>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    </ul>
+                    <ul class="kratos-copyright">
+                        <div>
+                            <li>&copy; 2021 青い栞 版权所有.</li>
+                            <li>本站已运行<span id="span_dt">Loading...</span></li>
+                        </div>
+                        <div>
+                            <li>Theme <a href="https://github.com/Candinya/Kratos-Rebirth" target="_blank">Kratos:Rebirth</a></li>
+                            <li>Site built with&nbsp;<i class="fa fa-heart throb" style="color:#d43f57"></i>&nbsp;by FunnyLs.</li>
+                        </div>
+                        <div>
+                            <li>Powered by <a href="https://hexo.io" target="_blank" rel="nofollow">Hexo</a></li>
+                            <li>Hosted on <a href="https://github.io" target="_blank">Github Pages</a></li>
+                        </div>
+                        <div>
+                            
+                            
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+
+        <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.4/dist/js/bootstrap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+<script>const notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));</script>
+
+    <div>
+        <canvas id="snow"></canvas>
+        <script async type="text/javascript" src="/js/snow.min.js"></script>
+    </div>
+
+<script async src="/js/candy.min.js"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+    <meting-js
+        server="netease"
+        type="playlist"
+        id="3204190542"
+        order="random"
+        fixed="true"
+    >
+    </meting-js>
+
+
+
+    <script defer src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script defer src="/js/kratosr.min.js"></script>
+<script defer src="/js/pjax.min.js"></script>
+
+
+    <script defer src="/js/kr-dark.min.js"></script>
+
+
+
+<!-- Extra support for third-party plguins  -->
+
+
+    </body>
+</html>

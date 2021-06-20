@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+  <!-- 元数据 -->
+  <meta charset="utf-8">
+  <link rel="icon" href="">
+  <title>Java常用类2 | 青い栞</title>
+  <meta name="author" content="FunnyLs" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index,follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="format-detection" content="telphone=no, email=no" />
+  
+    <meta name="keywords" content="" />
+  
+  <meta name="description" content="JDK8之前日期时间API获取系统当前时间：System类中的currentTimeMillis()1234long time &#x3D; System.currentTimeMillis();&#x2F;&#x2F;返回当前时间与1970年1月1日0时0分0秒之间以毫秒为单位的时间差。&#x2F;&#x2F;称为时间戳System.out.println(time);  java.util.Date类与java.sql.Date类java.u">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java常用类2">
+<meta property="og:url" content="http://example.com/2020/11/18/Class2/index.html">
+<meta property="og:site_name" content="青い栞">
+<meta property="og:description" content="JDK8之前日期时间API获取系统当前时间：System类中的currentTimeMillis()1234long time &#x3D; System.currentTimeMillis();&#x2F;&#x2F;返回当前时间与1970年1月1日0时0分0秒之间以毫秒为单位的时间差。&#x2F;&#x2F;称为时间戳System.out.println(time);  java.util.Date类与java.sql.Date类java.u">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/null">
+<meta property="article:published_time" content="2020-11-17T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-03-20T09:17:50.732Z">
+<meta property="article:author" content="FunnyLs">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/null">
+<meta name="twitter:site" content="@null">
+  
+  <!-- 站点验证相关 -->
+  
+    
+    
+    
+  
+  <!-- 样式表文件 -->
+  <link rel="stylesheet" id="kratos-css" href="/css/kratosr.min.css" type="text/css" media="all">
+  
+    <link rel="stylesheet" id="highlight-css" href="/css/highlight/night-blue.min.css" type="text/css" media="all">
+  
+  
+  <link rel="stylesheet" id="fontawe-css" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" type="text/css" media="all">
+  <link rel="stylesheet" id="nprogress-css" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" type="text/css" media="all">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+  
+  
+    <link rel="stylesheet" id="darkmode-css" href="/css/kr-dark.min.css" type="text/css" media="all">
+  
+  <!-- 不得不预先加载的一些JS文件 -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+    <body class="custom-background">
+        <div id="kratos-wrapper">
+    <div id="kratos-page">
+        <div id="kratos-header">
+            <header id="kratos-desktop-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="nav-header">
+                        <nav id="kratos-menu-wrap">
+                            <ul id="kratos-primary-menu" class="sf-menu">
+                                
+                                    
+                                        <li><a href="/"><i class="fa fa-home"></i>首页</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/archives/"><i class="fa fa-file"></i>档案馆</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/friends/"></a></li>
+                                    
+                                
+                                    
+                                        <li>
+                                            <a><i class="fa fa-link"></i>链接</a>
+                                            <ul class="sub-menu">
+                                                
+                                                    
+                                                
+                                                    
+                                                        <li><a target="_blank" rel="noopener" href="https://candinya.com">作者博客</a></li>
+                                                    
+                                                
+                                                    
+                                                        <li><a target="_blank" rel="noopener" href="https://github.com/Candinya/Kratos-Rebirth">项目链接</a></li>
+                                                    
+                                                
+                                            </ul>
+                                        </li>
+                                    
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <header id="kratos-mobile-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="color-logo"><a href="/">青い栞</a></div>
+                    <div class="nav-toggle">
+                        <a class="kratos-nav-toggle js-kratos-nav-toggle">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="kratos-start kratos-hero-2">
+            <!-- <div class="kratos-overlay"></div> -->
+            <div class="kratos-cover kratos-cover-2 text-center">
+                <div class="desc desc2 animate-box">
+                    <a href="/">
+                        <h2>青い栞</h2> <br />
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="kratos-blog-post">
+            <div class="container">
+                <div id="main" class="row">
+                    
+
+        <section class="col-md-8">
+            <article>
+    <div class="kratos-hentry kratos-post-inner clearfix">
+        <header class="kratos-entry-header">
+            
+                <h1 class="kratos-entry-title text-center">Java常用类2</h1>
+            
+            
+            <ul class="kratos-post-meta text-center">
+                <li><i class="fa fa-calendar"></i> 2020-11-18</li>
+                <li><i class="fa fa-user"></i> 作者 FunnyLs</li>
+                <li>
+                    <i class="fa fa-edit"></i> 
+                    
+                    
+                        ~11.82K
+                    
+                    字
+                </li>
+                
+            </ul>
+        </header>
+        <div class="kratos-post-content">
+            <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                本文最后编辑于 <time datetime="1616231870732"></time> 前，其中的内容可能需要更新。
+            </div>
+            
+                <div class="kratos-post-inner-toc">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JDK8%E4%B9%8B%E5%89%8D%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4API"><span class="toc-number">1.</span> <span class="toc-text">JDK8之前日期时间API</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E7%B3%BB%E7%BB%9F%E5%BD%93%E5%89%8D%E6%97%B6%E9%97%B4%EF%BC%9ASystem%E7%B1%BB%E4%B8%AD%E7%9A%84currentTimeMillis"><span class="toc-number">1.1.</span> <span class="toc-text">获取系统当前时间：System类中的currentTimeMillis()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#java-util-Date%E7%B1%BB%E4%B8%8Ejava-sql-Date%E7%B1%BB"><span class="toc-number">1.2.</span> <span class="toc-text">java.util.Date类与java.sql.Date类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#java-text-SimpleDataFormat%E7%B1%BB"><span class="toc-number">1.3.</span> <span class="toc-text">java.text.SimpleDataFormat类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SimpleDateFormat%E6%97%A5%E6%9C%9F-%E6%97%B6%E9%97%B4%E6%A0%BC%E5%BC%8F%E6%A8%A1%E5%BC%8F%E5%8F%82%E6%95%B0"><span class="toc-number">1.4.</span> <span class="toc-text">SimpleDateFormat日期-时间格式模式参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Calendar%E7%B1%BB%EF%BC%9A%E6%97%A5%E5%8E%86%E7%B1%BB%E3%80%81%E6%8A%BD%E8%B1%A1%E7%B1%BB"><span class="toc-number">1.5.</span> <span class="toc-text">Calendar类：日历类、抽象类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B%E5%8C%96"><span class="toc-number">1.5.1.</span> <span class="toc-text">实例化</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F%E4%B8%80%EF%BC%9A%E5%88%9B%E5%BB%BA%E5%85%B6%E5%AD%90%E7%B1%BBGregorianCalendar%E7%9A%84%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.5.1.1.</span> <span class="toc-text">方式一：创建其子类GregorianCalendar的对象</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%EF%BC%9A"><span class="toc-number">1.5.2.</span> <span class="toc-text">常用方法：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JDK8%E4%B8%AD%E6%96%B0%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4API"><span class="toc-number">2.</span> <span class="toc-text">JDK8中新日期时间API</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4API%E8%BF%AD%E4%BB%A3"><span class="toc-number">2.1.</span> <span class="toc-text">日期时间API迭代</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E4%B8%A4%E4%BB%A3%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98%E4%B8%BE%E4%BE%8B"><span class="toc-number">2.2.</span> <span class="toc-text">前两代存在的问题举例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#java-8-%E4%B8%AD%E6%96%B0%E7%9A%84%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4API%E6%B6%89%E5%8F%8A%E5%88%B0%E7%9A%84%E5%8C%85"><span class="toc-number">2.3.</span> <span class="toc-text">java 8 中新的日期时间API涉及到的包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E6%97%A5%E6%9C%9F%E3%80%81%E6%9C%AC%E5%9C%B0%E6%97%B6%E9%97%B4%E3%80%81%E6%9C%AC%E5%9C%B0%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4%E7%9A%84%E4%BD%BF%E7%94%A8%EF%BC%9ALocalDate-LocalTime-LocalDateTime"><span class="toc-number">2.4.</span> <span class="toc-text">本地日期、本地时间、本地日期时间的使用：LocalDate &#x2F; LocalTime &#x2F; LocalDateTime</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E7%82%B9%EF%BC%9AInstant"><span class="toc-number">2.5.</span> <span class="toc-text">时间点：Instant</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4%E6%A0%BC%E5%BC%8F%E5%8C%96%E7%B1%BB%EF%BC%9ADateTimeFormatter"><span class="toc-number">2.6.</span> <span class="toc-text">日期时间格式化类：DateTimeFormatter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%A6%E6%97%B6%E5%8C%BA%E7%9A%84%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4%EF%BC%9AZonedDateTime-ZoneId"><span class="toc-number">2.7.</span> <span class="toc-text">带时区的日期时间：ZonedDateTime &#x2F; ZoneId</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E9%97%B4%E9%9A%94%EF%BC%9ADuration%E2%80%93%E7%94%A8%E4%BA%8E%E8%AE%A1%E7%AE%97%E4%B8%A4%E4%B8%AA%E2%80%9C%E6%97%B6%E9%97%B4%E2%80%9D%E9%97%B4%E9%9A%94%EF%BC%8C%E4%BB%A5%E7%A7%92%E5%92%8C%E7%BA%B3%E7%A7%92%E4%B8%BA%E5%9F%BA%E5%87%86"><span class="toc-number">2.8.</span> <span class="toc-text">时间间隔：Duration–用于计算两个“时间”间隔，以秒和纳秒为基准</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4%E6%A0%A1%E6%AD%A3%E5%99%A8%EF%BC%9ATemporalAdjuster"><span class="toc-number">2.9.</span> <span class="toc-text">日期时间校正器：TemporalAdjuster</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java%E6%AF%94%E8%BE%83%E5%99%A8"><span class="toc-number">3.</span> <span class="toc-text">Java比较器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E6%AF%94%E8%BE%83%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8%E8%83%8C%E6%99%AF"><span class="toc-number">3.1.</span> <span class="toc-text">Java比较器的使用背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E7%84%B6%E6%8E%92%E5%BA%8F%EF%BC%9A%E4%BD%BF%E7%94%A8Comparable%E6%8E%A5%E5%8F%A3"><span class="toc-number">3.2.</span> <span class="toc-text">自然排序：使用Comparable接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E5%88%B6%E6%8E%92%E5%BA%8F%EF%BC%9A%E4%BD%BF%E7%94%A8Comparator%E6%8E%A5%E5%8F%A3"><span class="toc-number">3.3.</span> <span class="toc-text">定制排序：使用Comparator接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%A4%E7%A7%8D%E6%8E%92%E5%BA%8F%E6%96%B9%E5%BC%8F%E5%AF%B9%E6%AF%94"><span class="toc-number">3.4.</span> <span class="toc-text">两种排序方式对比</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E7%B1%BB"><span class="toc-number">4.</span> <span class="toc-text">其他类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#System%E7%B1%BB"><span class="toc-number">4.1.</span> <span class="toc-text">System类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Math%E7%B1%BB"><span class="toc-number">4.2.</span> <span class="toc-text">Math类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BigInteger%E3%80%81BigDecimal%E7%B1%BB"><span class="toc-number">4.3.</span> <span class="toc-text">BigInteger、BigDecimal类</span></a></li></ol></li></ol>
+                </div>
+            
+            <hr />
+            <h2 id="JDK8之前日期时间API"><a href="#JDK8之前日期时间API" class="headerlink" title="JDK8之前日期时间API"></a>JDK8之前日期时间API</h2><h3 id="获取系统当前时间：System类中的currentTimeMillis"><a href="#获取系统当前时间：System类中的currentTimeMillis" class="headerlink" title="获取系统当前时间：System类中的currentTimeMillis()"></a>获取系统当前时间：System类中的currentTimeMillis()</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">long</span> time = System.currentTimeMillis();</span><br><span class="line"><span class="comment">//返回当前时间与1970年1月1日0时0分0秒之间以毫秒为单位的时间差。</span></span><br><span class="line"><span class="comment">//称为时间戳</span></span><br><span class="line">System.out.println(time);</span><br></pre></td></tr></table></figure>
+
+<h3 id="java-util-Date类与java-sql-Date类"><a href="#java-util-Date类与java-sql-Date类" class="headerlink" title="java.util.Date类与java.sql.Date类"></a><strong>java.util.Date类与java.sql.Date类</strong></h3><p><strong>java.util.Date</strong> 是 java.sql.Date 的父类<br><strong>java.util.Date</strong>是常用的表示时间的类，我们通常格式化或者得到当前时间都是用他<br> <strong>java.sql.Date</strong>在读写数据库的时候用他，因为PreparedStament的setDate()的第2参数和ResultSet的getDate()方法的第2个参数都是java.sql.Date </p>
+<p>继承关系：java.lang.Object –》 java.util.Date –》 java.sql.Date</p>
+<p>1.两个构造器的使用<br>        构造器一：Date()：创建一个对应当前时间的Date对象<br>        构造器二：创建指定毫秒数的Date对象<br>    2.两个方法的使用<br>        toString():显示当前的年、月、日、时、分、秒<br>        getTime():获取当前Date对象对应的毫秒数。（时间戳）<br>    3. java.sql.Date对应着数据库中的日期类型的变量<br>       如何实例化<br>       如何将java.util.Date对象转换为java.sql.Date对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test2</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="comment">//构造器一：Date()：创建一个对应当前时间的Date对象</span></span><br><span class="line">        Date date1 = <span class="keyword">new</span> Date();</span><br><span class="line">        System.out.println(date1.toString());<span class="comment">//Sat Feb 16 16:35:31 GMT+08:00 2019</span></span><br><span class="line"></span><br><span class="line">        System.out.println(date1.getTime());<span class="comment">//1550306204104</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//构造器二：创建指定毫秒数的Date对象</span></span><br><span class="line">        Date date2 = <span class="keyword">new</span> Date(<span class="number">155030620410L</span>);</span><br><span class="line">        System.out.println(date2.toString());</span><br><span class="line"></span><br><span class="line">        <span class="comment">//创建java.sql.Date对象</span></span><br><span class="line">        java.sql.Date date3 = <span class="keyword">new</span> java.sql.Date(<span class="number">35235325345L</span>);</span><br><span class="line">        System.out.println(date3);<span class="comment">//1971-02-13</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//如何将java.util.Date对象转换为java.sql.Date对象</span></span><br><span class="line">        <span class="comment">//情况一：</span></span><br><span class="line"><span class="comment">//        Date date4 = new java.sql.Date(2343243242323L);</span></span><br><span class="line"><span class="comment">//        java.sql.Date date5 = (java.sql.Date) date4;</span></span><br><span class="line">        <span class="comment">//情况二：</span></span><br><span class="line">        Date date6 = <span class="keyword">new</span> Date();</span><br><span class="line">        java.sql.Date date7 = <span class="keyword">new</span> java.sql.Date(date6.getTime());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="java-text-SimpleDataFormat类"><a href="#java-text-SimpleDataFormat类" class="headerlink" title="java.text.SimpleDataFormat类"></a>java.text.SimpleDataFormat类</h3><p>Java中怎么才能把日期转换成想要的格式呢，或把字符串转换成一定格式的日期，如把数据库中的日期或时间转换成自己想要的格式，JAVA中提供了SimpleDateFormat类可以实现。</p>
+<p><strong>SimpleDateFormat的实例化:</strong> new + 构造器</p>
+<p>SimpleDateFormat 是一个以与语言环境有关的方式来格式化和解析日期的具体类。它允许进行格式化（日期 -&gt; 文本）、解析（文本 -&gt; 日期）和规范化。</p>
+<p>SimpleDateFormat 使得可以选择任何用户定义的日期-时间格式的模式。但是，仍然建议通过 DateFormat 中的 getTimeInstance、getDateInstance 或 getDateTimeInstance 来创建日期-时间格式器。每一个这样的类方法都能够返回一个以默认格式模式初始化的日期/时间格式器。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Ceshi</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ParseException </span>&#123;</span><br><span class="line">  SimpleDateFormat CeshiFmt0=<span class="keyword">new</span> SimpleDateFormat(<span class="string">&quot;Gyyyy年MM月dd日 HH时mm分ss秒&quot;</span>);</span><br><span class="line">        SimpleDateFormat CeshiFmt1=<span class="keyword">new</span> SimpleDateFormat(<span class="string">&quot;yyyy/MM/dd HH:mm&quot;</span>); </span><br><span class="line">        SimpleDateFormat CeshiFmt2=<span class="keyword">new</span> SimpleDateFormat(<span class="string">&quot;yyyy-MM-dd HH:mm:ss&quot;</span>);</span><br><span class="line">        SimpleDateFormat CeshiFmt3=<span class="keyword">new</span> SimpleDateFormat(<span class="string">&quot;yyyy年MM月dd日 HH时mm分ss秒 E &quot;</span>);</span><br><span class="line">        SimpleDateFormat CeshiFmt4=<span class="keyword">new</span> SimpleDateFormat(<span class="string">&quot;yyyy/MM/dd E&quot;</span>); </span><br><span class="line">        SimpleDateFormat CeshiFmt5=<span class="keyword">new</span> SimpleDateFormat(</span><br><span class="line">                <span class="string">&quot;一年中的第 D 天 ，第w个星期 ，一个月中第W个星期 ，k时 z时区&quot;</span>);</span><br><span class="line">        Date now=<span class="keyword">new</span> Date();</span><br><span class="line">        System.out.println(CeshiFmt0.format(now));</span><br><span class="line">        System.out.println(CeshiFmt1.format(now));</span><br><span class="line">        System.out.println(CeshiFmt2.format(now));</span><br><span class="line">        System.out.println(CeshiFmt3.format(now));</span><br><span class="line">        System.out.println(CeshiFmt4.format(now));</span><br><span class="line">        System.out.println(CeshiFmt5.format(now));</span><br><span class="line"> &#125;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果为： 公元2010年07月27日 09时19分29秒<br>2010/07/27 09:19<br>2010-07-27 09:19:29<br>2010年07月27日 09时19分29秒 星期二<br>2010/07/27 星期二<br>一年中的第 208 天 ，第31个星期 ，一个月中第5个星期 ，9时 CST时区</p>
+<h3 id="SimpleDateFormat日期-时间格式模式参数"><a href="#SimpleDateFormat日期-时间格式模式参数" class="headerlink" title="SimpleDateFormat日期-时间格式模式参数"></a>SimpleDateFormat日期-时间格式模式参数</h3><p>字母 日期或时间元素 表示 示例<br>G Era 标志符 Text AD<br>y 年 Year 1996; 96<br>M 年中的月份 Month July; Jul; 07<br>w 年中的周数 Number 27<br>W 月份中的周数 Number 2<br>D 年中的天数 Number 189<br>d 月份中的天数 Number 10<br>F 月份中的星期 Number 2<br>E 星期中的天数 Text Tuesday; Tue （我在部署的时候在本机oracle是返回星期是星期二，而在Oracle的服务器上是返回Tue.)<br>a Am/pm 标记 Text PM<br>H 一天中的小时数（0-23） Number 0<br>k 一天中的小时数（1-24） Number 24<br>K am/pm 中的小时数（0-11） Number 0<br>h am/pm 中的小时数（1-12） Number 12<br>m 小时中的分钟数 Number 30<br>s 分钟中的秒数 Number 55<br>S 毫秒数 Number 978<br>z 时区 General time zone Pacific Standard Time; PST; GMT-08:00<br>Z 时区 RFC 822 time zone -0800</p>
+<h3 id="Calendar类：日历类、抽象类"><a href="#Calendar类：日历类、抽象类" class="headerlink" title="Calendar类：日历类、抽象类"></a>Calendar类：日历类、抽象类</h3><h4 id="实例化"><a href="#实例化" class="headerlink" title="实例化"></a>实例化</h4><h5 id="方式一：创建其子类GregorianCalendar的对象"><a href="#方式一：创建其子类GregorianCalendar的对象" class="headerlink" title="方式一：创建其子类GregorianCalendar的对象"></a>方式一：创建其子类GregorianCalendar的对象</h5><p><strong>方式二：调用其静态方法getInstance()</strong>  //Calendar calendar = Calendar.getInstance();</p>
+<h4 id="常用方法："><a href="#常用方法：" class="headerlink" title="常用方法："></a><strong>常用方法：</strong></h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//get()</span></span><br><span class="line">        <span class="keyword">int</span> days = calendar.get(Calendar.DAY_OF_MONTH);</span><br><span class="line">        System.out.println(days);</span><br><span class="line">        System.out.println(calendar.get(Calendar.DAY_OF_YEAR));</span><br><span class="line"></span><br><span class="line">        <span class="comment">//set()</span></span><br><span class="line">        <span class="comment">//calendar可变性</span></span><br><span class="line">         calendar.set(Calendar.DAY_OF_MONTH,<span class="number">22</span>);</span><br><span class="line">        days = calendar.get(Calendar.DAY_OF_MONTH);</span><br><span class="line">        System.out.println(days);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//add()</span></span><br><span class="line">        calendar.add(Calendar.DAY_OF_MONTH,-<span class="number">3</span>);</span><br><span class="line">        days = calendar.get(Calendar.DAY_OF_MONTH);</span><br><span class="line">        System.out.println(days);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//getTime():日历类---&gt; Date</span></span><br><span class="line">        Date date = calendar.getTime();</span><br><span class="line">        System.out.println(date);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//setTime():Date ---&gt; 日历类</span></span><br><span class="line">        Date date1 = <span class="keyword">new</span> Date();</span><br><span class="line">        calendar.setTime(date1);</span><br><span class="line">        days = calendar.get(Calendar.DAY_OF_MONTH);</span><br><span class="line">        System.out.println(days);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="JDK8中新日期时间API"><a href="#JDK8中新日期时间API" class="headerlink" title="JDK8中新日期时间API"></a>JDK8中新日期时间API</h2><h3 id="日期时间API迭代"><a href="#日期时间API迭代" class="headerlink" title="日期时间API迭代"></a>日期时间API迭代</h3><p>第一代：jdk 1.0 Date类<br>第二代：jdk 1.1 Calendar类，一定程度上替换Date类<br>第三代：jdk 1.8 提出了新的一套API</p>
+<h3 id="前两代存在的问题举例"><a href="#前两代存在的问题举例" class="headerlink" title="前两代存在的问题举例"></a>前两代存在的问题举例</h3><p>可变性：像日期和时间这样的类应该是不可变的。<br>偏移性：Date中的年份是从1900开始的，而月份都从0开始。<br>格式化：格式化只对Date用，Calendar则不行。<br>此外，它们也不是线程安全的；不能处理闰秒等。</p>
+<h3 id="java-8-中新的日期时间API涉及到的包"><a href="#java-8-中新的日期时间API涉及到的包" class="headerlink" title="java 8 中新的日期时间API涉及到的包"></a>java 8 中新的日期时间API涉及到的包</h3><p><a target="_blank" rel="noopener" href="https://imgchr.com/i/rfMkjK"><img src="https://s3.ax1x.com/2020/12/25/rfMkjK.png" alt="rfMkjK.png"></a></p>
+<h3 id="本地日期、本地时间、本地日期时间的使用：LocalDate-LocalTime-LocalDateTime"><a href="#本地日期、本地时间、本地日期时间的使用：LocalDate-LocalTime-LocalDateTime" class="headerlink" title="本地日期、本地时间、本地日期时间的使用：LocalDate / LocalTime / LocalDateTime"></a>本地日期、本地时间、本地日期时间的使用：LocalDate / LocalTime / LocalDateTime</h3><p><strong>说明：</strong></p>
+<ul>
+<li><p>分别表示使用 ISO-8601日历系统的日期、时间、日期和时间。它们提供了简单的本地日期或时间，并不包含当前的时间信息，也不包含与时区相关的信息。</p>
+</li>
+<li><p>LocalDateTime相较于LocalDate、LocalTime，使用频率要高</p>
+</li>
+<li><p>类似于Calendar</p>
+</li>
+</ul>
+<p><strong>常用方法：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://imgchr.com/i/rfMi1x"><img src="https://s3.ax1x.com/2020/12/25/rfMi1x.png" alt="rfMi1x.png"></a></p>
+<h3 id="时间点：Instant"><a href="#时间点：Instant" class="headerlink" title="时间点：Instant"></a>时间点：Instant</h3><p><strong>说明：</strong></p>
+<ul>
+<li><p>时间线上的一个瞬时点。 概念上讲，它只是简单的表示自1970年1月1日0时0分0秒（UTC开始的秒数。）</p>
+</li>
+<li><p>类似于 java.util.Date类</p>
+</li>
+</ul>
+<p><strong>常用方法：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://imgchr.com/i/rfMP91"><img src="https://s3.ax1x.com/2020/12/25/rfMP91.png" alt="rfMP91.png"></a></p>
+<h3 id="日期时间格式化类：DateTimeFormatter"><a href="#日期时间格式化类：DateTimeFormatter" class="headerlink" title="日期时间格式化类：DateTimeFormatter"></a>日期时间格式化类：DateTimeFormatter</h3><p><strong>说明：</strong></p>
+<ul>
+<li>格式化或解析日期、时间</li>
+<li>类似于SimpleDateFormat</li>
+</ul>
+<p><strong>常用方法：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://imgchr.com/i/rfM9hR"><img src="https://s3.ax1x.com/2020/12/25/rfM9hR.png" alt="rfM9hR.png"></a></p>
+<p>实例化方式：</p>
+<p>预定义的标准格式。如：ISO_LOCAL_DATE_TIME;ISO_LOCAL_DATE;ISO_LOCAL_TIME<br>本地化相关的格式。如：ofLocalizedDateTime(FormatStyle.LONG)<br>自定义的格式。如：ofPattern(“yyyy-MM-dd hh:mm:ss”)</p>
+<p>特别的：自定义的格式。如：ofPattern(“yyyy-MM-dd hh:mm:ss”)<br>重点：自定义的格式。如：ofPattern(“yyyy-MM-dd hh:mm:ss”)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DateTimeFormatter formatter3 = DateTimeFormatter.ofPattern(<span class="string">&quot;yyyy-MM-dd hh:mm:ss&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>格式化</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String str4 = formatter3.format(LocalDateTime.now());</span><br><span class="line">System.out.println(str4);<span class="comment">//2019-02-18 03:52:09</span></span><br></pre></td></tr></table></figure>
+
+<p>格式化<br>String str4 = formatter3.format(LocalDateTime.now());<br>System.out.println(str4);//2019-02-18 03:52:09</p>
+<p>解析</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">TemporalAccessor accessor = formatter3.parse(<span class="string">&quot;2019-02-18 03:52:09&quot;</span>);</span><br><span class="line">System.out.println(accessor);</span><br></pre></td></tr></table></figure>
+
+<h3 id="带时区的日期时间：ZonedDateTime-ZoneId"><a href="#带时区的日期时间：ZonedDateTime-ZoneId" class="headerlink" title="带时区的日期时间：ZonedDateTime / ZoneId"></a>带时区的日期时间：ZonedDateTime / ZoneId</h3><p><strong>举例：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ZoneId:类中包含了所的时区信息</span></span><br><span class="line"> <span class="meta">@Test</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test1</span><span class="params">()</span></span>&#123;</span><br><span class="line">  <span class="comment">//getAvailableZoneIds():获取所的ZoneId</span></span><br><span class="line">  Set&lt;String&gt; zoneIds = ZoneId.getAvailableZoneIds();</span><br><span class="line">  <span class="keyword">for</span>(String s : zoneIds)&#123;</span><br><span class="line">   System.out.println(s);</span><br><span class="line">  &#125;</span><br><span class="line">  System.out.println();</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//获取“Asia/Tokyo”时区对应的时间</span></span><br><span class="line">  LocalDateTime localDateTime = LocalDateTime.now(ZoneId.of(<span class="string">&quot;Asia/Tokyo&quot;</span>));</span><br><span class="line">  System.out.println(localDateTime);</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line"> &#125;</span><br><span class="line"><span class="comment">//ZonedDateTime:带时区的日期时间</span></span><br><span class="line"> <span class="meta">@Test</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test2</span><span class="params">()</span></span>&#123;</span><br><span class="line">  <span class="comment">//now():获取本时区的ZonedDateTime对象</span></span><br><span class="line">  ZonedDateTime zonedDateTime = ZonedDateTime.now();</span><br><span class="line">  System.out.println(zonedDateTime);</span><br><span class="line">  <span class="comment">//now(ZoneId id):获取指定时区的ZonedDateTime对象</span></span><br><span class="line">  ZonedDateTime zonedDateTime1 = ZonedDateTime.now(ZoneId.of(<span class="string">&quot;Asia/Tokyo&quot;</span>));</span><br><span class="line">  System.out.println(zonedDateTime1);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="时间间隔：Duration–用于计算两个“时间”间隔，以秒和纳秒为基准"><a href="#时间间隔：Duration–用于计算两个“时间”间隔，以秒和纳秒为基准" class="headerlink" title="时间间隔：Duration–用于计算两个“时间”间隔，以秒和纳秒为基准"></a>时间间隔：Duration–用于计算两个“时间”间隔，以秒和纳秒为基准</h3><p><a target="_blank" rel="noopener" href="https://imgchr.com/i/rfMpN9"><img src="https://s3.ax1x.com/2020/12/25/rfMpN9.png" alt="rfMpN9.png"></a><br><strong>举例：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test3</span><span class="params">()</span></span>&#123;</span><br><span class="line">  LocalTime localTime = LocalTime.now();</span><br><span class="line">  LocalTime localTime1 = LocalTime.of(<span class="number">15</span>, <span class="number">23</span>, <span class="number">32</span>);</span><br><span class="line">  <span class="comment">//between():静态方法，返回Duration对象，表示两个时间的间隔</span></span><br><span class="line">  Duration duration = Duration.between(localTime1, localTime);</span><br><span class="line">  System.out.println(duration);</span><br><span class="line">  </span><br><span class="line">  System.out.println(duration.getSeconds());</span><br><span class="line">  System.out.println(duration.getNano());</span><br><span class="line">  </span><br><span class="line">  LocalDateTime localDateTime = LocalDateTime.of(<span class="number">2016</span>, <span class="number">6</span>, <span class="number">12</span>, <span class="number">15</span>, <span class="number">23</span>, <span class="number">32</span>);</span><br><span class="line">  LocalDateTime localDateTime1 = LocalDateTime.of(<span class="number">2017</span>, <span class="number">6</span>, <span class="number">12</span>, <span class="number">15</span>, <span class="number">23</span>, <span class="number">32</span>);</span><br><span class="line">  </span><br><span class="line">  Duration duration1 = Duration.between(localDateTime1, localDateTime);</span><br><span class="line">  System.out.println(duration1.toDays());</span><br><span class="line">  </span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>日期间隔：Period –用于计算两个“日期”间隔，以年、月、日衡量</p>
+<p><a target="_blank" rel="noopener" href="https://imgchr.com/i/rfMFc6"><img src="https://s3.ax1x.com/2020/12/25/rfMFc6.png" alt="rfMFc6.png"></a></p>
+<p><strong>举例：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test4</span><span class="params">()</span></span>&#123;</span><br><span class="line"> LocalDate localDate = LocalDate.now();</span><br><span class="line"> LocalDate localDate1 = LocalDate.of(<span class="number">2028</span>, <span class="number">3</span>, <span class="number">18</span>);</span><br><span class="line"> </span><br><span class="line"> Period period = Period.between(localDate, localDate1);</span><br><span class="line"> System.out.println(period);</span><br><span class="line"> </span><br><span class="line"> System.out.println(period.getYears());</span><br><span class="line"> System.out.println(period.getMonths());</span><br><span class="line"> System.out.println(period.getDays());</span><br><span class="line"> </span><br><span class="line"> Period period1 = period.withYears(<span class="number">2</span>);</span><br><span class="line"> System.out.println(period1);</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="日期时间校正器：TemporalAdjuster"><a href="#日期时间校正器：TemporalAdjuster" class="headerlink" title="日期时间校正器：TemporalAdjuster"></a>日期时间校正器：TemporalAdjuster</h3><p><strong>举例：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test5</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="comment">//获取当前日期的下一个周日是哪天？</span></span><br><span class="line">	TemporalAdjuster temporalAdjuster = TemporalAdjusters.next(DayOfWeek.SUNDAY);</span><br><span class="line">	</span><br><span class="line">	LocalDateTime localDateTime = LocalDateTime.now().with(temporalAdjuster);</span><br><span class="line">	System.out.println(localDateTime);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//获取下一个工作日是哪天？</span></span><br><span class="line">	LocalDate localDate = LocalDate.now().with(<span class="keyword">new</span> TemporalAdjuster()&#123;</span><br><span class="line"></span><br><span class="line">		<span class="meta">@Override</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> Temporal <span class="title">adjustInto</span><span class="params">(Temporal temporal)</span> </span>&#123;</span><br><span class="line">			LocalDate date = (LocalDate)temporal;</span><br><span class="line">			<span class="keyword">if</span>(date.getDayOfWeek().equals(DayOfWeek.FRIDAY))&#123;</span><br><span class="line">				<span class="keyword">return</span> date.plusDays(<span class="number">3</span>);</span><br><span class="line">			&#125;<span class="keyword">else</span> <span class="keyword">if</span>(date.getDayOfWeek().equals(DayOfWeek.SATURDAY))&#123;</span><br><span class="line">				<span class="keyword">return</span> date.plusDays(<span class="number">2</span>);</span><br><span class="line">			&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">				<span class="keyword">return</span> date.plusDays(<span class="number">1</span>);</span><br><span class="line">			&#125;</span><br><span class="line">				</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;);</span><br><span class="line">	</span><br><span class="line">	System.out.println(<span class="string">&quot;下一个工作日是：&quot;</span> + localDate);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="Java比较器"><a href="#Java比较器" class="headerlink" title="Java比较器"></a>Java比较器</h2><h3 id="Java比较器的使用背景"><a href="#Java比较器的使用背景" class="headerlink" title="Java比较器的使用背景"></a>Java比较器的使用背景</h3><p>Java中的对象，正常情况下，只能进行比较：==  或  != 。不能使用 &gt; 或 &lt; 的<br>但是在开发场景中，我们需要对多个对象进行排序，言外之意，就需要比较对象的大小。<br>如何实现？使用两个接口中的任何一个：<strong>Comparable</strong> 或 <strong>Comparator</strong></p>
+<h3 id="自然排序：使用Comparable接口"><a href="#自然排序：使用Comparable接口" class="headerlink" title="自然排序：使用Comparable接口"></a>自然排序：使用Comparable接口</h3><p>说明：</p>
+<p>像String、包装类等实现了comparable接口，重写了compareTo(obj)方法，给出了两个比较对象大小的方式。</p>
+<p>像String、包装类重写compareTo()方法以后，进行了从小到大的排列</p>
+<p>重写compareTo(obj)的规则：</p>
+<p>   如果当前对象this大于形参对象obj，则返回正整数，<br>   如果当前对象this小于形参对象obj，则返回负整数，<br>   如果当前对象this等于形参对象obj，则返回零。</p>
+<p>对于自定义类来说，如果需要排序，我们可以让自定义类实现Comparable接口，重写compareTo(obj)方法。在compareTo(obj)方法中指明如何排序</p>
+<p>自定义类代码举例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Goods</span> <span class="keyword">implements</span>  <span class="title">Comparable</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> price;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//指明商品比较大小的方式:照价格从低到高排序,再照产品名称从高到低排序</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line"><span class="comment">//        System.out.println(&quot;**************&quot;);</span></span><br><span class="line">        <span class="keyword">if</span>(o <span class="keyword">instanceof</span> Goods)&#123;</span><br><span class="line">            Goods goods = (Goods)o;</span><br><span class="line">            <span class="comment">//方式一：</span></span><br><span class="line">            <span class="keyword">if</span>(<span class="keyword">this</span>.price &gt; goods.price)&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">this</span>.price &lt; goods.price)&#123;</span><br><span class="line">                <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line"><span class="comment">//                return 0;</span></span><br><span class="line">               <span class="keyword">return</span> -<span class="keyword">this</span>.name.compareTo(goods.name);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//方式二：</span></span><br><span class="line"><span class="comment">//           return Double.compare(this.price,goods.price);</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="comment">//        return 0;</span></span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;传入的数据类型不一致！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">// getter、setter、toString()、构造器：省略</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="定制排序：使用Comparator接口"><a href="#定制排序：使用Comparator接口" class="headerlink" title="定制排序：使用Comparator接口"></a>定制排序：使用Comparator接口</h3><p>说明：</p>
+<p>背景：当元素的类型没实现java.lang.Comparable接口而又不方便修改代码，或者实现了java.lang.Comparable接口的排序规则不适合当前的操作，那么可以考虑使用 Comparator 的对象来排序</p>
+<p>重写compare(Object o1,Object o2)方法，比较o1和o2的大小：</p>
+<p>如果方法返回正整数，则表示o1大于o2；<br>如果返回0，表示相等；<br>返回负整数，表示o1小于o2。</p>
+<p>代码举例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Comparator com = <span class="keyword">new</span> Comparator() &#123;</span><br><span class="line">    <span class="comment">//指明商品比较大小的方式:照产品名称从低到高排序,再照价格从高到低排序</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(Object o1, Object o2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(o1 <span class="keyword">instanceof</span> Goods &amp;&amp; o2 <span class="keyword">instanceof</span> Goods)&#123;</span><br><span class="line">            Goods g1 = (Goods)o1;</span><br><span class="line">            Goods g2 = (Goods)o2;</span><br><span class="line">            <span class="keyword">if</span>(g1.getName().equals(g2.getName()))&#123;</span><br><span class="line">                <span class="keyword">return</span> -Double.compare(g1.getPrice(),g2.getPrice());</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="keyword">return</span> g1.getName().compareTo(g2.getName());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;输入的数据类型不一致&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>使用：<br>Arrays.sort(goods,com);<br>Collections.sort(coll,com);<br>new TreeSet(com);</p>
+<h3 id="两种排序方式对比"><a href="#两种排序方式对比" class="headerlink" title="两种排序方式对比"></a>两种排序方式对比</h3><p>Comparable接口的方式一旦一定，保证Comparable接口实现类的对象在任何位置都可以比较大小。<br>Comparator接口属于临时性的比较。</p>
+<h2 id="其他类"><a href="#其他类" class="headerlink" title="其他类"></a>其他类</h2><h3 id="System类"><a href="#System类" class="headerlink" title="System类"></a>System类</h3><ul>
+<li>System类代表系统，系统级的很多属性和控制方法都放置在该类的内部。该类位于java.lang包。</li>
+<li>由于该类的构造器是private的，所以无法创建该类的对象，也就是无法实例化该类。其内部的成员变量和成员方法都是static的，所以也可以很方便的进行调用。</li>
+<li>方法：<br>native long currentTimeMillis()<br>void exit(int status)<br>void gc()<br>String getProperty(String key)</li>
+</ul>
+<h3 id="Math类"><a href="#Math类" class="headerlink" title="Math类"></a>Math类</h3><p>java.lang.Math提供了一系列静态方法用于科学计算。其方法的参数和返回值类型一般为double型。</p>
+<h3 id="BigInteger、BigDecimal类"><a href="#BigInteger、BigDecimal类" class="headerlink" title="BigInteger、BigDecimal类"></a>BigInteger、BigDecimal类</h3><p>说明：</p>
+<p>java.math包的BigInteger可以表示不可变的任意精度的整数。</p>
+<p>要求数字精度比较高，用到java.math.BigDecimal类<br>代码举例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testBigInteger</span><span class="params">()</span></span>&#123;</span><br><span class="line">	BigInteger bi=<span class="keyword">new</span> BigInteger(<span class="string">&quot;12433241233&quot;</span>);</span><br><span class="line">	BigDecimal bd=<span class="keyword">new</span> BigDecimal(<span class="string">&quot;12345.351&quot;</span>);</span><br><span class="line">	BigDecimal bd2=<span class="keyword">new</span> BigDecimal(<span class="string">&quot;11&quot;</span>);</span><br><span class="line">	System.out.println(bi);</span><br><span class="line">	<span class="comment">//System.out.println(bd.divide(bd2));</span></span><br><span class="line">	System.out.println(bd.divide(bd2,BigDecimal.ROUND_HALF_UP));</span><br><span class="line">	System.out.println(bd.divide(bd2,<span class="number">15</span>,BigDecimal.ROUND_HALF_UP));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        </div>
+        
+            <div class="kratos-copyright text-center clearfix">
+                <h5>本作品采用 <a rel="license nofollow" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可</h5>
+            </div>
+        
+        <footer class="kratos-entry-footer clearfix">
+            
+                <div class="post-like-donate text-center clearfix" id="post-like-donate">
+                
+                
+                    <a class="share" href="javascript:;"><i class="fa fa-share-alt"></i> 分享</a>
+                    <div class="share-wrap" style="display: none;">
+    <div class="share-group">
+        <a href="javascript:;" class="share-plain qq" onclick="share('qq');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-qq"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain qzone" onclick="share('qzone');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-star"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weixin pop style-plain" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weixin"></i>
+            </div>
+            <div class="share-int">
+                <div class="qrcode" id="wechat-qr"></div>
+                <p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weibo" onclick="share('weibo');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weibo"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain facebook style-plain" onclick="share('facebook');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-facebook"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain twitter style-plain" onclick="share('twitter');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-twitter"></i>
+            </div>
+        </a>
+    </div>
+    <script type="text/javascript">
+        $(()=>{
+            new QRCode("wechat-qr", {
+                text: "http://example.com/2020/11/18/Class2/",
+                width: 150,
+                height: 150,
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+        function share(dest) {
+            const qqBase        = "https://connect.qq.com/widget/shareqq/index.html?";
+            const weiboBase     = "https://service.weibo.com/share/share.php?";
+            const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+            const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
+            const twitterBase   = "https://twitter.com/intent/tweet?";
+            const hostUrl       = "http://example.com/2020/11/18/Class2/";
+            const title         = "「Java常用类2」";
+            const excerpt       = `JDK8之前日期时间API获取系统当前时间：System类中的currentTimeMillis()1234long time = System.currentTimeMillis();//返回当前时间与1970年1月1日0时0分0秒...`;
+            let _URL;
+            switch (dest) {
+                case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
+                case "weibo"    : _URL = weiboBase+"url="+hostUrl+"&title="+title+excerpt;                                 break;
+                case "qzone"    : _URL = qzoneBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";  break;
+                case "facebook" : _URL = facebookBase+"u="+hostUrl;                                                        break;
+                case "twitter"  : _URL = twitterBase+"text="+title+excerpt+"&url="+hostUrl;                                break;
+            }
+            window.open(_URL);
+        };
+    </script>
+</div>
+                
+                </div>
+            
+            <div class="footer-tag clearfix">
+                <div class="pull-left">
+                <i class="fa fa-tags"></i>
+                    
+                </div>
+                <div class="pull-date">
+                <span>最后编辑：2021-03-20</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+        <nav class="navigation post-navigation clearfix" role="navigation">
+            
+            <div class="nav-previous clearfix">
+                <a title=" Java常用类1" href="/2020/11/16/Class1/">&lt; 上一篇</a>
+            </div>
+            
+            
+            <div class="nav-next clearfix">
+                <a title=" 枚举类和注解" href="/2020/11/21/枚举类和注解/">下一篇 &gt;</a>
+            </div>
+            
+        </nav>
+    
+    
+</article>
+        </section>
+
+                
+            
+
+<section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
+    <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
+    
+    
+                <aside id="krw-about" class="widget widget-kratos-about clearfix">
+    <div class="photo-background"></div>
+    <div class="photo-wrapper clearfix">
+        <div class="photo-wrapper-tip text-center">
+            <img class="about-photo" src="/images/avatar.webp" />
+        </div>
+    </div>
+    <div class="textwidget">
+        <p class="text-center">永远不要放弃自己的理想主义！</p>
+    </div>
+</aside>
+            
+                    <div class="sticky-area">
+                
+                    <aside id="krw-toc" class="widget widget-kratos-toc clearfix">
+    <div class="photo-background"></div>
+    <h4 class="widget-title no-after">
+        <i class="fa fa-compass"></i>
+        文章目录
+        <span class="toc-progress-bar"></span>
+    </h4>
+    <div class="textwidget">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JDK8%E4%B9%8B%E5%89%8D%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4API"><span class="toc-text">JDK8之前日期时间API</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E7%B3%BB%E7%BB%9F%E5%BD%93%E5%89%8D%E6%97%B6%E9%97%B4%EF%BC%9ASystem%E7%B1%BB%E4%B8%AD%E7%9A%84currentTimeMillis"><span class="toc-text">获取系统当前时间：System类中的currentTimeMillis()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#java-util-Date%E7%B1%BB%E4%B8%8Ejava-sql-Date%E7%B1%BB"><span class="toc-text">java.util.Date类与java.sql.Date类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#java-text-SimpleDataFormat%E7%B1%BB"><span class="toc-text">java.text.SimpleDataFormat类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SimpleDateFormat%E6%97%A5%E6%9C%9F-%E6%97%B6%E9%97%B4%E6%A0%BC%E5%BC%8F%E6%A8%A1%E5%BC%8F%E5%8F%82%E6%95%B0"><span class="toc-text">SimpleDateFormat日期-时间格式模式参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Calendar%E7%B1%BB%EF%BC%9A%E6%97%A5%E5%8E%86%E7%B1%BB%E3%80%81%E6%8A%BD%E8%B1%A1%E7%B1%BB"><span class="toc-text">Calendar类：日历类、抽象类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B%E5%8C%96"><span class="toc-text">实例化</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F%E4%B8%80%EF%BC%9A%E5%88%9B%E5%BB%BA%E5%85%B6%E5%AD%90%E7%B1%BBGregorianCalendar%E7%9A%84%E5%AF%B9%E8%B1%A1"><span class="toc-text">方式一：创建其子类GregorianCalendar的对象</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%EF%BC%9A"><span class="toc-text">常用方法：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JDK8%E4%B8%AD%E6%96%B0%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4API"><span class="toc-text">JDK8中新日期时间API</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4API%E8%BF%AD%E4%BB%A3"><span class="toc-text">日期时间API迭代</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E4%B8%A4%E4%BB%A3%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98%E4%B8%BE%E4%BE%8B"><span class="toc-text">前两代存在的问题举例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#java-8-%E4%B8%AD%E6%96%B0%E7%9A%84%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4API%E6%B6%89%E5%8F%8A%E5%88%B0%E7%9A%84%E5%8C%85"><span class="toc-text">java 8 中新的日期时间API涉及到的包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E6%97%A5%E6%9C%9F%E3%80%81%E6%9C%AC%E5%9C%B0%E6%97%B6%E9%97%B4%E3%80%81%E6%9C%AC%E5%9C%B0%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4%E7%9A%84%E4%BD%BF%E7%94%A8%EF%BC%9ALocalDate-LocalTime-LocalDateTime"><span class="toc-text">本地日期、本地时间、本地日期时间的使用：LocalDate &#x2F; LocalTime &#x2F; LocalDateTime</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E7%82%B9%EF%BC%9AInstant"><span class="toc-text">时间点：Instant</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4%E6%A0%BC%E5%BC%8F%E5%8C%96%E7%B1%BB%EF%BC%9ADateTimeFormatter"><span class="toc-text">日期时间格式化类：DateTimeFormatter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%A6%E6%97%B6%E5%8C%BA%E7%9A%84%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4%EF%BC%9AZonedDateTime-ZoneId"><span class="toc-text">带时区的日期时间：ZonedDateTime &#x2F; ZoneId</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E9%97%B4%E9%9A%94%EF%BC%9ADuration%E2%80%93%E7%94%A8%E4%BA%8E%E8%AE%A1%E7%AE%97%E4%B8%A4%E4%B8%AA%E2%80%9C%E6%97%B6%E9%97%B4%E2%80%9D%E9%97%B4%E9%9A%94%EF%BC%8C%E4%BB%A5%E7%A7%92%E5%92%8C%E7%BA%B3%E7%A7%92%E4%B8%BA%E5%9F%BA%E5%87%86"><span class="toc-text">时间间隔：Duration–用于计算两个“时间”间隔，以秒和纳秒为基准</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4%E6%A0%A1%E6%AD%A3%E5%99%A8%EF%BC%9ATemporalAdjuster"><span class="toc-text">日期时间校正器：TemporalAdjuster</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java%E6%AF%94%E8%BE%83%E5%99%A8"><span class="toc-text">Java比较器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E6%AF%94%E8%BE%83%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8%E8%83%8C%E6%99%AF"><span class="toc-text">Java比较器的使用背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E7%84%B6%E6%8E%92%E5%BA%8F%EF%BC%9A%E4%BD%BF%E7%94%A8Comparable%E6%8E%A5%E5%8F%A3"><span class="toc-text">自然排序：使用Comparable接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E5%88%B6%E6%8E%92%E5%BA%8F%EF%BC%9A%E4%BD%BF%E7%94%A8Comparator%E6%8E%A5%E5%8F%A3"><span class="toc-text">定制排序：使用Comparator接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%A4%E7%A7%8D%E6%8E%92%E5%BA%8F%E6%96%B9%E5%BC%8F%E5%AF%B9%E6%AF%94"><span class="toc-text">两种排序方式对比</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E7%B1%BB"><span class="toc-text">其他类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#System%E7%B1%BB"><span class="toc-text">System类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Math%E7%B1%BB"><span class="toc-text">Math类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BigInteger%E3%80%81BigDecimal%E7%B1%BB"><span class="toc-text">BigInteger、BigDecimal类</span></a></li></ol></li></ol>
+    </div>
+</aside>
+                
+                
+  <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
+    <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Error/">Error</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JDBC/">JDBC</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-Web/">Java Web</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SSM/">SSM</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ssm/">ssm</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%91%E5%B9%B4%E3%81%AE%E6%97%A5%E5%B8%B8/">少年の日常</a><span class="category-list-count">2</span></li></ul>
+  </aside>
+
+
+            
+                
+  <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
+    <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
+      <div class="tag-clouds">
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 0.6em;">数据结构</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 0.6em;">算法</a>
+      </div>
+  </aside>
+
+            
+                
+  <aside id="krw-posts" class="widget widget-kratos-posts">
+  <h4 class="widget-title"><i class="fa fa-file"></i>最新文章</h4>
+  <div class="tab-content">
+      <ul class="list-group">
+        
+        
+          
+          
+            <a class="list-group-item" href="/2021/06/09/202169-%E5%93%88%E5%B8%8C%E8%A1%A8/"><i class="fa  fa-book"></i> 哈希表</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/06/09/202169-%E4%BA%8C%E5%8F%89%E6%A0%91/"><i class="fa  fa-book"></i> 二叉树</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/06/04/202164-%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95/"><i class="fa  fa-book"></i> 查找算法</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/06/02/202162-%E9%80%92%E5%BD%92/"><i class="fa  fa-book"></i> 递归</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/06/02/202162-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/"><i class="fa  fa-book"></i> 排序算法</a>
+            
+          
+        
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+      </ul>
+  </div>
+  </aside>
+
+            
+    </div>
+</section>
+        
+        </div>
+    </div>
+</div>
+<footer>
+    <div id="footer"  class="ap-lrc"  >
+        <div class="kr-tool text-center">
+            <div class="tool">
+                
+                    <div class="box search-box">
+                        <a href="/search/">
+                            <span class="fa fa-search"></span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="box theme-box" id="darkmode-switch">
+                        <span class="fa fa-adjust"></span>
+                    </div>
+                
+                
+            </div>
+            <div class="box gotop-box">
+                <span class="fa fa-chevron-up"></span>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 footer-list text-center">
+                    <ul class="kratos-social-icons">
+                        
+                        <li><a href="mailto:1922856021@qq.com"><i class="fa fa-envelope"></i></a></li>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    </ul>
+                    <ul class="kratos-copyright">
+                        <div>
+                            <li>&copy; 2021 青い栞 版权所有.</li>
+                            <li>本站已运行<span id="span_dt">Loading...</span></li>
+                        </div>
+                        <div>
+                            <li>Theme <a href="https://github.com/Candinya/Kratos-Rebirth" target="_blank">Kratos:Rebirth</a></li>
+                            <li>Site built with&nbsp;<i class="fa fa-heart throb" style="color:#d43f57"></i>&nbsp;by FunnyLs.</li>
+                        </div>
+                        <div>
+                            <li>Powered by <a href="https://hexo.io" target="_blank" rel="nofollow">Hexo</a></li>
+                            <li>Hosted on <a href="https://github.io" target="_blank">Github Pages</a></li>
+                        </div>
+                        <div>
+                            
+                            
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+
+        <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.4/dist/js/bootstrap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+<script>const notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));</script>
+
+    <div>
+        <canvas id="snow"></canvas>
+        <script async type="text/javascript" src="/js/snow.min.js"></script>
+    </div>
+
+<script async src="/js/candy.min.js"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+    <meting-js
+        server="netease"
+        type="playlist"
+        id="3204190542"
+        order="random"
+        fixed="true"
+    >
+    </meting-js>
+
+
+
+    <script defer src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script defer src="/js/kratosr.min.js"></script>
+<script defer src="/js/pjax.min.js"></script>
+
+
+    <script defer src="/js/kr-dark.min.js"></script>
+
+
+
+<!-- Extra support for third-party plguins  -->
+
+
+    </body>
+</html>

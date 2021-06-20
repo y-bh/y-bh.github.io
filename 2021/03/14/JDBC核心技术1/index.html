@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+  <!-- 元数据 -->
+  <meta charset="utf-8">
+  <link rel="icon" href="">
+  <title>JDBC核心技术1 | 青い栞</title>
+  <meta name="author" content="FunnyLs" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index,follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="format-detection" content="telphone=no, email=no" />
+  
+    <meta name="keywords" content="" />
+  
+  <meta name="description" content="JDBC概述数据的持久化 持久化(persistece)：把数据保存到可掉电式存储设备中以供之后使用。大多数情况下，特别是企业级应用，数据持久化意味着将内存中的数据保存到硬盘上加以“固化”，而持久化的实现过程大多通过各种关系数据库来完成。  持久化的主要应用是将内存中的数据存储在关系型数据库中，当然也可以存在磁盘文件、XML数据文件中。   Java中的数据存储技术在Java中，数据库存取技术可分">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JDBC核心技术1">
+<meta property="og:url" content="http://example.com/2021/03/14/JDBC%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1/index.html">
+<meta property="og:site_name" content="青い栞">
+<meta property="og:description" content="JDBC概述数据的持久化 持久化(persistece)：把数据保存到可掉电式存储设备中以供之后使用。大多数情况下，特别是企业级应用，数据持久化意味着将内存中的数据保存到硬盘上加以“固化”，而持久化的实现过程大多通过各种关系数据库来完成。  持久化的主要应用是将内存中的数据存储在关系型数据库中，当然也可以存在磁盘文件、XML数据文件中。   Java中的数据存储技术在Java中，数据库存取技术可分">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/null">
+<meta property="article:published_time" content="2021-03-13T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-03-23T08:30:42.903Z">
+<meta property="article:author" content="FunnyLs">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/null">
+<meta name="twitter:site" content="@null">
+  
+  <!-- 站点验证相关 -->
+  
+    
+    
+    
+  
+  <!-- 样式表文件 -->
+  <link rel="stylesheet" id="kratos-css" href="/css/kratosr.min.css" type="text/css" media="all">
+  
+    <link rel="stylesheet" id="highlight-css" href="/css/highlight/night-blue.min.css" type="text/css" media="all">
+  
+  
+  <link rel="stylesheet" id="fontawe-css" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" type="text/css" media="all">
+  <link rel="stylesheet" id="nprogress-css" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" type="text/css" media="all">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+  
+  
+    <link rel="stylesheet" id="darkmode-css" href="/css/kr-dark.min.css" type="text/css" media="all">
+  
+  <!-- 不得不预先加载的一些JS文件 -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+    <body class="custom-background">
+        <div id="kratos-wrapper">
+    <div id="kratos-page">
+        <div id="kratos-header">
+            <header id="kratos-desktop-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="nav-header">
+                        <nav id="kratos-menu-wrap">
+                            <ul id="kratos-primary-menu" class="sf-menu">
+                                
+                                    
+                                        <li><a href="/"><i class="fa fa-home"></i>首页</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/archives/"><i class="fa fa-file"></i>档案馆</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/friends/"></a></li>
+                                    
+                                
+                                    
+                                        <li>
+                                            <a><i class="fa fa-link"></i>链接</a>
+                                            <ul class="sub-menu">
+                                                
+                                                    
+                                                
+                                                    
+                                                        <li><a target="_blank" rel="noopener" href="https://candinya.com">作者博客</a></li>
+                                                    
+                                                
+                                                    
+                                                        <li><a target="_blank" rel="noopener" href="https://github.com/Candinya/Kratos-Rebirth">项目链接</a></li>
+                                                    
+                                                
+                                            </ul>
+                                        </li>
+                                    
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <header id="kratos-mobile-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="color-logo"><a href="/">青い栞</a></div>
+                    <div class="nav-toggle">
+                        <a class="kratos-nav-toggle js-kratos-nav-toggle">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="kratos-start kratos-hero-2">
+            <!-- <div class="kratos-overlay"></div> -->
+            <div class="kratos-cover kratos-cover-2 text-center">
+                <div class="desc desc2 animate-box">
+                    <a href="/">
+                        <h2>青い栞</h2> <br />
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="kratos-blog-post">
+            <div class="container">
+                <div id="main" class="row">
+                    
+
+        <section class="col-md-8">
+            <article>
+    <div class="kratos-hentry kratos-post-inner clearfix">
+        <header class="kratos-entry-header">
+            
+                <h1 class="kratos-entry-title text-center">JDBC核心技术1</h1>
+            
+            
+            <ul class="kratos-post-meta text-center">
+                <li><i class="fa fa-calendar"></i> 2021-03-14</li>
+                <li><i class="fa fa-user"></i> 作者 FunnyLs</li>
+                <li>
+                    <i class="fa fa-edit"></i> 
+                    
+                    
+                        ~15.71K
+                    
+                    字
+                </li>
+                
+            </ul>
+        </header>
+        <div class="kratos-post-content">
+            <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                本文最后编辑于 <time datetime="1616488242903"></time> 前，其中的内容可能需要更新。
+            </div>
+            
+                <div class="kratos-post-inner-toc">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JDBC%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">JDBC概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%9A%84%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-number">1.1.</span> <span class="toc-text">数据的持久化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E6%8A%80%E6%9C%AF"><span class="toc-number">1.2.</span> <span class="toc-text">Java中的数据存储技术</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JDBC%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.3.</span> <span class="toc-text">JDBC介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JDBC%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="toc-number">1.4.</span> <span class="toc-text">JDBC体系结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JDBC%E7%A8%8B%E5%BA%8F%E7%BC%96%E5%86%99%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.5.</span> <span class="toc-text">JDBC程序编写步骤</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5"><span class="toc-number">2.</span> <span class="toc-text">获取数据库连接</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A6%81%E7%B4%A0%E4%B8%80%EF%BC%9ADriver%E6%8E%A5%E5%8F%A3%E5%AE%9E%E7%8E%B0%E7%B1%BB"><span class="toc-number">2.1.</span> <span class="toc-text">要素一：Driver接口实现类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Driver%E6%8E%A5%E5%8F%A3%E4%BB%8B%E7%BB%8D"><span class="toc-number">2.1.1.</span> <span class="toc-text">Driver接口介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A0%E8%BD%BD%E4%B8%8E%E6%B3%A8%E5%86%8CJDBC%E9%A9%B1%E5%8A%A8"><span class="toc-number">2.1.2.</span> <span class="toc-text">加载与注册JDBC驱动</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A6%81%E7%B4%A0%E4%BA%8C%EF%BC%9AURL"><span class="toc-number">2.2.</span> <span class="toc-text">要素二：URL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A6%81%E7%B4%A0%E4%B8%89%EF%BC%9A%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81"><span class="toc-number">2.3.</span> <span class="toc-text">要素三：用户名和密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F%E4%B8%BE%E4%BE%8B"><span class="toc-number">2.4.</span> <span class="toc-text">数据库连接方式举例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F%E4%B8%80%EF%BC%9A"><span class="toc-number">2.4.1.</span> <span class="toc-text">方式一：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F%E4%BA%8C%EF%BC%9A"><span class="toc-number">2.4.2.</span> <span class="toc-text">方式二：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F%E4%B8%89"><span class="toc-number">2.4.3.</span> <span class="toc-text">方式三:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F%E5%9B%9B%EF%BC%9A"><span class="toc-number">2.4.4.</span> <span class="toc-text">方式四：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F%E4%BA%94%EF%BC%88%E6%8E%A8%E8%8D%90%E4%BD%BF%E7%94%A8%EF%BC%89%EF%BC%9A"><span class="toc-number">2.4.5.</span> <span class="toc-text">方式五（推荐使用）：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8PreparedStatement%E5%AE%9E%E7%8E%B0CRUD%E6%93%8D%E4%BD%9C"><span class="toc-number">3.</span> <span class="toc-text">使用PreparedStatement实现CRUD操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E5%92%8C%E8%AE%BF%E9%97%AE%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">3.1.</span> <span class="toc-text">操作和访问数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Statement%E6%93%8D%E4%BD%9C%E6%95%B0%E6%8D%AE%E8%A1%A8%E7%9A%84%E5%BC%8A%E7%AB%AF"><span class="toc-number">3.2.</span> <span class="toc-text">使用Statement操作数据表的弊端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PreparedStatement%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">3.3.</span> <span class="toc-text">PreparedStatement的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#PreparedStatement%E4%BB%8B%E7%BB%8D"><span class="toc-number">3.3.1.</span> <span class="toc-text">PreparedStatement介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PreparedStatement-vs-Statement"><span class="toc-number">3.3.2.</span> <span class="toc-text">PreparedStatement vs Statement</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Java%E4%B8%8ESQL%E5%AF%B9%E5%BA%94%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E8%A1%A8"><span class="toc-number">3.3.3.</span> <span class="toc-text">Java与SQL对应数据类型转换表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8PreparedStatement%E5%AE%9E%E7%8E%B0%E5%A2%9E%E3%80%81%E5%88%A0%E3%80%81%E6%94%B9%E6%93%8D%E4%BD%9C"><span class="toc-number">3.3.4.</span> <span class="toc-text">使用PreparedStatement实现增、删、改操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8PreparedStatement%E5%AE%9E%E7%8E%B0%E6%9F%A5%E8%AF%A2%E6%93%8D%E4%BD%9C"><span class="toc-number">3.3.5.</span> <span class="toc-text">使用PreparedStatement实现查询操作</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ResultSet%E4%B8%8EResultSetMetaData"><span class="toc-number">3.4.</span> <span class="toc-text">ResultSet与ResultSetMetaData</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ResultSet"><span class="toc-number">3.4.1.</span> <span class="toc-text">ResultSet</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ResultSetMetaData"><span class="toc-number">3.4.2.</span> <span class="toc-text">ResultSetMetaData</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B5%84%E6%BA%90%E7%9A%84%E9%87%8A%E6%94%BE"><span class="toc-number">4.</span> <span class="toc-text">资源的释放</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JDBC-API%E5%B0%8F%E7%BB%93"><span class="toc-number">5.</span> <span class="toc-text">JDBC API小结</span></a></li></ol>
+                </div>
+            
+            <hr />
+            <h2 id="JDBC概述"><a href="#JDBC概述" class="headerlink" title="JDBC概述"></a>JDBC概述</h2><h3 id="数据的持久化"><a href="#数据的持久化" class="headerlink" title="数据的持久化"></a>数据的持久化</h3><ul>
+<li><p>持久化(persistece)：<strong>把数据保存到可掉电式存储设备中以供之后使用。</strong>大多数情况下，特别是企业级应用，<strong>数据持久化意味着将内存中的数据保存到硬盘上</strong>加以“固化”，<strong>而持久化的实现过程大多通过各种关系数据库来完成。</strong></p>
+</li>
+<li><p>持久化的主要应用是将内存中的数据存储在关系型数据库中，当然也可以存在磁盘文件、XML数据文件中。</p>
+</li>
+</ul>
+<h3 id="Java中的数据存储技术"><a href="#Java中的数据存储技术" class="headerlink" title="Java中的数据存储技术"></a>Java中的数据存储技术</h3><p>在Java中，数据库存取技术可分为如下几类：</p>
+<ol>
+<li>JDBC直接访问数据库</li>
+<li>JDO(Java Data Object)技术</li>
+<li>第三方O/R工具，如Hibernate，Mybatis等</li>
+</ol>
+<p><strong>JDBC是java访问数据库的基石</strong>，JDO，Hibernate、Mybatis等只是更好的封装了JDBC</p>
+<h3 id="JDBC介绍"><a href="#JDBC介绍" class="headerlink" title="JDBC介绍"></a>JDBC介绍</h3><p><strong>JDBC(Java Database Connectivity)是一个独立于特定数据库管理系统，通用的SQL数据库存取和操作的公共接口</strong>（一组API），定义了用来访问数据库的标准java类库，（java.sql.javax.sql）使用这些类库可以以一种标准的方法，方便的访问数据库资源。</p>
+<p>JDBC为访问不同的数据库提供了一种统一的途径，为开发者屏蔽了一些细节问题。</p>
+<p>JDBC的目标是使java程序员使用JDBC可以连接任何提供了JDBC驱动程序的数据库系统，这样就使得程序员无需对特定的数据库系统的特点有过多了解，从而大大简化和加快了开发过程。</p>
+<p>总结：java应用程序直接访问数据库可行，<strong>但这意味着java应用程序没有更好的可移植性</strong>。因此并不建议这么做。</p>
+<h3 id="JDBC体系结构"><a href="#JDBC体系结构" class="headerlink" title="JDBC体系结构"></a>JDBC体系结构</h3><p><strong>JDBC是sun公司提供一套用于数据库操作的接口，java程序员只需要面向这套接口编程即可。</strong></p>
+<p><strong>不同的数据库厂商，需要针对这套接口，提供不同实现。不同的实现的集合，即为不同数据库的驱动。</strong></p>
+<p>​                                                        <strong>————面向接口编程</strong></p>
+<p>JDBC接口(API)包括两个层次：</p>
+<ol>
+<li><strong>面向应用API</strong>：Java API，抽象接口，供应用程序开发人员使用(连接数据库，执行SQL语句，获得结果)。</li>
+<li><strong>面向数据库API</strong>：Java Driver API，供开发商开发数据库驱动程序用。</li>
+</ol>
+<h3 id="JDBC程序编写步骤"><a href="#JDBC程序编写步骤" class="headerlink" title="JDBC程序编写步骤"></a>JDBC程序编写步骤</h3><hr>
+<p>开始——》导入java.sql包——》</p>
+<p><strong>两种方式：</strong></p>
+<ul>
+<li>SQL Server：JDBC-ODBC桥方式（建立数据源）</li>
+<li>Oracle、Mysql：纯Java驱动方式（附加相应产商提供的驱动）</li>
+</ul>
+<p>——》加载并注册驱动程序——》创建Connection对象——》创建Statement对象——》执行SQL语句——》</p>
+<p><strong>不同功能：</strong></p>
+<ul>
+<li>查询：使用ResultSet对象——》关闭ResultSet对象——》关闭Statement对象——》关闭Connection对象——》结束。</li>
+<li>更新：关闭Statement对象</li>
+</ul>
+<p>——》关闭Connection对象——》结束。</p>
+<hr>
+<p>补充：ODBC（Open Database Conectivity,开放式数据库连接），是微软在Windows平台下推出的。使用者在程序中只需要调用ODBC API，由ODBC驱动程序将调用转换成为对特定的数据库的调用请求。</p>
+<h2 id="获取数据库连接"><a href="#获取数据库连接" class="headerlink" title="获取数据库连接"></a>获取数据库连接</h2><h3 id="要素一：Driver接口实现类"><a href="#要素一：Driver接口实现类" class="headerlink" title="要素一：Driver接口实现类"></a>要素一：Driver接口实现类</h3><h4 id="Driver接口介绍"><a href="#Driver接口介绍" class="headerlink" title="Driver接口介绍"></a>Driver接口介绍</h4><ul>
+<li><p>java.sql.Driver 接口是所有 JDBC 驱动程序需要实现的接口。这个接口是提供给数据库厂商使用的，不同数据库厂商提供不同的实现。</p>
+</li>
+<li><p>在程序中不需要直接去访问实现了 Driver 接口的类，而是由驱动程序管理器类(java.sql.DriverManager)去调用这些Driver实现。</p>
+<ul>
+<li>Oracle的驱动：oracle.jdbc.driver.OracleDriver</li>
+<li>Mysql的驱动：com.mysql.jdbc.Driver</li>
+</ul>
+</li>
+</ul>
+<p>将连接数据库所需的jar包拷贝到Java工程的一个目录中，习惯上新建一个lib文件夹存入。</p>
+<p>在驱动jar上右键–&gt;Build Path–&gt;Add to Build Path。</p>
+<p>注意：如果是Dynamic Web Project（动态的web项目）话，则是把驱动jar放到WebContent（有的开发工具叫WebRoot）目录中的WEB-INF目录中的lib目录下即可</p>
+<h4 id="加载与注册JDBC驱动"><a href="#加载与注册JDBC驱动" class="headerlink" title="加载与注册JDBC驱动"></a>加载与注册JDBC驱动</h4><ul>
+<li><p>加载驱动：加载 JDBC 驱动需调用 Class 类的静态方法 forName()，向其传递要加载的 JDBC 驱动的类名</p>
+</li>
+<li><p>Class.forName(“com.mysql.jdbc.Driver”);</p>
+</li>
+<li><p>注册驱动：DriverManager 类是驱动程序管理器类，负责管理驱动程序</p>
+<ul>
+<li><p>使用DriverManager.registerDriver(com.mysql.jdbc.Driver)来驱动注册</p>
+</li>
+<li><p>通常不用显式调用DriverManager类的registerDriver()方法来注册驱动程序类的实例，因为Driver接口的驱动程序类都包含了静态代码块，在这个静态代码块中，会调用DriverManager.registerDriver()方法来注册自身的一个实例。</p>
+</li>
+<li><p>Mysql的Driver实现类的源码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Driver</span> <span class="keyword">extends</span> <span class="title">NonRegisteringDriver</span> <span class="keyword">implements</span> <span class="title">java</span>.<span class="title">sql</span>.<span class="title">Driver</span></span>&#123;</span><br><span class="line"><span class="comment">//Register ourseleves with the DriverManager</span></span><br><span class="line"><span class="keyword">static</span>&#123;</span><br><span class="line">	<span class="keyword">try</span>&#123;</span><br><span class="line">	java.sql.DriverManager.registerDriver(<span class="keyword">new</span> Driver());</span><br><span class="line">	&#125;<span class="keyword">catch</span> (SQLException E)&#123;</span><br><span class="line">	<span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;Can&#x27;t register driver!&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h3 id="要素二：URL"><a href="#要素二：URL" class="headerlink" title="要素二：URL"></a>要素二：URL</h3><ul>
+<li>JDBC URL 用于标识一个被注册的驱动程序，驱动程序管理器通过这个 URL 选择正确的驱动程序，从而建立到数据库的连接。</li>
+<li>JDBC URL的标准由三部分组成，各部分间用冒号分隔。 <ul>
+<li><strong>jdbc:子协议:子名称</strong></li>
+<li><strong>协议</strong>：JDBC URL中的协议总是jdbc </li>
+<li><strong>子协议</strong>：子协议用于标识一个数据库驱动程序</li>
+<li><strong>子名称</strong>：一种标识数据库的方法。子名称可以依不同的子协议而变化，用子名称的目的是为了<strong>定位数据库</strong>提供足够的信息。包含<strong>主机名</strong>(对应服务端的ip地址)<strong>，端口号，数据库名</strong></li>
+</ul>
+</li>
+</ul>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jdbc:mysql:<span class="comment">//localhost:3306/test</span></span><br><span class="line">协议  子协议       子名称</span><br></pre></td></tr></table></figure>
+
+<p><strong>几种常用数据库的 JDBC URL</strong></p>
+<ol>
+<li>MySQL的连接URL编写方式：<ul>
+<li>jdbc:mysql://主机名称:mysql服务端口号/数据库名称?参数=值&amp;参数=值</li>
+<li>jdbc:mysql://localhost:3306/test</li>
+<li>jdbc:mysql://localhost:3306/test**?useUnicode=true&amp;characterEncoding=utf8**（如果JDBC程序与服务器端的字符集不一致，会导致乱码，那么可以通过参数指定服务器端的字符集）</li>
+<li>jdbc:mysql://localhost:3306/test?user=用户名&amp;password=密码</li>
+</ul>
+</li>
+<li>Oracle9i的连接URL编写方式：<ul>
+<li>jdbc:oracle:thin:@主机名称:oracle服务端口号:数据库名称</li>
+<li>jdbc:oracle:thin:@localhost:1521:test</li>
+</ul>
+</li>
+<li>SQLServer的连接URL编写方式：<ul>
+<li>jdbc:sqlserver://主机名称:sqlserver服务端口号:DatabaseName=数据库名称</li>
+<li>jdbc:sqlserver://localhost:1433:DatabaseName=test</li>
+</ul>
+</li>
+</ol>
+<h3 id="要素三：用户名和密码"><a href="#要素三：用户名和密码" class="headerlink" title="要素三：用户名和密码"></a>要素三：用户名和密码</h3><p>user,password可以用“<strong>属性名=属性值</strong>”方式告诉数据库</p>
+<p>可以<strong>调用DriverManager类的getConnection()方法</strong>建立到数据库的连接</p>
+<h3 id="数据库连接方式举例"><a href="#数据库连接方式举例" class="headerlink" title="数据库连接方式举例"></a>数据库连接方式举例</h3><h4 id="方式一："><a href="#方式一：" class="headerlink" title="方式一："></a>方式一：</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testConnection1</span><span class="params">()</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">  <span class="comment">// 获取Driver实现类对象</span></span><br><span class="line">  Driver driver = <span class="keyword">new</span> com.mysql.cj.jdbc.Driver();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// url:http://localhost:8080/gmall/keyboard.jpg</span></span><br><span class="line">  <span class="comment">// jdbc:mysql:协议</span></span><br><span class="line">  <span class="comment">// localhost:ip地址</span></span><br><span class="line">  <span class="comment">// 3306：默认mysql的端口号</span></span><br><span class="line">  <span class="comment">// test:test数据库</span></span><br><span class="line">  String url = <span class="string">&quot;jdbc:mysql://localhost:3306/test&quot;</span>;</span><br><span class="line">  <span class="comment">// 将用户名和密码封装在Properties中</span></span><br><span class="line">  Properties info = <span class="keyword">new</span> Properties();</span><br><span class="line">  info.setProperty(<span class="string">&quot;user&quot;</span>, <span class="string">&quot;root&quot;</span>);</span><br><span class="line">  info.setProperty(<span class="string">&quot;password&quot;</span>, <span class="string">&quot;abc123&quot;</span>);</span><br><span class="line"></span><br><span class="line">  Connection conn = driver.connect(url, info);</span><br><span class="line"></span><br><span class="line">  System.out.println(conn);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>说明：上述代码中显式出现了第三方数据库的API</p>
+<h4 id="方式二："><a href="#方式二：" class="headerlink" title="方式二："></a>方式二：</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testConnection2</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">  <span class="comment">// 1.获取Driver实现类对象：使用反射</span></span><br><span class="line">  Class clazz = Class.forName(<span class="string">&quot;com.mysql.cj.jdbc.Driver&quot;</span>);</span><br><span class="line">  Driver driver = (Driver) clazz.newInstance();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 2.提供要连接的数据库</span></span><br><span class="line">  String url = <span class="string">&quot;jdbc:mysql://localhost:3306/test&quot;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 3.提供连接需要的用户名和密码</span></span><br><span class="line">  Properties info = <span class="keyword">new</span> Properties();</span><br><span class="line">  info.setProperty(<span class="string">&quot;user&quot;</span>, <span class="string">&quot;root&quot;</span>);</span><br><span class="line">  info.setProperty(<span class="string">&quot;password&quot;</span>, <span class="string">&quot;abc123&quot;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 4.获取连接</span></span><br><span class="line">  Connection conn = driver.connect(url, info);</span><br><span class="line">  System.out.println(conn);</span><br><span class="line"></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>说明：相较于方式一，这里使用反射实例化Driver，不在代码中体现第三方数据库的API。体现了面向接口编程思想。</p>
+<h4 id="方式三"><a href="#方式三" class="headerlink" title="方式三:"></a>方式三:</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testConnection3</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">  <span class="comment">// 1.获取Driver实现类的对象</span></span><br><span class="line">  Class clazz = Class.forName(<span class="string">&quot;com.mysql.jdbc.Driver&quot;</span>);</span><br><span class="line">  Driver driver = (Driver) clazz.newInstance();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 2.提供另外三个连接的基本信息：</span></span><br><span class="line">  String url = <span class="string">&quot;jdbc:mysql://localhost:3306/test&quot;</span>;</span><br><span class="line">  String user = <span class="string">&quot;root&quot;</span>;</span><br><span class="line">  String password = <span class="string">&quot;abc123&quot;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 3.注册驱动</span></span><br><span class="line">  DriverManager.registerDriver(driver);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 4.获取连接</span></span><br><span class="line">  Connection conn = DriverManager.getConnection(url, user, password);</span><br><span class="line">  System.out.println(conn);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>说明：使用DriverManager实现数据库的连接。体会获取连接必要的4个基本要素。</p>
+<h4 id="方式四："><a href="#方式四：" class="headerlink" title="方式四："></a>方式四：</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testConnection4</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">  <span class="comment">// 1.提供三个连接的基本信息：</span></span><br><span class="line">  String url = <span class="string">&quot;jdbc:mysql://localhost:3306/test&quot;</span>;</span><br><span class="line">  String user = <span class="string">&quot;root&quot;</span>;</span><br><span class="line">  String password = <span class="string">&quot;abc123&quot;</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 2.加载Driver</span></span><br><span class="line">  Class.forName(<span class="string">&quot;com.mysql.jdbc.Driver&quot;</span>);</span><br><span class="line">  <span class="comment">//相较于方式三，可以省略如下的操作：</span></span><br><span class="line"><span class="comment">//  Driver driver = (Driver) clazz.newInstance();</span></span><br><span class="line"><span class="comment">//  // 注册驱动</span></span><br><span class="line"><span class="comment">//  DriverManager.registerDriver(driver);</span></span><br><span class="line">  <span class="comment">//为什么可以省略上述操作呢？</span></span><br><span class="line">  <span class="comment">/*</span></span><br><span class="line"><span class="comment">   * 在mysql的Driver实现类中，声明了如下的操作：</span></span><br><span class="line"><span class="comment">   * static &#123;</span></span><br><span class="line"><span class="comment">    try &#123;</span></span><br><span class="line"><span class="comment">     java.sql.DriverManager.registerDriver(new Driver());</span></span><br><span class="line"><span class="comment">    &#125; catch (SQLException E) &#123;</span></span><br><span class="line"><span class="comment">     throw new RuntimeException(&quot;Can&#x27;t register driver!&quot;);</span></span><br><span class="line"><span class="comment">    &#125;</span></span><br><span class="line"><span class="comment">   &#125;</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 3.获取连接</span></span><br><span class="line"> Connection conn = DriverManager.getConnection(url, user, password);</span><br><span class="line">  System.out.println(conn);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>说明：不必显式的注册驱动了。因为在DriverManager的源码中已经存在静态代码块，实现了驱动的注册。</p>
+<h4 id="方式五（推荐使用）："><a href="#方式五（推荐使用）：" class="headerlink" title="方式五（推荐使用）："></a>方式五（推荐使用）：</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getConnection5</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//1.读取配置文件中的4个基本信息</span></span><br><span class="line">		InputStream is = connectionTest.class.getClassLoader().getResourceAsStream(<span class="string">&quot;jdbc.properties&quot;</span>);</span><br><span class="line">		</span><br><span class="line">		Properties pros = <span class="keyword">new</span> Properties();</span><br><span class="line">		pros.load(is);</span><br><span class="line">		</span><br><span class="line">		String user = pros.getProperty(<span class="string">&quot;user&quot;</span>);</span><br><span class="line">		String password = pros.getProperty(<span class="string">&quot;password&quot;</span>);</span><br><span class="line">		String url = pros.getProperty(<span class="string">&quot;url&quot;</span>);</span><br><span class="line">		String driverClass = pros.getProperty(<span class="string">&quot;driverClass&quot;</span>);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//2.加载驱动</span></span><br><span class="line">		Class.forName(driverClass);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//3.获取连接</span></span><br><span class="line">		Connection conn = DriverManager.getConnection(url, user, password);</span><br><span class="line">		System.out.println(conn);</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中，配置文件声明在工程的src目录下：【jdbc.properties】</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">user</span>=<span class="string">root</span></span><br><span class="line"><span class="attr">password</span>=<span class="string">root</span></span><br><span class="line"><span class="attr">url</span>=<span class="string">jdbc:mysql://localhost:3306/test</span></span><br><span class="line"><span class="attr">driverClass</span>=<span class="string">com.mysql.cj.jdbc.Driver</span></span><br></pre></td></tr></table></figure>
+
+<p>说明：使用配置文件的方式保存配置信息，在代码中加载配置文件</p>
+<p>注意：MySQL8.0以下版本应改成：dirverClass=com.mysql.jdbc.Driver</p>
+<p><strong>使用配置文件的好处：</strong></p>
+<p>①实现了代码和数据的分离，如果需要修改配置信息，直接在配置文件中修改，不需要深入代码<br>②如果修改了配置信息，省去重新编译的过程。</p>
+<h2 id="使用PreparedStatement实现CRUD操作"><a href="#使用PreparedStatement实现CRUD操作" class="headerlink" title="使用PreparedStatement实现CRUD操作"></a>使用PreparedStatement实现CRUD操作</h2><h3 id="操作和访问数据库"><a href="#操作和访问数据库" class="headerlink" title="操作和访问数据库"></a>操作和访问数据库</h3><p>数据库连接被用于向数据库服务器发送命令和 SQL 语句，并接受数据库服务器返回的结果。其实一个数据库连接就是一个Socket连接。</p>
+<p>在 java.sql 包中有 3 个接口分别定义了对数据库的调用的不同方式：</p>
+<ol>
+<li>Statement：用于执行静态 SQL 语句并返回它所生成结果的对象。 </li>
+<li>PrepatedStatement：SQL 语句被预编译并存储在此对象中，可以使用此对象多次高效地执行该语句。</li>
+<li>CallableStatement：用于执行 SQL 存储过程</li>
+</ol>
+<h3 id="使用Statement操作数据表的弊端"><a href="#使用Statement操作数据表的弊端" class="headerlink" title="使用Statement操作数据表的弊端"></a>使用Statement操作数据表的弊端</h3><p>通过调用 Connection 对象的 createStatement() 方法创建该对象。该对象用于执行静态的 SQL 语句，并且返回执行结果。</p>
+<p>Statement 接口中定义了下列方法用于执行 SQL 语句：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> excuteUpdate(String <span class="keyword">sql</span>)：执行更新操作<span class="keyword">INSERT</span>、UPDATE、<span class="keyword">DELETE</span></span><br><span class="line">ResultSet executeQuery(String <span class="keyword">sql</span>)：执行查询操作<span class="keyword">SELECT</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>但是使用Statement操作数据表存在弊端：</p>
+<ol>
+<li>存在拼串操作，繁琐</li>
+<li>存在SQL注入问题</li>
+</ol>
+<p>SQL 注入是利用某些系统没有对用户输入的数据进行充分的检查，而在用户输入数据中注入非法的 SQL 语句段或命令(如：SELECT user, password FROM user_table WHERE user=’a’ OR 1 = ‘ AND password = ‘ OR ‘1’ = ‘1’) ，从而利用系统的 SQL 引擎完成恶意行为的做法。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StatementTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 使用Statement的弊端：需要拼写sql语句，并且存在SQL注入的问题</span></span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testLogin</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		Scanner scan = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line"></span><br><span class="line">		System.out.print(<span class="string">&quot;用户名：&quot;</span>);</span><br><span class="line">		String userName = scan.nextLine();</span><br><span class="line">		System.out.print(<span class="string">&quot;密   码：&quot;</span>);</span><br><span class="line">		String password = scan.nextLine();</span><br><span class="line"></span><br><span class="line">		<span class="comment">// SELECT user,password FROM user_table WHERE USER = &#x27;1&#x27; or &#x27; AND PASSWORD = &#x27;=&#x27;1&#x27; or &#x27;1&#x27; = &#x27;1&#x27;;</span></span><br><span class="line">		String sql = <span class="string">&quot;SELECT user,password FROM user_table WHERE USER = &#x27;&quot;</span> + userName + <span class="string">&quot;&#x27; AND PASSWORD = &#x27;&quot;</span> + password</span><br><span class="line">				+ <span class="string">&quot;&#x27;&quot;</span>;</span><br><span class="line">		User user = get(sql, User.class);</span><br><span class="line">		<span class="keyword">if</span> (user != <span class="keyword">null</span>) &#123;</span><br><span class="line">			System.out.println(<span class="string">&quot;登陆成功!&quot;</span>);</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			System.out.println(<span class="string">&quot;用户名或密码错误！&quot;</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 使用Statement实现对数据表的查询操作</span></span><br><span class="line">	<span class="keyword">public</span> &lt;T&gt; <span class="function">T <span class="title">get</span><span class="params">(String sql, Class&lt;T&gt; clazz)</span> </span>&#123;</span><br><span class="line">		T t = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">		Connection conn = <span class="keyword">null</span>;</span><br><span class="line">		Statement st = <span class="keyword">null</span>;</span><br><span class="line">		ResultSet rs = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="comment">// 1.加载配置文件</span></span><br><span class="line">			InputStream is = StatementTest.class.getClassLoader().getResourceAsStream(<span class="string">&quot;jdbc.properties&quot;</span>);</span><br><span class="line">			Properties pros = <span class="keyword">new</span> Properties();</span><br><span class="line">			pros.load(is);</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 2.读取配置信息</span></span><br><span class="line">			String user = pros.getProperty(<span class="string">&quot;user&quot;</span>);</span><br><span class="line">			String password = pros.getProperty(<span class="string">&quot;password&quot;</span>);</span><br><span class="line">			String url = pros.getProperty(<span class="string">&quot;url&quot;</span>);</span><br><span class="line">			String driverClass = pros.getProperty(<span class="string">&quot;driverClass&quot;</span>);</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 3.加载驱动</span></span><br><span class="line">			Class.forName(driverClass);</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 4.获取连接</span></span><br><span class="line">			conn = DriverManager.getConnection(url, user, password);</span><br><span class="line"></span><br><span class="line">			st = conn.createStatement();</span><br><span class="line"></span><br><span class="line">			rs = st.executeQuery(sql);</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 获取结果集的元数据</span></span><br><span class="line">			ResultSetMetaData rsmd = rs.getMetaData();</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 获取结果集的列数</span></span><br><span class="line">			<span class="keyword">int</span> columnCount = rsmd.getColumnCount();</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> (rs.next()) &#123;</span><br><span class="line"></span><br><span class="line">				t = clazz.newInstance();</span><br><span class="line"></span><br><span class="line">				<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; columnCount; i++) &#123;</span><br><span class="line">					<span class="comment">// //1. 获取列的名称</span></span><br><span class="line">					<span class="comment">// String columnName = rsmd.getColumnName(i+1);</span></span><br><span class="line"></span><br><span class="line">					<span class="comment">// 1. 获取列的别名</span></span><br><span class="line">					String columnName = rsmd.getColumnLabel(i + <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">					<span class="comment">// 2. 根据列名获取对应数据表中的数据</span></span><br><span class="line">					Object columnVal = rs.getObject(columnName);</span><br><span class="line"></span><br><span class="line">					<span class="comment">// 3. 将数据表中得到的数据，封装进对象</span></span><br><span class="line">					Field field = clazz.getDeclaredField(columnName);</span><br><span class="line">					field.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">					field.set(t, columnVal);</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">return</span> t;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">			<span class="comment">// 关闭资源</span></span><br><span class="line">			<span class="keyword">if</span> (rs != <span class="keyword">null</span>) &#123;</span><br><span class="line">				<span class="keyword">try</span> &#123;</span><br><span class="line">					rs.close();</span><br><span class="line">				&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> (st != <span class="keyword">null</span>) &#123;</span><br><span class="line">				<span class="keyword">try</span> &#123;</span><br><span class="line">					st.close();</span><br><span class="line">				&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> (conn != <span class="keyword">null</span>) &#123;</span><br><span class="line">				<span class="keyword">try</span> &#123;</span><br><span class="line">					conn.close();</span><br><span class="line">				&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于 Java 而言，要防范 SQL 注入，只要用 PreparedStatement(从Statement扩展而来) 取代 Statement 就可以了。</p>
+<h3 id="PreparedStatement的使用"><a href="#PreparedStatement的使用" class="headerlink" title="PreparedStatement的使用"></a>PreparedStatement的使用</h3><h4 id="PreparedStatement介绍"><a href="#PreparedStatement介绍" class="headerlink" title="PreparedStatement介绍"></a>PreparedStatement介绍</h4><ul>
+<li>可以通过调用 Connection 对象的 <strong>preparedStatement(String sql)</strong> 方法获取 PreparedStatement 对象</li>
+<li><strong>PreparedStatement 接口是 Statement 的子接口，它表示一条预编译过的 SQL 语句</strong></li>
+<li>PreparedStatement 对象所代表的 SQL 语句中的参数用问号(?)来表示，调用 PreparedStatement 对象的 setXxx() 方法来设置这些参数. setXxx() 方法有两个参数，第一个参数是要设置的 SQL 语句中的参数的索引(从 1 开始)，第二个是设置的 SQL 语句中的参数的值</li>
+</ul>
+<h4 id="PreparedStatement-vs-Statement"><a href="#PreparedStatement-vs-Statement" class="headerlink" title="PreparedStatement vs Statement"></a>PreparedStatement vs Statement</h4><ul>
+<li><p>代码的可读性和可维护性。</p>
+</li>
+<li><p><strong>PreparedStatement 能最大可能提高性能：</strong></p>
+<ul>
+<li>DBServer会对<strong>预编译</strong>语句提供性能优化。因为预编译语句有可能被重复调用，所以<u>语句在被DBServer的编译器编译后的执行代码被缓存下来，那么下次调用时只要是相同的预编译语句就不需要编译，只要将参数直接传入编译过的语句执行代码中就会得到执行。</u></li>
+<li>在statement语句中,即使是相同操作但因为数据内容不一样,所以整个语句本身不能匹配,没有缓存语句的意义.事实是没有数据库会对普通语句编译后的执行代码缓存。这样<u>每执行一次都要对传入的语句编译一次。</u></li>
+<li>(语法检查，语义检查，翻译成二进制命令，缓存)</li>
+</ul>
+</li>
+<li><p>PreparedStatement 可以防止 SQL 注入 </p>
+</li>
+</ul>
+<h4 id="Java与SQL对应数据类型转换表"><a href="#Java与SQL对应数据类型转换表" class="headerlink" title="Java与SQL对应数据类型转换表"></a>Java与SQL对应数据类型转换表</h4><table>
+<thead>
+<tr>
+<th>Java类型</th>
+<th>SQL类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>boolean</td>
+<td>BIT</td>
+</tr>
+<tr>
+<td>byte</td>
+<td>TINYINT</td>
+</tr>
+<tr>
+<td>short</td>
+<td>SMALLINT</td>
+</tr>
+<tr>
+<td>int</td>
+<td>INTEGER</td>
+</tr>
+<tr>
+<td>long</td>
+<td>BIGINT</td>
+</tr>
+<tr>
+<td>String</td>
+<td>CHAR,VARCHAR,LONGVARCHAR</td>
+</tr>
+<tr>
+<td>byte   array</td>
+<td>BINARY  ,    VAR BINARY</td>
+</tr>
+<tr>
+<td>java.sql.Date</td>
+<td>DATE</td>
+</tr>
+<tr>
+<td>java.sql.Time</td>
+<td>TIME</td>
+</tr>
+<tr>
+<td>java.sql.Timestamp</td>
+<td>TIMESTAMP</td>
+</tr>
+</tbody></table>
+<h4 id="使用PreparedStatement实现增、删、改操作"><a href="#使用PreparedStatement实现增、删、改操作" class="headerlink" title="使用PreparedStatement实现增、删、改操作"></a>使用PreparedStatement实现增、删、改操作</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//通用的增、删、改操作（体现一：增、删、改 ； 体现二：针对于不同的表）</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(String sql,Object ... args)</span></span>&#123;</span><br><span class="line">	Connection conn = <span class="keyword">null</span>;</span><br><span class="line">	PreparedStatement ps = <span class="keyword">null</span>;</span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		<span class="comment">//1.获取数据库的连接</span></span><br><span class="line">		conn = JDBCUtils.getConnection();</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//2.获取PreparedStatement的实例 (或：预编译sql语句)</span></span><br><span class="line">		ps = conn.prepareStatement(sql);</span><br><span class="line">		<span class="comment">//3.填充占位符</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; args.length;i++)&#123;</span><br><span class="line">			ps.setObject(i + <span class="number">1</span>, args[i]);</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//4.执行sql语句</span></span><br><span class="line">		ps.execute();</span><br><span class="line">	&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">		</span><br><span class="line">		e.printStackTrace();</span><br><span class="line">	&#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">		<span class="comment">//5.关闭资源</span></span><br><span class="line">		JDBCUtils.closeResource(conn, ps);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用PreparedStatement实现查询操作"><a href="#使用PreparedStatement实现查询操作" class="headerlink" title="使用PreparedStatement实现查询操作"></a>使用PreparedStatement实现查询操作</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 通用的针对于不同表的查询:返回一个对象 (version 1.0)</span></span><br><span class="line">	<span class="keyword">public</span> &lt;T&gt; <span class="function">T <span class="title">getInstance</span><span class="params">(Class&lt;T&gt; clazz, String sql, Object... args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">		Connection conn = <span class="keyword">null</span>;</span><br><span class="line">		PreparedStatement ps = <span class="keyword">null</span>;</span><br><span class="line">		ResultSet rs = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="comment">// 1.获取数据库连接</span></span><br><span class="line">			conn = JDBCUtils.getConnection();</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 2.预编译sql语句，得到PreparedStatement对象</span></span><br><span class="line">			ps = conn.prepareStatement(sql);</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 3.填充占位符</span></span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; args.length; i++) &#123;</span><br><span class="line">				ps.setObject(i + <span class="number">1</span>, args[i]);</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 4.执行executeQuery(),得到结果集：ResultSet</span></span><br><span class="line">			rs = ps.executeQuery();</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 5.得到结果集的元数据：ResultSetMetaData</span></span><br><span class="line">			ResultSetMetaData rsmd = rs.getMetaData();</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 6.通过ResultSetMetaData得到columnCount,columnLabel；通过ResultSet得到列值</span></span><br><span class="line">			<span class="keyword">int</span> columnCount = rsmd.getColumnCount();</span><br><span class="line">			<span class="keyword">if</span> (rs.next()) &#123;</span><br><span class="line">				T t = clazz.newInstance();</span><br><span class="line">				<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; columnCount; i++) &#123;<span class="comment">// 遍历每一个列</span></span><br><span class="line"></span><br><span class="line">					<span class="comment">// 获取列值</span></span><br><span class="line">					Object columnVal = rs.getObject(i + <span class="number">1</span>);</span><br><span class="line">					<span class="comment">// 获取列的别名:列的别名，使用类的属性名充当</span></span><br><span class="line">					String columnLabel = rsmd.getColumnLabel(i + <span class="number">1</span>);</span><br><span class="line">					<span class="comment">// 6.2使用反射，给对象的相应属性赋值</span></span><br><span class="line">					Field field = clazz.getDeclaredField(columnLabel);</span><br><span class="line">					field.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">					field.set(t, columnVal);</span><br><span class="line"></span><br><span class="line">				&#125;</span><br><span class="line"></span><br><span class="line">				<span class="keyword">return</span> t;</span><br><span class="line"></span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line"></span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">			<span class="comment">// 7.关闭资源</span></span><br><span class="line">			JDBCUtils.closeResource(conn, ps, rs);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>说明：使用PreparedStatement实现的查询操作可以替换Statement实现的查询操作，解决Statement拼串和SQL注入问题。</p>
+<h3 id="ResultSet与ResultSetMetaData"><a href="#ResultSet与ResultSetMetaData" class="headerlink" title="ResultSet与ResultSetMetaData"></a>ResultSet与ResultSetMetaData</h3><h4 id="ResultSet"><a href="#ResultSet" class="headerlink" title="ResultSet"></a>ResultSet</h4><ul>
+<li><p>查询需要调用PreparedStatement 的 executeQuery() 方法，查询结果是一个ResultSet 对象</p>
+</li>
+<li><p>ResultSet 对象以逻辑表格的形式封装了执行数据库操作的结果集，ResultSet 接口由数据库厂商提供实现</p>
+</li>
+<li><p>ResultSet 返回的实际上就是一张数据表。有一个指针指向数据表的第一条记录的前面。</p>
+</li>
+<li><p>ResultSet 对象维护了一个指向当前数据行的<strong>游标</strong>，初始的时候，游标在第一行之前，可以通过 ResultSet 对象的 next() 方法移动到下一行。调用 next()方法检测下一行是否有效。若有效，该方法返回 true，且指针下移。相当于Iterator对象的 hasNext() 和 next() 方法的结合体。</p>
+</li>
+<li><p>当指针指向一行时, 可以通过调用 getXxx(int index) 或 getXxx(int columnName) 获取每一列的值。</p>
+<ul>
+<li>例如: getInt(1), getString(“name”)</li>
+<li><strong>注意：Java与数据库交互涉及到的相关Java API中的索引都从1开始。</strong></li>
+</ul>
+</li>
+<li><p>ResultSet 接口的常用方法：</p>
+<ul>
+<li><p>boolean next()</p>
+</li>
+<li><p>getString()</p>
+</li>
+<li><p>…</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="ResultSetMetaData"><a href="#ResultSetMetaData" class="headerlink" title="ResultSetMetaData"></a>ResultSetMetaData</h4><ul>
+<li><p>可用于获取关于 ResultSet 对象中列的类型和属性信息的对象</p>
+</li>
+<li><p>ResultSetMetaData meta = rs.getMetaData();</p>
+<ul>
+<li><p><strong>getColumnName</strong>(int column)：获取指定列的名称</p>
+</li>
+<li><p><strong>getColumnLabel</strong>(int column)：获取指定列的别名</p>
+</li>
+<li><p><strong>getColumnCount</strong>()：返回当前 ResultSet 对象中的列数。 </p>
+</li>
+<li><p>getColumnTypeName(int column)：检索指定列的数据库特定的类型名称。 </p>
+</li>
+<li><p>getColumnDisplaySize(int column)：指示指定列的最大标准宽度，以字符为单位。 </p>
+</li>
+<li><p><strong>isNullable</strong>(int column)：指示指定列中的值是否可以为 null。 </p>
+</li>
+<li><p>isAutoIncrement(int column)：指示是否自动为指定列进行编号，这样这些列仍然是只读的。 </p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>问题1：得到结果集后, 如何知道该结果集中有哪些列 ？ 列名是什么？</strong></p>
+<p>​     需要使用一个描述 ResultSet 的对象， 即 ResultSetMetaData</p>
+<p><strong>问题2：关于ResultSetMetaData</strong></p>
+<ol>
+<li><p><strong>如何获取 ResultSetMetaData</strong>： </p>
+<p>调用 ResultSet 的 getMetaData() 方法即可</p>
+</li>
+<li><p><strong>获取 ResultSet 中有多少列</strong>：</p>
+<p>调用 ResultSetMetaData 的 getColumnCount() 方法</p>
+</li>
+<li><p><strong>获取 ResultSet 每一列的列的别名是什么</strong>：</p>
+<p>调用 ResultSetMetaData 的getColumnLabel() 方法</p>
+</li>
+</ol>
+<h2 id="资源的释放"><a href="#资源的释放" class="headerlink" title="资源的释放"></a>资源的释放</h2><ul>
+<li>释放ResultSet, Statement,Connection。</li>
+<li>数据库连接（Connection）是非常稀有的资源，用完后必须马上释放，如果Connection不能及时正确的关闭将导致系统宕机。Connection的使用原则是<strong>尽量晚创建，尽量早的释放。</strong></li>
+<li>可以在finally中关闭，保证及时其他代码出现异常，资源也一定能被关闭。</li>
+</ul>
+<h2 id="JDBC-API小结"><a href="#JDBC-API小结" class="headerlink" title="JDBC API小结"></a>JDBC API小结</h2><ul>
+<li><p>两种思想</p>
+<ul>
+<li><p>面向接口编程的思想</p>
+</li>
+<li><p>ORM思想(object relational mapping)</p>
+<ul>
+<li>一个数据表对应一个java类</li>
+<li>表中的一条记录对应java类的一个对象</li>
+<li>表中的一个字段对应java类的一个属性</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>sql是需要结合列名和表的属性名来写。注意起别名。</p>
+</blockquote>
+</li>
+<li><p>两种技术</p>
+<ul>
+<li>JDBC结果集的元数据：ResultSetMetaData<ul>
+<li>获取列数：getColumnCount()</li>
+<li>获取列的别名：getColumnLabel()</li>
+</ul>
+</li>
+<li>通过反射，创建指定类的对象，获取指定的属性并赋值</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+        
+            <div class="kratos-copyright text-center clearfix">
+                <h5>本作品采用 <a rel="license nofollow" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可</h5>
+            </div>
+        
+        <footer class="kratos-entry-footer clearfix">
+            
+                <div class="post-like-donate text-center clearfix" id="post-like-donate">
+                
+                
+                    <a class="share" href="javascript:;"><i class="fa fa-share-alt"></i> 分享</a>
+                    <div class="share-wrap" style="display: none;">
+    <div class="share-group">
+        <a href="javascript:;" class="share-plain qq" onclick="share('qq');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-qq"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain qzone" onclick="share('qzone');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-star"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weixin pop style-plain" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weixin"></i>
+            </div>
+            <div class="share-int">
+                <div class="qrcode" id="wechat-qr"></div>
+                <p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weibo" onclick="share('weibo');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weibo"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain facebook style-plain" onclick="share('facebook');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-facebook"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain twitter style-plain" onclick="share('twitter');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-twitter"></i>
+            </div>
+        </a>
+    </div>
+    <script type="text/javascript">
+        $(()=>{
+            new QRCode("wechat-qr", {
+                text: "http://example.com/2021/03/14/JDBC%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1/",
+                width: 150,
+                height: 150,
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+        function share(dest) {
+            const qqBase        = "https://connect.qq.com/widget/shareqq/index.html?";
+            const weiboBase     = "https://service.weibo.com/share/share.php?";
+            const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+            const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
+            const twitterBase   = "https://twitter.com/intent/tweet?";
+            const hostUrl       = "http://example.com/2021/03/14/JDBC%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF1/";
+            const title         = "「JDBC核心技术1」";
+            const excerpt       = `JDBC概述数据的持久化
+持久化(persistece)：把数据保存到可掉电式存储设备中以供之后使用。大多数情况下，特别是企业级应用，数据持久化意味着将内存中的数据保存到硬盘上加以“固化”，而持久化的实现过程大多通过各种关系数据库来完...`;
+            let _URL;
+            switch (dest) {
+                case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
+                case "weibo"    : _URL = weiboBase+"url="+hostUrl+"&title="+title+excerpt;                                 break;
+                case "qzone"    : _URL = qzoneBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";  break;
+                case "facebook" : _URL = facebookBase+"u="+hostUrl;                                                        break;
+                case "twitter"  : _URL = twitterBase+"text="+title+excerpt+"&url="+hostUrl;                                break;
+            }
+            window.open(_URL);
+        };
+    </script>
+</div>
+                
+                </div>
+            
+            <div class="footer-tag clearfix">
+                <div class="pull-left">
+                <i class="fa fa-tags"></i>
+                    
+                </div>
+                <div class="pull-date">
+                <span>最后编辑：2021-03-23</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+        <nav class="navigation post-navigation clearfix" role="navigation">
+            
+            <div class="nav-previous clearfix">
+                <a title=" 关于最近学习状态调整这件事" href="/2021/03/01/少年の日常02/">&lt; 上一篇</a>
+            </div>
+            
+            
+            <div class="nav-next clearfix">
+                <a title=" JDBC核心技术2" href="/2021/03/17/JDBC核心技术2/">下一篇 &gt;</a>
+            </div>
+            
+        </nav>
+    
+    
+</article>
+        </section>
+
+                
+            
+
+<section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
+    <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
+    
+    
+                <aside id="krw-about" class="widget widget-kratos-about clearfix">
+    <div class="photo-background"></div>
+    <div class="photo-wrapper clearfix">
+        <div class="photo-wrapper-tip text-center">
+            <img class="about-photo" src="/images/avatar.webp" />
+        </div>
+    </div>
+    <div class="textwidget">
+        <p class="text-center">永远不要放弃自己的理想主义！</p>
+    </div>
+</aside>
+            
+                    <div class="sticky-area">
+                
+                    <aside id="krw-toc" class="widget widget-kratos-toc clearfix">
+    <div class="photo-background"></div>
+    <h4 class="widget-title no-after">
+        <i class="fa fa-compass"></i>
+        文章目录
+        <span class="toc-progress-bar"></span>
+    </h4>
+    <div class="textwidget">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JDBC%E6%A6%82%E8%BF%B0"><span class="toc-text">JDBC概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%9A%84%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-text">数据的持久化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E6%8A%80%E6%9C%AF"><span class="toc-text">Java中的数据存储技术</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JDBC%E4%BB%8B%E7%BB%8D"><span class="toc-text">JDBC介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JDBC%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="toc-text">JDBC体系结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JDBC%E7%A8%8B%E5%BA%8F%E7%BC%96%E5%86%99%E6%AD%A5%E9%AA%A4"><span class="toc-text">JDBC程序编写步骤</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5"><span class="toc-text">获取数据库连接</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A6%81%E7%B4%A0%E4%B8%80%EF%BC%9ADriver%E6%8E%A5%E5%8F%A3%E5%AE%9E%E7%8E%B0%E7%B1%BB"><span class="toc-text">要素一：Driver接口实现类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Driver%E6%8E%A5%E5%8F%A3%E4%BB%8B%E7%BB%8D"><span class="toc-text">Driver接口介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A0%E8%BD%BD%E4%B8%8E%E6%B3%A8%E5%86%8CJDBC%E9%A9%B1%E5%8A%A8"><span class="toc-text">加载与注册JDBC驱动</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A6%81%E7%B4%A0%E4%BA%8C%EF%BC%9AURL"><span class="toc-text">要素二：URL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A6%81%E7%B4%A0%E4%B8%89%EF%BC%9A%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81"><span class="toc-text">要素三：用户名和密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F%E4%B8%BE%E4%BE%8B"><span class="toc-text">数据库连接方式举例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F%E4%B8%80%EF%BC%9A"><span class="toc-text">方式一：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F%E4%BA%8C%EF%BC%9A"><span class="toc-text">方式二：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F%E4%B8%89"><span class="toc-text">方式三:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F%E5%9B%9B%EF%BC%9A"><span class="toc-text">方式四：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F%E4%BA%94%EF%BC%88%E6%8E%A8%E8%8D%90%E4%BD%BF%E7%94%A8%EF%BC%89%EF%BC%9A"><span class="toc-text">方式五（推荐使用）：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8PreparedStatement%E5%AE%9E%E7%8E%B0CRUD%E6%93%8D%E4%BD%9C"><span class="toc-text">使用PreparedStatement实现CRUD操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E5%92%8C%E8%AE%BF%E9%97%AE%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-text">操作和访问数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Statement%E6%93%8D%E4%BD%9C%E6%95%B0%E6%8D%AE%E8%A1%A8%E7%9A%84%E5%BC%8A%E7%AB%AF"><span class="toc-text">使用Statement操作数据表的弊端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PreparedStatement%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-text">PreparedStatement的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#PreparedStatement%E4%BB%8B%E7%BB%8D"><span class="toc-text">PreparedStatement介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PreparedStatement-vs-Statement"><span class="toc-text">PreparedStatement vs Statement</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Java%E4%B8%8ESQL%E5%AF%B9%E5%BA%94%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E8%A1%A8"><span class="toc-text">Java与SQL对应数据类型转换表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8PreparedStatement%E5%AE%9E%E7%8E%B0%E5%A2%9E%E3%80%81%E5%88%A0%E3%80%81%E6%94%B9%E6%93%8D%E4%BD%9C"><span class="toc-text">使用PreparedStatement实现增、删、改操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8PreparedStatement%E5%AE%9E%E7%8E%B0%E6%9F%A5%E8%AF%A2%E6%93%8D%E4%BD%9C"><span class="toc-text">使用PreparedStatement实现查询操作</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ResultSet%E4%B8%8EResultSetMetaData"><span class="toc-text">ResultSet与ResultSetMetaData</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ResultSet"><span class="toc-text">ResultSet</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ResultSetMetaData"><span class="toc-text">ResultSetMetaData</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B5%84%E6%BA%90%E7%9A%84%E9%87%8A%E6%94%BE"><span class="toc-text">资源的释放</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JDBC-API%E5%B0%8F%E7%BB%93"><span class="toc-text">JDBC API小结</span></a></li></ol>
+    </div>
+</aside>
+                
+                
+  <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
+    <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Error/">Error</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JDBC/">JDBC</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-Web/">Java Web</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SSM/">SSM</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ssm/">ssm</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%91%E5%B9%B4%E3%81%AE%E6%97%A5%E5%B8%B8/">少年の日常</a><span class="category-list-count">2</span></li></ul>
+  </aside>
+
+
+            
+                
+  <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
+    <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
+      <div class="tag-clouds">
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 0.6em;">数据结构</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 0.6em;">算法</a>
+      </div>
+  </aside>
+
+            
+                
+  <aside id="krw-posts" class="widget widget-kratos-posts">
+  <h4 class="widget-title"><i class="fa fa-file"></i>最新文章</h4>
+  <div class="tab-content">
+      <ul class="list-group">
+        
+        
+          
+          
+            <a class="list-group-item" href="/2021/06/09/202169-%E5%93%88%E5%B8%8C%E8%A1%A8/"><i class="fa  fa-book"></i> 哈希表</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/06/09/202169-%E4%BA%8C%E5%8F%89%E6%A0%91/"><i class="fa  fa-book"></i> 二叉树</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/06/04/202164-%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95/"><i class="fa  fa-book"></i> 查找算法</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/06/02/202162-%E9%80%92%E5%BD%92/"><i class="fa  fa-book"></i> 递归</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/06/02/202162-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/"><i class="fa  fa-book"></i> 排序算法</a>
+            
+          
+        
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+      </ul>
+  </div>
+  </aside>
+
+            
+    </div>
+</section>
+        
+        </div>
+    </div>
+</div>
+<footer>
+    <div id="footer"  class="ap-lrc"  >
+        <div class="kr-tool text-center">
+            <div class="tool">
+                
+                    <div class="box search-box">
+                        <a href="/search/">
+                            <span class="fa fa-search"></span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="box theme-box" id="darkmode-switch">
+                        <span class="fa fa-adjust"></span>
+                    </div>
+                
+                
+            </div>
+            <div class="box gotop-box">
+                <span class="fa fa-chevron-up"></span>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 footer-list text-center">
+                    <ul class="kratos-social-icons">
+                        
+                        <li><a href="mailto:1922856021@qq.com"><i class="fa fa-envelope"></i></a></li>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    </ul>
+                    <ul class="kratos-copyright">
+                        <div>
+                            <li>&copy; 2021 青い栞 版权所有.</li>
+                            <li>本站已运行<span id="span_dt">Loading...</span></li>
+                        </div>
+                        <div>
+                            <li>Theme <a href="https://github.com/Candinya/Kratos-Rebirth" target="_blank">Kratos:Rebirth</a></li>
+                            <li>Site built with&nbsp;<i class="fa fa-heart throb" style="color:#d43f57"></i>&nbsp;by FunnyLs.</li>
+                        </div>
+                        <div>
+                            <li>Powered by <a href="https://hexo.io" target="_blank" rel="nofollow">Hexo</a></li>
+                            <li>Hosted on <a href="https://github.io" target="_blank">Github Pages</a></li>
+                        </div>
+                        <div>
+                            
+                            
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+
+        <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.4/dist/js/bootstrap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+<script>const notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));</script>
+
+    <div>
+        <canvas id="snow"></canvas>
+        <script async type="text/javascript" src="/js/snow.min.js"></script>
+    </div>
+
+<script async src="/js/candy.min.js"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+    <meting-js
+        server="netease"
+        type="playlist"
+        id="3204190542"
+        order="random"
+        fixed="true"
+    >
+    </meting-js>
+
+
+
+    <script defer src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script defer src="/js/kratosr.min.js"></script>
+<script defer src="/js/pjax.min.js"></script>
+
+
+    <script defer src="/js/kr-dark.min.js"></script>
+
+
+
+<!-- Extra support for third-party plguins  -->
+
+
+    </body>
+</html>

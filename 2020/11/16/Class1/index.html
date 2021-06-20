@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+  <!-- 元数据 -->
+  <meta charset="utf-8">
+  <link rel="icon" href="">
+  <title>Java常用类1 | 青い栞</title>
+  <meta name="author" content="FunnyLs" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index,follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="format-detection" content="telphone=no, email=no" />
+  
+    <meta name="keywords" content="" />
+  
+  <meta name="description" content="String类java.lang.String类的使用概述String：字符串，使用一对“”引起来表示。  String声明为final，不可被继承  String实现了Serializable接口：表示字符串是支持序列化的 实现了Comparable接口：表示String可以比较大小  String内部定义了final char[] value用于储存字符串数据  通过字面量的方式（区别于new">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java常用类1">
+<meta property="og:url" content="http://example.com/2020/11/16/Class1/index.html">
+<meta property="og:site_name" content="青い栞">
+<meta property="og:description" content="String类java.lang.String类的使用概述String：字符串，使用一对“”引起来表示。  String声明为final，不可被继承  String实现了Serializable接口：表示字符串是支持序列化的 实现了Comparable接口：表示String可以比较大小  String内部定义了final char[] value用于储存字符串数据  通过字面量的方式（区别于new">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/null">
+<meta property="article:published_time" content="2020-11-15T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-03-20T09:17:35.065Z">
+<meta property="article:author" content="FunnyLs">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/null">
+<meta name="twitter:site" content="@null">
+  
+  <!-- 站点验证相关 -->
+  
+    
+    
+    
+  
+  <!-- 样式表文件 -->
+  <link rel="stylesheet" id="kratos-css" href="/css/kratosr.min.css" type="text/css" media="all">
+  
+    <link rel="stylesheet" id="highlight-css" href="/css/highlight/night-blue.min.css" type="text/css" media="all">
+  
+  
+  <link rel="stylesheet" id="fontawe-css" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" type="text/css" media="all">
+  <link rel="stylesheet" id="nprogress-css" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" type="text/css" media="all">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+  
+  
+    <link rel="stylesheet" id="darkmode-css" href="/css/kr-dark.min.css" type="text/css" media="all">
+  
+  <!-- 不得不预先加载的一些JS文件 -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+    <body class="custom-background">
+        <div id="kratos-wrapper">
+    <div id="kratos-page">
+        <div id="kratos-header">
+            <header id="kratos-desktop-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="nav-header">
+                        <nav id="kratos-menu-wrap">
+                            <ul id="kratos-primary-menu" class="sf-menu">
+                                
+                                    
+                                        <li><a href="/"><i class="fa fa-home"></i>首页</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/archives/"><i class="fa fa-file"></i>档案馆</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/friends/"></a></li>
+                                    
+                                
+                                    
+                                        <li>
+                                            <a><i class="fa fa-link"></i>链接</a>
+                                            <ul class="sub-menu">
+                                                
+                                                    
+                                                
+                                                    
+                                                        <li><a target="_blank" rel="noopener" href="https://candinya.com">作者博客</a></li>
+                                                    
+                                                
+                                                    
+                                                        <li><a target="_blank" rel="noopener" href="https://github.com/Candinya/Kratos-Rebirth">项目链接</a></li>
+                                                    
+                                                
+                                            </ul>
+                                        </li>
+                                    
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <header id="kratos-mobile-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="color-logo"><a href="/">青い栞</a></div>
+                    <div class="nav-toggle">
+                        <a class="kratos-nav-toggle js-kratos-nav-toggle">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="kratos-start kratos-hero-2">
+            <!-- <div class="kratos-overlay"></div> -->
+            <div class="kratos-cover kratos-cover-2 text-center">
+                <div class="desc desc2 animate-box">
+                    <a href="/">
+                        <h2>青い栞</h2> <br />
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="kratos-blog-post">
+            <div class="container">
+                <div id="main" class="row">
+                    
+
+        <section class="col-md-8">
+            <article>
+    <div class="kratos-hentry kratos-post-inner clearfix">
+        <header class="kratos-entry-header">
+            
+                <h1 class="kratos-entry-title text-center">Java常用类1</h1>
+            
+            
+            <ul class="kratos-post-meta text-center">
+                <li><i class="fa fa-calendar"></i> 2020-11-16</li>
+                <li><i class="fa fa-user"></i> 作者 FunnyLs</li>
+                <li>
+                    <i class="fa fa-edit"></i> 
+                    
+                    
+                        ~7.57K
+                    
+                    字
+                </li>
+                
+            </ul>
+        </header>
+        <div class="kratos-post-content">
+            <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                本文最后编辑于 <time datetime="1616231855065"></time> 前，其中的内容可能需要更新。
+            </div>
+            
+                <div class="kratos-post-inner-toc">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#String%E7%B1%BB"><span class="toc-number">1.</span> <span class="toc-text">String类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#java-lang-String%E7%B1%BB%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">1.1.</span> <span class="toc-text">java.lang.String类的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#String%E7%9A%84%E4%B8%8D%E5%8F%AF%E5%8F%98%E6%80%A7"><span class="toc-number">1.1.2.</span> <span class="toc-text">String的不可变性</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%B4%E6%98%8E"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">说明</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9B%BE%E7%A4%BA"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">图示</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#String%E5%AE%9E%E4%BE%8B%E5%8C%96%E7%9A%84%E4%B8%8D%E5%90%8C%E6%96%B9%E5%BC%8F"><span class="toc-number">1.1.3.</span> <span class="toc-text">String实例化的不同方式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F%E8%AF%B4%E6%98%8E"><span class="toc-number">1.1.3.1.</span> <span class="toc-text">方式说明*</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8B%BC%E6%8E%A5%E6%96%B9%E5%BC%8F%E8%B5%8B%E5%80%BC%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="toc-number">1.1.4.</span> <span class="toc-text">字符串拼接方式赋值的对比</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AF%B9%E6%AF%94%E8%AF%B4%E6%98%8E"><span class="toc-number">1.1.4.1.</span> <span class="toc-text">对比说明</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">1.1.4.2.</span> <span class="toc-text">常用方法</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#String%E4%B8%8E%E5%85%B6%E4%BB%96%E7%BB%93%E6%9E%84%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.1.5.</span> <span class="toc-text">String与其他结构的转换</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%8E%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E3%80%81%E5%8C%85%E8%A3%85%E7%B1%BB%E4%B9%8B%E9%97%B4%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.1.5.1.</span> <span class="toc-text">与基本数据类型、包装类之间的转换</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%8E%E5%AD%97%E7%AC%A6%E6%95%B0%E7%BB%84%E4%B9%8B%E9%97%B4%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.1.5.2.</span> <span class="toc-text">与字符数组之间的转换</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%8EStringBuffer%E3%80%81StringBuilder%E4%B9%8B%E9%97%B4%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.1.5.3.</span> <span class="toc-text">与StringBuffer、StringBuilder之间的转换</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JVM%E4%B8%AD%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%B8%B8%E9%87%8F%E6%B1%A0%E5%AD%98%E6%94%BE%E4%BD%8D%E7%BD%AE%E8%AF%B4%E6%98%8E"><span class="toc-number">1.1.6.</span> <span class="toc-text">JVM中字符串常量池存放位置说明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E9%A2%98%E7%9B%AE%E8%80%83%E6%9F%A5"><span class="toc-number">1.1.7.</span> <span class="toc-text">算法题目考查</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#String%E3%80%81StringBuffer%E3%80%81StringBuilder%E4%B8%89%E8%80%85%E5%AF%B9%E6%AF%94"><span class="toc-number">1.1.8.</span> <span class="toc-text">String、StringBuffer、StringBuilder三者对比</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#StringBuffer%E5%92%8CStringBuilder%E7%9A%84%E5%86%85%E5%AD%98%E8%A7%A3%E6%9E%90"><span class="toc-number">1.1.9.</span> <span class="toc-text">StringBuffer和StringBuilder的内存解析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%B9%E6%AF%94String%E3%80%81StringBuffer%E3%80%81StringBuilder%E4%B8%89%E8%80%85%E7%9A%84%E6%89%A7%E8%A1%8C%E6%95%88%E7%8E%87"><span class="toc-number">1.1.10.</span> <span class="toc-text">对比String、StringBuffer、StringBuilder三者的执行效率</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#StringBuffer%E3%80%81StringBuilder%E4%B8%AD%E7%9A%84%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">1.1.11.</span> <span class="toc-text">StringBuffer、StringBuilder中的常用方法</span></a></li></ol></li></ol></li></ol>
+                </div>
+            
+            <hr />
+            <h2 id="String类"><a href="#String类" class="headerlink" title="String类"></a>String类</h2><h3 id="java-lang-String类的使用"><a href="#java-lang-String类的使用" class="headerlink" title="java.lang.String类的使用"></a>java.lang.String类的使用</h3><h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p><strong>String</strong>：字符串，使用一对“”引起来表示。</p>
+<ol>
+<li><p>String声明为final，不可被继承</p>
+</li>
+<li><p>String实现了Serializable接口：表示字符串是支持序列化的</p>
+<p>实现了Comparable接口：表示String可以比较大小</p>
+</li>
+<li><p>String内部定义了final char[] value用于储存字符串数据</p>
+</li>
+<li><p>通过字面量的方式（区别于new给一个字符串赋值，此时的字符串声明在字符串常量池中）</p>
+</li>
+<li><p>字符串常量池中不会储存相同内容（使用String类的equals()比较，返回true）的字符串。</p>
+</li>
+</ol>
+<h4 id="String的不可变性"><a href="#String的不可变性" class="headerlink" title="String的不可变性"></a>String的不可变性</h4><h5 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h5><ol>
+<li>当对字符串重新赋值时，需要重写指定内存区域赋值，不能使用原有的value进行赋值。</li>
+<li>当对现有字符串进行连续操作时，也需要重新指定内存区域赋值，不能使用原有的value进行赋值。</li>
+<li>当调用String的replace()方法修改指定字符或字符串时，也需要重新指定内存区域赋值，不能使用原有的value进行赋值。</li>
+</ol>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">String s1 = <span class="string">&quot;abc&quot;</span>;<span class="comment">//字面量的定义方式</span></span><br><span class="line">String s2 = <span class="string">&quot;abc&quot;</span>;</span><br><span class="line">s1 = <span class="string">&quot;hello&quot;</span>;</span><br><span class="line"></span><br><span class="line">System.out.println(s1 == s2);<span class="comment">//比较s1和s2的地址值</span></span><br><span class="line"></span><br><span class="line">System.out.println(s1);<span class="comment">//hello</span></span><br><span class="line">System.out.println(s2);<span class="comment">//abc</span></span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">&quot;*****************&quot;</span>);</span><br><span class="line"></span><br><span class="line">String s3 = <span class="string">&quot;abc&quot;</span>;</span><br><span class="line">s3 += <span class="string">&quot;def&quot;</span>;</span><br><span class="line">System.out.println(s3);<span class="comment">//abcdef</span></span><br><span class="line">System.out.println(s2);</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">&quot;*****************&quot;</span>);</span><br><span class="line"></span><br><span class="line">String s4 = <span class="string">&quot;abc&quot;</span>;</span><br><span class="line">String s5 = s4.replace(<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;m&#x27;</span>);</span><br><span class="line">System.out.println(s4);<span class="comment">//abc</span></span><br><span class="line">System.out.println(s5);<span class="comment">//mbc</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="图示"><a href="#图示" class="headerlink" title="图示"></a>图示</h5><p><a target="_blank" rel="noopener" href="https://imgchr.com/i/rfKCy8"><img src="https://s3.ax1x.com/2020/12/25/rfKCy8.png" alt="rfKCy8.png"></a></p>
+<h4 id="String实例化的不同方式"><a href="#String实例化的不同方式" class="headerlink" title="String实例化的不同方式"></a>String实例化的不同方式</h4><h5 id="方式说明"><a href="#方式说明" class="headerlink" title="方式说明*"></a>方式说明*</h5><p>方式一：通过字面量定义的方式</p>
+<p>方式二：通过new+构造器的方式</p>
+<p><strong>例如：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//通过字面量定义的方式：此时的s1和s2的数据javaEE声明在方法区中的字符串常量池中。</span></span><br><span class="line">String s1 = <span class="string">&quot;javaEE&quot;</span>;</span><br><span class="line">String s2 = <span class="string">&quot;javaEE&quot;</span>;</span><br><span class="line"><span class="comment">//通过new + 构造器的方式:此时的s3和s4保存的地址值，是数据在堆空间中开辟空间以后对应的地址值。</span></span><br><span class="line">String s3 = <span class="keyword">new</span> String(<span class="string">&quot;javaEE&quot;</span>);</span><br><span class="line">String s4 = <span class="keyword">new</span> String(<span class="string">&quot;javaEE&quot;</span>);</span><br><span class="line"></span><br><span class="line">System.out.println(s1 == s2);<span class="comment">//true</span></span><br><span class="line">System.out.println(s1 == s3);<span class="comment">//false</span></span><br><span class="line">System.out.println(s1 == s4);<span class="comment">//false</span></span><br><span class="line">System.out.println(s3 == s4);<span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>String s = new String(“abc”);方式创建对象，在内存中创建了几个对象？</strong><br>两个:一个是堆空间中new结构，另一个是char[]对应的常量池中的数据：”abc”</p>
+<p><strong>图示：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://imgchr.com/i/rfKPOS"><img src="https://s3.ax1x.com/2020/12/25/rfKPOS.png" alt="rfKPOS.png"></a></p>
+<h4 id="字符串拼接方式赋值的对比"><a href="#字符串拼接方式赋值的对比" class="headerlink" title="字符串拼接方式赋值的对比"></a>字符串拼接方式赋值的对比</h4><h5 id="对比说明"><a href="#对比说明" class="headerlink" title="对比说明"></a>对比说明</h5><ol>
+<li>常量与常量的拼接结果在常量池。且常量池中不会存在相同内容的常量。</li>
+<li>只要其中一个是变量，结果就在堆中。</li>
+<li>如果拼接的结果调用intern()方法，返回值就在常量池中</li>
+</ol>
+<p>举例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">String s1 = <span class="string">&quot;javaEE&quot;</span>;</span><br><span class="line">String s2 = <span class="string">&quot;hadoop&quot;</span>;</span><br><span class="line"></span><br><span class="line">String s3 = <span class="string">&quot;javaEEhadoop&quot;</span>;</span><br><span class="line">String s4 = <span class="string">&quot;javaEE&quot;</span> + <span class="string">&quot;hadoop&quot;</span>;</span><br><span class="line">String s5 = s1 + <span class="string">&quot;hadoop&quot;</span>;</span><br><span class="line">String s6 = <span class="string">&quot;javaEE&quot;</span> + s2;</span><br><span class="line">String s7 = s1 + s2;</span><br><span class="line"></span><br><span class="line">System.out.println(s3 == s4);<span class="comment">//true</span></span><br><span class="line">System.out.println(s3 == s5);<span class="comment">//false</span></span><br><span class="line">System.out.println(s3 == s6);<span class="comment">//false</span></span><br><span class="line">System.out.println(s3 == s7);<span class="comment">//false</span></span><br><span class="line">System.out.println(s5 == s6);<span class="comment">//false</span></span><br><span class="line">System.out.println(s5 == s7);<span class="comment">//false</span></span><br><span class="line">System.out.println(s6 == s7);<span class="comment">//false</span></span><br><span class="line"></span><br><span class="line">String s8 = s6.intern();<span class="comment">//返回值得到的s8使用的常量值中已经存在的“javaEEhadoop”</span></span><br><span class="line">System.out.println(s3 == s8);<span class="comment">//true</span></span><br><span class="line">****************************</span><br><span class="line">String s1 = <span class="string">&quot;javaEEhadoop&quot;</span>;</span><br><span class="line">String s2 = <span class="string">&quot;javaEE&quot;</span>;</span><br><span class="line">String s3 = s2 + <span class="string">&quot;hadoop&quot;</span>;</span><br><span class="line">System.out.println(s1 == s3);<span class="comment">//false</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">final</span> String s4 = <span class="string">&quot;javaEE&quot;</span>;<span class="comment">//s4:常量</span></span><br><span class="line">String s5 = s4 + <span class="string">&quot;hadoop&quot;</span>;</span><br><span class="line">System.out.println(s1 == s5);<span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h5><p>int length()：返回字符串的长度：return value.length</p>
+<p>char charAt(int index)：返回某索引处的字符return value[index]</p>
+<p>boolean isEmpty()：判断是否是空的字符串：return value.length ==0</p>
+<p>String tolowerCase()：使用默认语言环境，将String中的所有字符转换为小写</p>
+<p>String toUpperCase()：使用默认语言环境·，将String中的所有字符转换为大写</p>
+<p>String trim()：返回字符串的副本，忽略前导空白和尾部空白</p>
+<p>boolean equals(Object obj)：比较字符串的内容是否相同</p>
+<p>boolean equalsIgnoreCase(String anotherString)：与equals方法类似，忽略大小写</p>
+<p>String concat(String str)：将指定字符串链接到此字符串的结尾，等价于用“+”</p>
+<p>int compareTo(String anotherString)：比较两个字符串的大小</p>
+<p>String subString(int beginIndex)：返回一个新的字符串，它是此字符串从beginIndex开始截取到最后的·一个子字符串。</p>
+<p>String subString(int beginIndex,int endIndex)：返回一个新字符串，它是此字符串beginIndex开始截取到endIndex(不包含)的一个子字符串</p>
+<p>boolean endsWith(String suffix)：测试此字符串是否以指定的后缀结束</p>
+<p>boolean startsWith(String prefix)：测试此字符串是否以指定的前缀开始</p>
+<p>boolean startsWith(String prefix，int toffset)：测试此字符串从指定索引开始的子字符串是否以指定前缀开始</p>
+<p>boolean contains(CharSequence s)：当且仅当此字符串包含指定的char值返回序列时，返回true</p>
+<p>int indexOf(String str)：返回指定子字符串在此字符串中第一次出现处的索引</p>
+<p>int indexOf(String str，int fromIndex)：返回指定子字符串在此字符串中第一次出现处的索引，从指定的索引开始</p>
+<p>int lastIndexOf(String str)：返回指定子字符串在此字符串中最右边出现处的索引</p>
+<p>int lastIndexOf(String str，int fromIndex)：返回指定子字符串在此字符串中最后一次出现处的索引，从指定的索引开始反向搜索</p>
+<p>注：indexOf和lastIndexOf如果未找到都是返回-1</p>
+<p><strong>替换：</strong></p>
+<p>String replace(char oldChar，char newChar)：返回一个新的字符串，它是通过用newChar替换此字符串中出现的所有oldChar得到的。</p>
+<p>String repalce(CharSequence target,CharSequence replacement)：使用指定的字面值替换序列替换此字符串所匹配字面值目标序列的子字符串</p>
+<p>String replaceAll(String regex,String replacement)：使用给定的replacement替换此字符串匹配给定的正则表达式的<strong>子字符串</strong></p>
+<p>String replaceFirst(String regex,String replacement)：使用给定的replacement替换此字符串匹配给定的正则表达式的<strong>第一个子字符串</strong></p>
+<p><strong>匹配：</strong></p>
+<p>boolean matches(String regex)：告知此字符串是否匹配给定的正则表达式</p>
+<p><strong>切片：</strong></p>
+<p>String[] split(String regex)：根据给定正则表达式的匹配拆分此字符串</p>
+<p>String[] split(String regex,int limit)：根据匹配给定的正则表达式来拆分此字符串，最多不超过limit个，如果超过了，剩下的全部都放到最后的元素中</p>
+<h4 id="String与其他结构的转换"><a href="#String与其他结构的转换" class="headerlink" title="String与其他结构的转换"></a>String与其他结构的转换</h4><h5 id="与基本数据类型、包装类之间的转换"><a href="#与基本数据类型、包装类之间的转换" class="headerlink" title="与基本数据类型、包装类之间的转换"></a>与基本数据类型、包装类之间的转换</h5><p>String——&gt;基本数据类型、包装类：调用包装类的静态方法：parseXxx(str)</p>
+<p>基本数据类型、包装类——&gt;String：调用String重载的valueOf(xxx)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test1</span><span class="params">()</span></span>&#123;</span><br><span class="line">        String str1 = <span class="string">&quot;123&quot;</span>;</span><br><span class="line"><span class="comment">//        int num = (int)str1;//错误的</span></span><br><span class="line">        <span class="keyword">int</span> num = Integer.parseInt(str1);</span><br><span class="line"></span><br><span class="line">        String str2 = String.valueOf(num);<span class="comment">//&quot;123&quot;</span></span><br><span class="line">        String str3 = num + <span class="string">&quot;&quot;</span>;</span><br><span class="line"></span><br><span class="line">        System.out.println(str1 == str3);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="与字符数组之间的转换"><a href="#与字符数组之间的转换" class="headerlink" title="与字符数组之间的转换"></a>与字符数组之间的转换</h5><p>编码：Stirng——&gt;byte[]：调用String的getBytes()</p>
+<p>解码：byte[]——&gt;String：diaoyongString的构造器</p>
+<p>编码：字符串——&gt;字节（看得懂——&gt;看不懂的二进制数据）</p>
+<p>解码：编码的逆过程，字节——&gt;字符串（看不懂的二进制数据——&gt;看得懂）</p>
+<p>说明：解码时，要求解码使用的字符集必须与编码时使用的字符集一致，否则会出现乱码。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test3</span><span class="params">()</span> <span class="keyword">throws</span> UnsupportedEncodingException </span>&#123;</span><br><span class="line">    String str1 = <span class="string">&quot;abc123中国&quot;</span>;</span><br><span class="line">    <span class="keyword">byte</span>[] bytes = str1.getBytes();<span class="comment">//使用默认的字符集，进行编码。</span></span><br><span class="line">    System.out.println(Arrays.toString(bytes));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">byte</span>[] gbks = str1.getBytes(<span class="string">&quot;gbk&quot;</span>);<span class="comment">//使用gbk字符集进行编码。</span></span><br><span class="line">    System.out.println(Arrays.toString(gbks));</span><br><span class="line"></span><br><span class="line">    System.out.println(<span class="string">&quot;******************&quot;</span>);</span><br><span class="line"></span><br><span class="line">    String str2 = <span class="keyword">new</span> String(bytes);<span class="comment">//使用默认的字符集，进行解码。</span></span><br><span class="line">    System.out.println(str2);</span><br><span class="line"></span><br><span class="line">    String str3 = <span class="keyword">new</span> String(gbks);</span><br><span class="line">    System.out.println(str3);<span class="comment">//出现乱码。原因：编码集和解码集不一致！</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    String str4 = <span class="keyword">new</span> String(gbks, <span class="string">&quot;gbk&quot;</span>);</span><br><span class="line">    System.out.println(str4);<span class="comment">//没出现乱码。原因：编码集和解码集一致！</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="与StringBuffer、StringBuilder之间的转换"><a href="#与StringBuffer、StringBuilder之间的转换" class="headerlink" title="与StringBuffer、StringBuilder之间的转换"></a>与StringBuffer、StringBuilder之间的转换</h5><p><strong>String——&gt;StringBuffer、StringBuilder</strong>：调用StringBuffer、StringBuilder构造器</p>
+<p>StringBuffer、StringBuilder –&gt;String：</p>
+<p>  1.调用String构造器</p>
+<p>  2.StringBuffer、StringBuilder的toString()</p>
+<h4 id="JVM中字符串常量池存放位置说明"><a href="#JVM中字符串常量池存放位置说明" class="headerlink" title="JVM中字符串常量池存放位置说明"></a>JVM中字符串常量池存放位置说明</h4><p>jdk1.6：字符串常量池储存在方法区(永久区)</p>
+<p>jdk1.7：字符串常量池储存在堆空间</p>
+<p>jdk1.8：字符串常量池储存在方法区(元空间)</p>
+<h4 id="算法题目考查"><a href="#算法题目考查" class="headerlink" title="算法题目考查"></a>算法题目考查</h4><p>1.模拟一个trim方法，去除字符串两端的空格。</p>
+<p>2.将一个字符串进行反转。将字符串中指定部分进行反转。比如“abcdefg”反转为”abfedcg”</p>
+<p>3.获取一个字符串在另一个字符串中出现的次数。<br>      比如：获取“ ab”在 “abkkcadkabkebfkabkskab” 中出现的次数</p>
+<p>4.获取两个字符串中最大相同子串。比如：<br>   str1 = “abcwerthelloyuiodef“;str2 = “cvhellobnm”<br>   提示：将短的那个串进行长度依次递减的子串与较长的串比较。</p>
+<p>5.对字符串中字符进行自然顺序排序。<br> 提示：<br> 1字符串变成字符数组。<br> 2对数组排序，择，冒泡，Arrays.sort();<br> 3将排序后的数组变成字符串。</p>
+<h4 id="String、StringBuffer、StringBuilder三者对比"><a href="#String、StringBuffer、StringBuilder三者对比" class="headerlink" title="String、StringBuffer、StringBuilder三者对比"></a>String、StringBuffer、StringBuilder三者对比</h4><ul>
+<li>String:不可变的字符序列;底层使用char[]储存。</li>
+<li>StringBuffer:可变的字符序列；线程安全，效率低；底层使用char[]存储。</li>
+<li>StringBuilder:可变的字符序列；jdk5.0新增，线程不安全，效率高；底层使用char[]存储。</li>
+</ul>
+<h4 id="StringBuffer和StringBuilder的内存解析"><a href="#StringBuffer和StringBuilder的内存解析" class="headerlink" title="StringBuffer和StringBuilder的内存解析"></a>StringBuffer和StringBuilder的内存解析</h4><p>例如StringBuffer：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="keyword">new</span> String();<span class="comment">//char[] value = new char[0];</span></span><br><span class="line">String str1 = <span class="keyword">new</span> String(<span class="string">&quot;abc&quot;</span>);<span class="comment">//char[] value = new char[]&#123;&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;&#125;;</span></span><br><span class="line"></span><br><span class="line">StringBuffer sb1 = <span class="keyword">new</span> StringBuffer();<span class="comment">//char[] value = new char[16];底层创建了一个长度是16的数组。</span></span><br><span class="line">System.out.println(sb1.length());<span class="comment">//</span></span><br><span class="line">sb1.append(<span class="string">&#x27;a&#x27;</span>);<span class="comment">//value[0] = &#x27;a&#x27;;</span></span><br><span class="line">sb1.append(<span class="string">&#x27;b&#x27;</span>);<span class="comment">//value[1] = &#x27;b&#x27;;</span></span><br><span class="line"></span><br><span class="line">StringBuffer sb2 = <span class="keyword">new</span> StringBuffer(<span class="string">&quot;abc&quot;</span>);<span class="comment">//char[] value = new char[&quot;abc&quot;.length() + 16];</span></span><br><span class="line"><span class="comment">//问题1. System.out.println(sb2.length());//3</span></span><br><span class="line"><span class="comment">//问题2. 扩容问题:如果要添加的数据底层数组盛不下了，那就需要扩容底层的数组。</span></span><br><span class="line">         默认情况下，扩容为原来容量的<span class="number">2</span>倍 + <span class="number">2</span>，同时将原数组中的元素复制到新的数组中。</span><br></pre></td></tr></table></figure>
+
+<p>开发中建议使用：StringBuffer(int capacity) 或 StringBuilder(int capacity)</p>
+<h4 id="对比String、StringBuffer、StringBuilder三者的执行效率"><a href="#对比String、StringBuffer、StringBuilder三者的执行效率" class="headerlink" title="对比String、StringBuffer、StringBuilder三者的执行效率"></a>对比String、StringBuffer、StringBuilder三者的执行效率</h4><p>从高到低排列：StringBuilder &gt; StringBuffer &gt; String</p>
+<h4 id="StringBuffer、StringBuilder中的常用方法"><a href="#StringBuffer、StringBuilder中的常用方法" class="headerlink" title="StringBuffer、StringBuilder中的常用方法"></a>StringBuffer、StringBuilder中的常用方法</h4><p>增：append(xxx)</p>
+<p>删：delete(int start,int end)</p>
+<p>改：setCharAt(int n,char ch) /replace(int start,int end,String str)</p>
+<p>查：charAt(int n)</p>
+<p>插入：insert(int offset,xxx)</p>
+<p>长度：length()</p>
+<p>遍历：for()+charAt()/toString()</p>
+
+        </div>
+        
+            <div class="kratos-copyright text-center clearfix">
+                <h5>本作品采用 <a rel="license nofollow" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可</h5>
+            </div>
+        
+        <footer class="kratos-entry-footer clearfix">
+            
+                <div class="post-like-donate text-center clearfix" id="post-like-donate">
+                
+                
+                    <a class="share" href="javascript:;"><i class="fa fa-share-alt"></i> 分享</a>
+                    <div class="share-wrap" style="display: none;">
+    <div class="share-group">
+        <a href="javascript:;" class="share-plain qq" onclick="share('qq');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-qq"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain qzone" onclick="share('qzone');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-star"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weixin pop style-plain" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weixin"></i>
+            </div>
+            <div class="share-int">
+                <div class="qrcode" id="wechat-qr"></div>
+                <p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weibo" onclick="share('weibo');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weibo"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain facebook style-plain" onclick="share('facebook');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-facebook"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain twitter style-plain" onclick="share('twitter');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-twitter"></i>
+            </div>
+        </a>
+    </div>
+    <script type="text/javascript">
+        $(()=>{
+            new QRCode("wechat-qr", {
+                text: "http://example.com/2020/11/16/Class1/",
+                width: 150,
+                height: 150,
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+        function share(dest) {
+            const qqBase        = "https://connect.qq.com/widget/shareqq/index.html?";
+            const weiboBase     = "https://service.weibo.com/share/share.php?";
+            const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+            const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
+            const twitterBase   = "https://twitter.com/intent/tweet?";
+            const hostUrl       = "http://example.com/2020/11/16/Class1/";
+            const title         = "「Java常用类1」";
+            const excerpt       = `String类java.lang.String类的使用概述String：字符串，使用一对“”引起来表示。
+
+String声明为final，不可被继承
+
+String实现了Serializable接口：表示字符串是支持序列化的
+实现了C...`;
+            let _URL;
+            switch (dest) {
+                case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
+                case "weibo"    : _URL = weiboBase+"url="+hostUrl+"&title="+title+excerpt;                                 break;
+                case "qzone"    : _URL = qzoneBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";  break;
+                case "facebook" : _URL = facebookBase+"u="+hostUrl;                                                        break;
+                case "twitter"  : _URL = twitterBase+"text="+title+excerpt+"&url="+hostUrl;                                break;
+            }
+            window.open(_URL);
+        };
+    </script>
+</div>
+                
+                </div>
+            
+            <div class="footer-tag clearfix">
+                <div class="pull-left">
+                <i class="fa fa-tags"></i>
+                    
+                </div>
+                <div class="pull-date">
+                <span>最后编辑：2021-03-20</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+        <nav class="navigation post-navigation clearfix" role="navigation">
+            
+            <div class="nav-previous clearfix">
+                <a title=" 多线程" href="/2020/11/15/Thread/">&lt; 上一篇</a>
+            </div>
+            
+            
+            <div class="nav-next clearfix">
+                <a title=" Java常用类2" href="/2020/11/18/Class2/">下一篇 &gt;</a>
+            </div>
+            
+        </nav>
+    
+    
+</article>
+        </section>
+
+                
+            
+
+<section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
+    <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
+    
+    
+                <aside id="krw-about" class="widget widget-kratos-about clearfix">
+    <div class="photo-background"></div>
+    <div class="photo-wrapper clearfix">
+        <div class="photo-wrapper-tip text-center">
+            <img class="about-photo" src="/images/avatar.webp" />
+        </div>
+    </div>
+    <div class="textwidget">
+        <p class="text-center">永远不要放弃自己的理想主义！</p>
+    </div>
+</aside>
+            
+                    <div class="sticky-area">
+                
+                    <aside id="krw-toc" class="widget widget-kratos-toc clearfix">
+    <div class="photo-background"></div>
+    <h4 class="widget-title no-after">
+        <i class="fa fa-compass"></i>
+        文章目录
+        <span class="toc-progress-bar"></span>
+    </h4>
+    <div class="textwidget">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#String%E7%B1%BB"><span class="toc-text">String类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#java-lang-String%E7%B1%BB%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-text">java.lang.String类的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-text">概述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#String%E7%9A%84%E4%B8%8D%E5%8F%AF%E5%8F%98%E6%80%A7"><span class="toc-text">String的不可变性</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%B4%E6%98%8E"><span class="toc-text">说明</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9B%BE%E7%A4%BA"><span class="toc-text">图示</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#String%E5%AE%9E%E4%BE%8B%E5%8C%96%E7%9A%84%E4%B8%8D%E5%90%8C%E6%96%B9%E5%BC%8F"><span class="toc-text">String实例化的不同方式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F%E8%AF%B4%E6%98%8E"><span class="toc-text">方式说明*</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8B%BC%E6%8E%A5%E6%96%B9%E5%BC%8F%E8%B5%8B%E5%80%BC%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="toc-text">字符串拼接方式赋值的对比</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AF%B9%E6%AF%94%E8%AF%B4%E6%98%8E"><span class="toc-text">对比说明</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-text">常用方法</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#String%E4%B8%8E%E5%85%B6%E4%BB%96%E7%BB%93%E6%9E%84%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="toc-text">String与其他结构的转换</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%8E%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E3%80%81%E5%8C%85%E8%A3%85%E7%B1%BB%E4%B9%8B%E9%97%B4%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="toc-text">与基本数据类型、包装类之间的转换</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%8E%E5%AD%97%E7%AC%A6%E6%95%B0%E7%BB%84%E4%B9%8B%E9%97%B4%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="toc-text">与字符数组之间的转换</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%8EStringBuffer%E3%80%81StringBuilder%E4%B9%8B%E9%97%B4%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="toc-text">与StringBuffer、StringBuilder之间的转换</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JVM%E4%B8%AD%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%B8%B8%E9%87%8F%E6%B1%A0%E5%AD%98%E6%94%BE%E4%BD%8D%E7%BD%AE%E8%AF%B4%E6%98%8E"><span class="toc-text">JVM中字符串常量池存放位置说明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E9%A2%98%E7%9B%AE%E8%80%83%E6%9F%A5"><span class="toc-text">算法题目考查</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#String%E3%80%81StringBuffer%E3%80%81StringBuilder%E4%B8%89%E8%80%85%E5%AF%B9%E6%AF%94"><span class="toc-text">String、StringBuffer、StringBuilder三者对比</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#StringBuffer%E5%92%8CStringBuilder%E7%9A%84%E5%86%85%E5%AD%98%E8%A7%A3%E6%9E%90"><span class="toc-text">StringBuffer和StringBuilder的内存解析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%B9%E6%AF%94String%E3%80%81StringBuffer%E3%80%81StringBuilder%E4%B8%89%E8%80%85%E7%9A%84%E6%89%A7%E8%A1%8C%E6%95%88%E7%8E%87"><span class="toc-text">对比String、StringBuffer、StringBuilder三者的执行效率</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#StringBuffer%E3%80%81StringBuilder%E4%B8%AD%E7%9A%84%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-text">StringBuffer、StringBuilder中的常用方法</span></a></li></ol></li></ol></li></ol>
+    </div>
+</aside>
+                
+                
+  <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
+    <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Error/">Error</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JDBC/">JDBC</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-Web/">Java Web</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SSM/">SSM</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ssm/">ssm</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%91%E5%B9%B4%E3%81%AE%E6%97%A5%E5%B8%B8/">少年の日常</a><span class="category-list-count">2</span></li></ul>
+  </aside>
+
+
+            
+                
+  <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
+    <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
+      <div class="tag-clouds">
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 0.6em;">数据结构</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 0.6em;">算法</a>
+      </div>
+  </aside>
+
+            
+                
+  <aside id="krw-posts" class="widget widget-kratos-posts">
+  <h4 class="widget-title"><i class="fa fa-file"></i>最新文章</h4>
+  <div class="tab-content">
+      <ul class="list-group">
+        
+        
+          
+          
+            <a class="list-group-item" href="/2021/06/09/202169-%E5%93%88%E5%B8%8C%E8%A1%A8/"><i class="fa  fa-book"></i> 哈希表</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/06/09/202169-%E4%BA%8C%E5%8F%89%E6%A0%91/"><i class="fa  fa-book"></i> 二叉树</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/06/04/202164-%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95/"><i class="fa  fa-book"></i> 查找算法</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/06/02/202162-%E9%80%92%E5%BD%92/"><i class="fa  fa-book"></i> 递归</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/06/02/202162-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/"><i class="fa  fa-book"></i> 排序算法</a>
+            
+          
+        
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+      </ul>
+  </div>
+  </aside>
+
+            
+    </div>
+</section>
+        
+        </div>
+    </div>
+</div>
+<footer>
+    <div id="footer"  class="ap-lrc"  >
+        <div class="kr-tool text-center">
+            <div class="tool">
+                
+                    <div class="box search-box">
+                        <a href="/search/">
+                            <span class="fa fa-search"></span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="box theme-box" id="darkmode-switch">
+                        <span class="fa fa-adjust"></span>
+                    </div>
+                
+                
+            </div>
+            <div class="box gotop-box">
+                <span class="fa fa-chevron-up"></span>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 footer-list text-center">
+                    <ul class="kratos-social-icons">
+                        
+                        <li><a href="mailto:1922856021@qq.com"><i class="fa fa-envelope"></i></a></li>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    </ul>
+                    <ul class="kratos-copyright">
+                        <div>
+                            <li>&copy; 2021 青い栞 版权所有.</li>
+                            <li>本站已运行<span id="span_dt">Loading...</span></li>
+                        </div>
+                        <div>
+                            <li>Theme <a href="https://github.com/Candinya/Kratos-Rebirth" target="_blank">Kratos:Rebirth</a></li>
+                            <li>Site built with&nbsp;<i class="fa fa-heart throb" style="color:#d43f57"></i>&nbsp;by FunnyLs.</li>
+                        </div>
+                        <div>
+                            <li>Powered by <a href="https://hexo.io" target="_blank" rel="nofollow">Hexo</a></li>
+                            <li>Hosted on <a href="https://github.io" target="_blank">Github Pages</a></li>
+                        </div>
+                        <div>
+                            
+                            
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+
+        <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.4/dist/js/bootstrap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+<script>const notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));</script>
+
+    <div>
+        <canvas id="snow"></canvas>
+        <script async type="text/javascript" src="/js/snow.min.js"></script>
+    </div>
+
+<script async src="/js/candy.min.js"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+    <meting-js
+        server="netease"
+        type="playlist"
+        id="3204190542"
+        order="random"
+        fixed="true"
+    >
+    </meting-js>
+
+
+
+    <script defer src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script defer src="/js/kratosr.min.js"></script>
+<script defer src="/js/pjax.min.js"></script>
+
+
+    <script defer src="/js/kr-dark.min.js"></script>
+
+
+
+<!-- Extra support for third-party plguins  -->
+
+
+    </body>
+</html>

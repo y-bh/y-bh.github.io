@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+  <!-- 元数据 -->
+  <meta charset="utf-8">
+  <link rel="icon" href="">
+  <title>JSON&Ajax&i18n | 青い栞</title>
+  <meta name="author" content="FunnyLs" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index,follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="format-detection" content="telphone=no, email=no" />
+  
+    <meta name="keywords" content="" />
+  
+  <meta name="description" content="JSON简介JSON (JavaScript Object Notation) 是一种轻量级的数据交换格式。易于人阅读和编写。同时也易于机器解析和生成。JSON 采用完全独立于语言的文本格式，而且很多语言都提供了对 json 的支持（包括 C, C++, C#, Java, JavaScript, Perl, Python 等）。 这样就使得JSON成为理想的数据交换格式。  json是一种轻量级">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JSON&amp;Ajax&amp;i18n">
+<meta property="og:url" content="http://example.com/2021/04/18/JSON&Ajax&i18n/index.html">
+<meta property="og:site_name" content="青い栞">
+<meta property="og:description" content="JSON简介JSON (JavaScript Object Notation) 是一种轻量级的数据交换格式。易于人阅读和编写。同时也易于机器解析和生成。JSON 采用完全独立于语言的文本格式，而且很多语言都提供了对 json 的支持（包括 C, C++, C#, Java, JavaScript, Perl, Python 等）。 这样就使得JSON成为理想的数据交换格式。  json是一种轻量级">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/null">
+<meta property="article:published_time" content="2021-04-17T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-18T08:04:11.643Z">
+<meta property="article:author" content="FunnyLs">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/null">
+<meta name="twitter:site" content="@null">
+  
+  <!-- 站点验证相关 -->
+  
+    
+    
+    
+  
+  <!-- 样式表文件 -->
+  <link rel="stylesheet" id="kratos-css" href="/css/kratosr.min.css" type="text/css" media="all">
+  
+    <link rel="stylesheet" id="highlight-css" href="/css/highlight/night-blue.min.css" type="text/css" media="all">
+  
+  
+  <link rel="stylesheet" id="fontawe-css" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" type="text/css" media="all">
+  <link rel="stylesheet" id="nprogress-css" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" type="text/css" media="all">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+  
+  
+    <link rel="stylesheet" id="darkmode-css" href="/css/kr-dark.min.css" type="text/css" media="all">
+  
+  <!-- 不得不预先加载的一些JS文件 -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+    <body class="custom-background">
+        <div id="kratos-wrapper">
+    <div id="kratos-page">
+        <div id="kratos-header">
+            <header id="kratos-desktop-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="nav-header">
+                        <nav id="kratos-menu-wrap">
+                            <ul id="kratos-primary-menu" class="sf-menu">
+                                
+                                    
+                                        <li><a href="/"><i class="fa fa-home"></i>首页</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/archives/"><i class="fa fa-file"></i>档案馆</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/friends/"></a></li>
+                                    
+                                
+                                    
+                                        <li>
+                                            <a><i class="fa fa-link"></i>链接</a>
+                                            <ul class="sub-menu">
+                                                
+                                                    
+                                                
+                                                    
+                                                        <li><a target="_blank" rel="noopener" href="https://candinya.com">作者博客</a></li>
+                                                    
+                                                
+                                                    
+                                                        <li><a target="_blank" rel="noopener" href="https://github.com/Candinya/Kratos-Rebirth">项目链接</a></li>
+                                                    
+                                                
+                                            </ul>
+                                        </li>
+                                    
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <header id="kratos-mobile-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="color-logo"><a href="/">青い栞</a></div>
+                    <div class="nav-toggle">
+                        <a class="kratos-nav-toggle js-kratos-nav-toggle">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="kratos-start kratos-hero-2">
+            <!-- <div class="kratos-overlay"></div> -->
+            <div class="kratos-cover kratos-cover-2 text-center">
+                <div class="desc desc2 animate-box">
+                    <a href="/">
+                        <h2>青い栞</h2> <br />
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="kratos-blog-post">
+            <div class="container">
+                <div id="main" class="row">
+                    
+
+        <section class="col-md-8">
+            <article>
+    <div class="kratos-hentry kratos-post-inner clearfix">
+        <header class="kratos-entry-header">
+            
+                <h1 class="kratos-entry-title text-center">JSON&Ajax&i18n</h1>
+            
+            
+            <ul class="kratos-post-meta text-center">
+                <li><i class="fa fa-calendar"></i> 2021-04-18</li>
+                <li><i class="fa fa-user"></i> 作者 FunnyLs</li>
+                <li>
+                    <i class="fa fa-edit"></i> 
+                    
+                    
+                        ~17.59K
+                    
+                    字
+                </li>
+                
+            </ul>
+        </header>
+        <div class="kratos-post-content">
+            <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                本文最后编辑于 <time datetime="1618733051643"></time> 前，其中的内容可能需要更新。
+            </div>
+            
+                <div class="kratos-post-inner-toc">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JSON"><span class="toc-number">1.</span> <span class="toc-text">JSON</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JavaScript%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">1.2.</span> <span class="toc-text">JavaScript中的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#json%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-number">1.2.1.</span> <span class="toc-text">json的定义</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">示例</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#json%E8%AE%BF%E9%97%AE"><span class="toc-number">1.2.2.</span> <span class="toc-text">json访问</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B-1"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">示例</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#json%E4%B8%A4%E4%B8%AA%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">1.2.3.</span> <span class="toc-text">json两个常用方法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B-2"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">示例</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#json%E5%9C%A8Java%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">1.3.</span> <span class="toc-text">json在Java中的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#javaBean%E5%92%8Cjson%E7%9A%84%E4%BA%92%E8%BD%AC"><span class="toc-number">1.3.1.</span> <span class="toc-text">javaBean和json的互转</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#List%E5%92%8Cjson%E7%9A%84%E4%BA%92%E8%BD%AC"><span class="toc-number">1.3.2.</span> <span class="toc-text">List和json的互转</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#map%E5%92%8Cjson%E7%9A%84%E4%BA%92%E8%BD%AC"><span class="toc-number">1.3.3.</span> <span class="toc-text">map和json的互转</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AJAX%E8%AF%B7%E6%B1%82"><span class="toc-number">2.</span> <span class="toc-text">AJAX请求</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B-1"><span class="toc-number">2.1.</span> <span class="toc-text">简介</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B-3"><span class="toc-number">2.1.1.</span> <span class="toc-text">示例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jQuery%E4%B8%AD%E7%9A%84Ajax%E8%AF%B7%E6%B1%82"><span class="toc-number">2.2.</span> <span class="toc-text">jQuery中的Ajax请求</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ajax%E6%96%B9%E6%B3%95"><span class="toc-number">2.2.1.</span> <span class="toc-text">$.ajax方法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B-4"><span class="toc-number">2.2.1.1.</span> <span class="toc-text">示例</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#get%E6%96%B9%E6%B3%95%E5%92%8C-post%E6%96%B9%E6%B3%95"><span class="toc-number">2.2.2.</span> <span class="toc-text">$.get方法和$.post方法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B-5"><span class="toc-number">2.2.2.1.</span> <span class="toc-text">示例</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#getJSON%E6%96%B9%E6%B3%95"><span class="toc-number">2.2.3.</span> <span class="toc-text">$.getJSON方法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B-6"><span class="toc-number">2.2.3.1.</span> <span class="toc-text">示例</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A1%A8%E5%8D%95%E5%BA%8F%E5%88%97%E5%8C%96serialize"><span class="toc-number">2.2.4.</span> <span class="toc-text">表单序列化serialize()</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#i18n%E5%9B%BD%E9%99%85%E5%8C%96"><span class="toc-number">3.</span> <span class="toc-text">i18n国际化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B-2"><span class="toc-number">3.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E8%A6%81%E7%B4%A0"><span class="toc-number">3.2.</span> <span class="toc-text">相关要素</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Locale%E5%AF%B9%E8%B1%A1"><span class="toc-number">3.2.1.</span> <span class="toc-text">Locale对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Properties%E5%B1%9E%E6%80%A7%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">3.2.2.</span> <span class="toc-text">Properties属性配置文件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BD%E9%99%85%E5%8C%96%E8%B5%84%E6%BA%90-properties%E6%B5%8B%E8%AF%95"><span class="toc-number">3.3.</span> <span class="toc-text">国际化资源 properties测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E8%AF%B7%E6%B1%82%E5%A4%B4%E5%9B%BD%E9%99%85%E5%8C%96%E9%A1%B5%E9%9D%A2"><span class="toc-number">3.4.</span> <span class="toc-text">通过请求头国际化页面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E6%98%BE%E7%A4%BA%E7%9A%84%E9%80%89%E6%8B%A9%E8%AF%AD%E8%A8%80%E7%B1%BB%E5%9E%8B%E8%BF%9B%E8%A1%8C%E5%9B%BD%E9%99%85%E5%8C%96"><span class="toc-number">3.5.</span> <span class="toc-text">通过显示的选择语言类型进行国际化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JSTL%E6%A0%87%E7%AD%BE%E5%BA%93%E5%AE%9E%E7%8E%B0%E5%9B%BD%E9%99%85%E5%8C%96"><span class="toc-number">3.6.</span> <span class="toc-text">JSTL标签库实现国际化</span></a></li></ol></li></ol>
+                </div>
+            
+            <hr />
+            <h2 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>JSON (JavaScript Object Notation) 是一种轻量级的数据交换格式。易于人阅读和编写。同时也易于机器解析和生成。JSON 采用完全独立于语言的文本格式，而且很多语言都提供了对 json 的支持（包括 C, C++, C#, Java, JavaScript, Perl, Python 等）。 这样就使得JSON成为理想的数据交换格式。</p>
+<ul>
+<li>json是一种轻量级的数据交换格式</li>
+<li>轻量级指的是跟xml作比较</li>
+<li>数据交换指的是客户端和服务器之间业务数据的传递格式</li>
+</ul>
+<h3 id="JavaScript中的使用"><a href="#JavaScript中的使用" class="headerlink" title="JavaScript中的使用"></a>JavaScript中的使用</h3><h4 id="json的定义"><a href="#json的定义" class="headerlink" title="json的定义"></a>json的定义</h4><p>json 是由键值对组成，并且由花括号（大括号）包围。每个键由引号引起来，键和值之间使用冒号进行分隔， 多组键值对之间进行逗号进行分隔。</p>
+<h5 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> jsonObj = &#123;</span><br><span class="line"><span class="string">&quot;key1&quot;</span>:<span class="number">12</span>,</span><br><span class="line"><span class="string">&quot;key2&quot;</span>:<span class="string">&quot;abc&quot;</span>,</span><br><span class="line"><span class="string">&quot;key3&quot;</span>:<span class="literal">true</span>,</span><br><span class="line"><span class="string">&quot;key4&quot;</span>:[<span class="number">11</span>,<span class="string">&quot;arr&quot;</span>,<span class="literal">false</span>],</span><br><span class="line"><span class="string">&quot;key5&quot;</span>:&#123;</span><br><span class="line"><span class="string">&quot;key5_1&quot;</span> : <span class="number">551</span>,</span><br><span class="line"><span class="string">&quot;key5_2&quot;</span> : <span class="string">&quot;key5_2_value&quot;</span></span><br><span class="line">&#125;,</span><br><span class="line"><span class="string">&quot;key6&quot;</span>:[&#123;</span><br><span class="line"><span class="string">&quot;key6_1_1&quot;</span>:<span class="number">6611</span>,</span><br><span class="line"><span class="string">&quot;key6_1_2&quot;</span>:<span class="string">&quot;key6_1_2_value&quot;</span>&#125;,&#123;</span><br><span class="line"><span class="string">&quot;key6_2_1&quot;</span>:<span class="number">6621</span>,</span><br><span class="line"><span class="string">&quot;key6_2_2&quot;</span>:<span class="string">&quot;key6_2_2_value&quot;</span></span><br><span class="line">&#125;]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="json访问"><a href="#json访问" class="headerlink" title="json访问"></a>json访问</h4><ul>
+<li>json 本身是一个对象。 </li>
+<li>json 中的 key 我们可以理解为是对象中的一个属性。</li>
+<li>json 中的 key 访问就跟访问对象的属性一样： json 对象.key</li>
+</ul>
+<h5 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">alert(<span class="keyword">typeof</span>(jsonObj));<span class="comment">// object json 就是一个对象</span></span><br><span class="line">alert(jsonObj.key1); <span class="comment">//12</span></span><br><span class="line">alert(jsonObj.key2); <span class="comment">// abc</span></span><br><span class="line">alert(jsonObj.key3); <span class="comment">// true</span></span><br><span class="line">alert(jsonObj.key4);<span class="comment">// 得到数组[11,&quot;arr&quot;,false]</span></span><br><span class="line"><span class="comment">// json 中 数组值的遍历</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; jsonObj.key4.length; i++) &#123;</span><br><span class="line">alert(jsonObj.key4[i]);</span><br><span class="line">&#125;</span><br><span class="line">alert(jsonObj.key5.key5_1);<span class="comment">//551</span></span><br><span class="line">alert(jsonObj.key5.key5_2);<span class="comment">//key5_2_value</span></span><br><span class="line">alert( jsonObj.key6 );<span class="comment">// 得到 json 数组</span></span><br><span class="line"><span class="comment">// 取出来每一个元素都是 json 对象</span></span><br><span class="line"><span class="keyword">var</span> jsonItem = jsonObj.key6[<span class="number">0</span>];</span><br><span class="line"><span class="comment">// alert( jsonItem.key6_1_1 ); //6611</span></span><br><span class="line">alert( jsonItem.key6_1_2 ); <span class="comment">//key6_1_2_value</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="json两个常用方法"><a href="#json两个常用方法" class="headerlink" title="json两个常用方法"></a>json两个常用方法</h4><p>json 的存在有两种形式。 一种是：对象的形式存在，我们叫它 json 对象。 一种是：字符串的形式存在，我们叫它 json 字符串。</p>
+<p> 一般我们要操作 json 中的数据的时候，需要 json 对象的格式。 一般我们要在客户端和服务器之间进行数据交换的时候，使用 json 字符串</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>JSON.stringify()</td>
+<td>把json对象转换成为json字符串</td>
+</tr>
+<tr>
+<td>JSON.parse()</td>
+<td>把json字符串转换成为json对象</td>
+</tr>
+</tbody></table>
+<h5 id="示例-2"><a href="#示例-2" class="headerlink" title="示例"></a>示例</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 把 json 对象转换成为 json 字符串</span></span><br><span class="line"><span class="keyword">var</span> jsonObjString = <span class="built_in">JSON</span>.stringify(jsonObj); <span class="comment">// 特别像 Java 中对象的 toString</span></span><br><span class="line">alert(jsonObjString)</span><br><span class="line"><span class="comment">// 把 json 字符串。转换成为 json 对象</span></span><br><span class="line"><span class="keyword">var</span> jsonObj2 = <span class="built_in">JSON</span>.parse(jsonObjString);</span><br><span class="line">alert(jsonObj2.key1);<span class="comment">// 12</span></span><br><span class="line">alert(jsonObj2.key2);<span class="comment">// abc</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="json在Java中的使用"><a href="#json在Java中的使用" class="headerlink" title="json在Java中的使用"></a>json在Java中的使用</h3><h4 id="javaBean和json的互转"><a href="#javaBean和json的互转" class="headerlink" title="javaBean和json的互转"></a>javaBean和json的互转</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test1</span><span class="params">()</span></span>&#123;</span><br><span class="line">Person person = <span class="keyword">new</span> Person(<span class="number">1</span>,<span class="string">&quot;test!&quot;</span>);</span><br><span class="line"><span class="comment">// 创建 Gson 对象实例</span></span><br><span class="line">Gson gson = <span class="keyword">new</span> Gson();</span><br><span class="line"><span class="comment">// toJson 方法可以把 java 对象转换成为 json 字符串</span></span><br><span class="line">String personJsonString = gson.toJson(person);</span><br><span class="line">System.out.println(personJsonString);</span><br><span class="line"><span class="comment">// fromJson 把 json 字符串转换回 Java 对象</span></span><br><span class="line"><span class="comment">// 第一个参数是 json 字符串</span></span><br><span class="line"><span class="comment">// 第二个参数是转换回去的 Java 对象类型</span></span><br><span class="line">Person person1 = gson.fromJson(personJsonString, Person.class);</span><br><span class="line">System.out.println(person1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="List和json的互转"><a href="#List和json的互转" class="headerlink" title="List和json的互转"></a>List和json的互转</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1.2.2、List 和 json 的互转</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">List&lt;Person&gt; personList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">personList.add(<span class="keyword">new</span> Person(<span class="number">1</span>, <span class="string">&quot;国哥&quot;</span>));</span><br><span class="line">personList.add(<span class="keyword">new</span> Person(<span class="number">2</span>, <span class="string">&quot;康师傅&quot;</span>));</span><br><span class="line">Gson gson = <span class="keyword">new</span> Gson();</span><br><span class="line"><span class="comment">// 把 List 转换为 json 字符串</span></span><br><span class="line">String personListJsonString = gson.toJson(personList);</span><br><span class="line">System.out.println(personListJsonString);List&lt;Person&gt; list = gson.fromJson(personListJsonString, <span class="keyword">new</span> PersonListType().getType());</span><br><span class="line">System.out.println(list);</span><br><span class="line">Person person = list.get(<span class="number">0</span>);</span><br><span class="line">System.out.println(person);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="map和json的互转"><a href="#map和json的互转" class="headerlink" title="map和json的互转"></a>map和json的互转</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1.2.3、map 和 json 的互转</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test3</span><span class="params">()</span></span>&#123;</span><br><span class="line">Map&lt;Integer,Person&gt; personMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">personMap.put(<span class="number">1</span>, <span class="keyword">new</span> Person(<span class="number">1</span>, <span class="string">&quot;国哥好帅&quot;</span>));</span><br><span class="line">personMap.put(<span class="number">2</span>, <span class="keyword">new</span> Person(<span class="number">2</span>, <span class="string">&quot;康师傅也好帅&quot;</span>));</span><br><span class="line">Gson gson = <span class="keyword">new</span> Gson();</span><br><span class="line"><span class="comment">// 把 map 集合转换成为 json 字符串</span></span><br><span class="line">String personMapJsonString = gson.toJson(personMap);</span><br><span class="line">System.out.println(personMapJsonString);</span><br><span class="line"><span class="comment">// Map&lt;Integer,Person&gt; personMap2 = gson.fromJson(personMapJsonString, new</span></span><br><span class="line">PersonMapType().getType());</span><br><span class="line">Map&lt;Integer,Person&gt; personMap2 = gson.fromJson(personMapJsonString, <span class="keyword">new</span></span><br><span class="line">TypeToken&lt;HashMap&lt;Integer,Person&gt;&gt;()&#123;&#125;.getType());</span><br><span class="line">System.out.println(personMap2);</span><br><span class="line">Person p = personMap2.get(<span class="number">1</span>);</span><br><span class="line">System.out.println(p);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="AJAX请求"><a href="#AJAX请求" class="headerlink" title="AJAX请求"></a>AJAX请求</h2><h3 id="简介-1"><a href="#简介-1" class="headerlink" title="简介"></a>简介</h3><p>AJAX 即“<strong>A</strong>synchronous <strong>J</strong>avascript <strong>A</strong>nd <strong>X</strong>ML”（异步 JavaScript 和 XML），是指一种创建交互式网页应用的网页开发技术。</p>
+<ul>
+<li>ajax 是一种浏览器通过 js 异步发起请求，局部更新页面的技术。 </li>
+<li>Ajax 请求的局部更新，浏览器地址栏不会发生变化 </li>
+<li>局部更新不会舍弃原来页面的内容</li>
+</ul>
+<h4 id="示例-3"><a href="#示例-3" class="headerlink" title="示例"></a>示例</h4><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html PUBLIC <span class="string">&quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;</span> <span class="string">&quot;http://www.w3.org/TR/html4/loose.dtd&quot;</span>&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta http-equiv=<span class="string">&quot;pragma&quot;</span> content=<span class="string">&quot;no-cache&quot;</span> /&gt;</span><br><span class="line">&lt;meta http-equiv=<span class="string">&quot;cache-control&quot;</span> content=<span class="string">&quot;no-cache&quot;</span> /&gt;</span><br><span class="line">&lt;meta http-equiv=<span class="string">&quot;Expires&quot;</span> content=<span class="string">&quot;0&quot;</span> /&gt;</span><br><span class="line">&lt;meta http-equiv=<span class="string">&quot;Content-Type&quot;</span> content=<span class="string">&quot;text/html; charset=UTF-8&quot;</span>&gt;</span><br><span class="line">&lt;title&gt;Insert title here&lt;/title&gt;</span><br><span class="line">&lt;script type=<span class="string">&quot;text/javascript&quot;</span>&gt;</span><br><span class="line"><span class="comment">// 在这里使用 javaScript 语言发起 Ajax 请求，访问服务器 AjaxServlet 中 javaScriptAjax</span></span><br><span class="line"><span class="function">function <span class="title">ajaxRequest</span><span class="params">()</span> </span>&#123;</span><br><span class="line"><span class="comment">// 1、我们首先要创建 XMLHttpRequest</span></span><br><span class="line"><span class="keyword">var</span> xmlhttprequest = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line"><span class="comment">// 2、调用 open 方法设置请求参数</span></span><br><span class="line">xmlhttprequest.open(<span class="string">&quot;GET&quot;</span>,<span class="string">&quot;http://localhost:8080/16_json_ajax_i18n/ajaxServlet?action=javaScriptAj</span></span><br><span class="line"><span class="string">ax&quot;</span>,<span class="keyword">true</span>)</span><br><span class="line"><span class="comment">// 4、在 send 方法前绑定 onreadystatechange 事件，处理请求完成后的操作。</span></span><br><span class="line">xmlhttprequest.onreadystatechange = function()&#123;</span><br><span class="line"><span class="keyword">if</span> (xmlhttprequest.readyState == <span class="number">4</span> &amp;&amp; xmlhttprequest.status == <span class="number">200</span>) &#123;</span><br><span class="line"><span class="keyword">var</span> jsonObj = JSON.parse(xmlhttprequest.responseText);</span><br><span class="line"><span class="comment">// 把响应的数据显示在页面上</span></span><br><span class="line">document.getElementById(<span class="string">&quot;div01&quot;</span>).innerHTML = <span class="string">&quot;编号：&quot;</span> + jsonObj.id + <span class="string">&quot; , 姓名：&quot;</span> +</span><br><span class="line">jsonObj.name;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 3、调用 send 方法发送请求</span></span><br><span class="line">xmlhttprequest.send();</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;button onclick=&quot;ajaxRequest()&quot;&gt;ajax request&lt;/button&gt;</span><br><span class="line">&lt;div id=<span class="string">&quot;div01&quot;</span>&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="jQuery中的Ajax请求"><a href="#jQuery中的Ajax请求" class="headerlink" title="jQuery中的Ajax请求"></a>jQuery中的Ajax请求</h3><h4 id="ajax方法"><a href="#ajax方法" class="headerlink" title="$.ajax方法"></a>$.ajax方法</h4><ul>
+<li>url——表示请求的地址</li>
+<li>type—-表示请求的类型GET或POST请求</li>
+<li>data—-表示发送给服务器的数据<ul>
+<li>格式有两种<ol>
+<li>name=value&amp;name=value</li>
+<li>{key:value}</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>success—-请求成功，响应的回调函数</li>
+<li>dataType–响应的数据类型<ul>
+<li>常用的数据类型有<ol>
+<li>text–纯文本</li>
+<li>xml–xml数据</li>
+<li>json表示json对象</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="示例-4"><a href="#示例-4" class="headerlink" title="示例"></a>示例</h5><figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">&quot;#ajaxBtn&quot;</span>).click(function()&#123;</span><br><span class="line">$.ajax(&#123;</span><br><span class="line">url:<span class="string">&quot;http://localhost:8080/16_json_ajax_i18n/ajaxServlet&quot;</span>,</span><br><span class="line"><span class="comment">// data:&quot;action=jQueryAjax&quot;,</span></span><br><span class="line">data:&#123;action:<span class="string">&quot;jQueryAjax&quot;</span>&#125;,</span><br><span class="line">type:<span class="string">&quot;GET&quot;</span>,</span><br><span class="line">success:function (data) &#123;</span><br><span class="line"><span class="comment">// alert(&quot;服务器返回的数据是：&quot; + data);</span></span><br><span class="line"><span class="comment">// var jsonObj = JSON.parse(data);</span></span><br><span class="line">$(<span class="string">&quot;#msg&quot;</span>).html(<span class="string">&quot;编号：&quot;</span> + data.id + <span class="string">&quot; , 姓名：&quot;</span> + data.name);</span><br><span class="line">&#125;,</span><br><span class="line">dataType : <span class="string">&quot;json&quot;</span></span><br><span class="line">&#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="get方法和-post方法"><a href="#get方法和-post方法" class="headerlink" title="$.get方法和$.post方法"></a>$.get方法和$.post方法</h4><ul>
+<li>url—-请求的url地址</li>
+<li>data–发送的数据</li>
+<li>callback—成功的回调函数</li>
+<li>type—返回的数据类型</li>
+</ul>
+<h5 id="示例-5"><a href="#示例-5" class="headerlink" title="示例"></a>示例</h5><figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ajax--get 请求</span></span><br><span class="line">$(<span class="string">&quot;#getBtn&quot;</span>).click(function()&#123;</span><br><span class="line">$.get(<span class="string">&quot;http://localhost:8080/16_json_ajax_i18n/ajaxServlet&quot;</span>,<span class="string">&quot;action=jQueryGet&quot;</span>,function (data) &#123;</span><br><span class="line">$(<span class="string">&quot;#msg&quot;</span>).html(<span class="string">&quot; get 编号：&quot;</span> + data.id + <span class="string">&quot; , 姓名：&quot;</span> + data.name);</span><br><span class="line">&#125;,<span class="string">&quot;json&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// ajax--post 请求</span></span><br><span class="line">$(<span class="string">&quot;#postBtn&quot;</span>).click(function()&#123;</span><br><span class="line">$.post(<span class="string">&quot;http://localhost:8080/16_json_ajax_i18n/ajaxServlet&quot;</span>,<span class="string">&quot;action=jQueryPost&quot;</span>,function (data)</span><br><span class="line">&#123;</span><br><span class="line">$(<span class="string">&quot;#msg&quot;</span>).html(<span class="string">&quot; post 编号：&quot;</span> + data.id + <span class="string">&quot; , 姓名：&quot;</span> + data.name);&#125;,<span class="string">&quot;json&quot;</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="getJSON方法"><a href="#getJSON方法" class="headerlink" title="$.getJSON方法"></a>$.getJSON方法</h4><ul>
+<li>url—-请求的url地址</li>
+<li>data–发送给服务器的数据</li>
+<li>callback—成功的回调函数</li>
+</ul>
+<h5 id="示例-6"><a href="#示例-6" class="headerlink" title="示例"></a>示例</h5><figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ajax--getJson 请求</span></span><br><span class="line">$(<span class="string">&quot;#getJSONBtn&quot;</span>).click(function()&#123;</span><br><span class="line">$.getJSON(<span class="string">&quot;http://localhost:8080/16_json_ajax_i18n/ajaxServlet&quot;</span>,<span class="string">&quot;action=jQueryGetJSON&quot;</span>,function</span><br><span class="line">(data) &#123;</span><br><span class="line">$(<span class="string">&quot;#msg&quot;</span>).html(<span class="string">&quot; getJSON 编号：&quot;</span> + data.id + <span class="string">&quot; , 姓名：&quot;</span> + data.name);</span><br><span class="line">&#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="表单序列化serialize"><a href="#表单序列化serialize" class="headerlink" title="表单序列化serialize()"></a>表单序列化serialize()</h4><p>serialize()可以把表单中所有表单项的内容都获取到，并以 name=value&amp;name=value的形式进行拼接</p>
+<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ajax 请求</span></span><br><span class="line">$(<span class="string">&quot;#submit&quot;</span>).click(function()&#123;</span><br><span class="line"><span class="comment">// 把参数序列化</span></span><br><span class="line">$.getJSON(<span class="string">&quot;http://localhost:8080/16_json_ajax_i18n/ajaxServlet&quot;</span>,<span class="string">&quot;action=jQuerySerialize&amp;&quot;</span> +</span><br><span class="line">$(<span class="string">&quot;#form01&quot;</span>).serialize(),function (data) &#123;</span><br><span class="line">$(<span class="string">&quot;#msg&quot;</span>).html(<span class="string">&quot; Serialize 编号：&quot;</span> + data.id + <span class="string">&quot; , 姓名：&quot;</span> + data.name);</span><br><span class="line">&#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="i18n国际化"><a href="#i18n国际化" class="headerlink" title="i18n国际化"></a>i18n国际化</h2><h3 id="简介-2"><a href="#简介-2" class="headerlink" title="简介"></a>简介</h3><ul>
+<li>国际化（Internationalization）指的是同一个网站可以支持多种不同的语言，以方便不同国家，不同语种的用户访问。 </li>
+<li>关于国际化我们想到的最简单的方案就是为不同的国家创建不同的网站，比如苹果公司，他的英文官网是： <a target="_blank" rel="noopener" href="http://www.apple.com/">http://www.apple.com</a> 而中国官网是 <a target="_blank" rel="noopener" href="http://www.apple.com/cn">http://www.apple.com/cn</a> </li>
+<li>苹果公司这种方案并不适合全部公司，而我们希望相同的一个网站，而不同人访问的时候可以根据用户所在的区域显示 不同的语言文字，而网站的布局样式等不发生改变。 </li>
+<li>于是就有了我们说的国际化，国际化总的来说就是同一个网站不同国家的人来访问可以显示出不同的语言。但实际上这 种需求并不强烈，一般真的有国际化需求的公司，主流采用的依然是苹果公司的那种方案，为不同的国家创建不同的页 面。所以国际化的内容我们了解一下即可。 </li>
+<li>国际化的英文 Internationalization，但是由于拼写过长，老外想了一个简单的写法叫做 I18N，代表的是 Internationalization 这个单词，以 I 开头，以 N 结尾，而中间是 18 个字母，所以简写为 I18N。以后我们说 I18N 和国际化是一个意思</li>
+</ul>
+<h3 id="相关要素"><a href="#相关要素" class="headerlink" title="相关要素"></a>相关要素</h3><h4 id="Locale对象"><a href="#Locale对象" class="headerlink" title="Locale对象"></a>Locale对象</h4><p>Locale表示不同的时区，位置，语言</p>
+<h4 id="Properties属性配置文件"><a href="#Properties属性配置文件" class="headerlink" title="Properties属性配置文件"></a>Properties属性配置文件</h4><p>国际化配置文件命名规则：</p>
+<p>baseName_locale.properties</p>
+<p>例如：baseName是i18n</p>
+<p>中文的配置文件名是：i18n_zh_CN.properties</p>
+<p>英文的配置文件名是：i18n_en_US.properties</p>
+<h3 id="国际化资源-properties测试"><a href="#国际化资源-properties测试" class="headerlink" title="国际化资源 properties测试"></a>国际化资源 properties测试</h3><p>配置两个语言的配置文件</p>
+<p>i18n_en_US.properties 英文</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">username</span>=<span class="string">username</span></span><br><span class="line"><span class="attr">password</span>=<span class="string">password</span></span><br><span class="line"><span class="attr">sex</span>=<span class="string">sex</span></span><br><span class="line"><span class="attr">age</span>=<span class="string">age</span></span><br><span class="line"><span class="attr">regist</span>=<span class="string">regist</span></span><br><span class="line"><span class="attr">boy</span>=<span class="string">boy</span></span><br><span class="line"><span class="attr">email</span>=<span class="string">email</span></span><br><span class="line"><span class="attr">girl</span>=<span class="string">girl</span></span><br><span class="line"><span class="attr">reset</span>=<span class="string">reset</span></span><br><span class="line"><span class="attr">submit</span>=<span class="string">submit</span></span><br></pre></td></tr></table></figure>
+
+<p>i18n_zh_CN.properties 中文</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">username</span>=<span class="string">用户名</span></span><br><span class="line"><span class="attr">password</span>=<span class="string">密码</span></span><br><span class="line"><span class="attr">sex</span>=<span class="string">性别</span></span><br><span class="line"><span class="attr">age</span>=<span class="string">年龄</span></span><br><span class="line"><span class="attr">regist</span>=<span class="string">注册</span></span><br><span class="line"><span class="attr">boy</span>=<span class="string">男</span></span><br><span class="line"><span class="attr">girl</span>=<span class="string">女</span></span><br><span class="line"><span class="attr">email</span>=<span class="string">邮箱</span></span><br><span class="line"><span class="attr">reset</span>=<span class="string">重置</span></span><br><span class="line"><span class="attr">submit</span>=<span class="string">提交</span></span><br></pre></td></tr></table></figure>
+
+<p>国际化测试代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">I18nTest</span> </span>&#123;</span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testLocale</span><span class="params">()</span></span>&#123;</span><br><span class="line"><span class="comment">// 获取你系统默认的语言。国家信息</span></span><br><span class="line"><span class="comment">// Locale locale = Locale.getDefault();</span></span><br><span class="line"><span class="comment">// System.out.println(locale);</span></span><br><span class="line"><span class="comment">// for (Locale availableLocale : Locale.getAvailableLocales()) &#123;</span></span><br><span class="line"><span class="comment">// System.out.println(availableLocale);</span></span><br><span class="line"><span class="comment">// &#125;</span></span><br><span class="line"><span class="comment">// 获取中文，中文的常量的 Locale 对象</span></span><br><span class="line">System.out.println(Locale.CHINA);</span><br><span class="line"><span class="comment">// 获取英文，美国的常量的 Locale 对象</span></span><br><span class="line">System.out.println(Locale.US);</span><br><span class="line">&#125;</span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testI18n</span><span class="params">()</span></span>&#123;</span><br><span class="line"><span class="comment">// 得到我们需要的 Locale 对象</span></span><br><span class="line">Locale locale = Locale.CHINA;</span><br><span class="line"><span class="comment">// 通过指定的 basename 和 Locale 对象，读取 相应的配置文件</span></span><br><span class="line">ResourceBundle bundle = ResourceBundle.getBundle(<span class="string">&quot;i18n&quot;</span>, locale);</span><br><span class="line">System.out.println(<span class="string">&quot;username：&quot;</span> + bundle.getString(<span class="string">&quot;username&quot;</span>));</span><br><span class="line">System.out.println(<span class="string">&quot;password：&quot;</span> + bundle.getString(<span class="string">&quot;password&quot;</span>));</span><br><span class="line">System.out.println(<span class="string">&quot;Sex：&quot;</span> + bundle.getString(<span class="string">&quot;sex&quot;</span>));</span><br><span class="line">System.out.println(<span class="string">&quot;age：&quot;</span> + bundle.getString(<span class="string">&quot;age&quot;</span>));</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="通过请求头国际化页面"><a href="#通过请求头国际化页面" class="headerlink" title="通过请求头国际化页面"></a>通过请求头国际化页面</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page <span class="keyword">import</span>=<span class="string">&quot;java.util.Locale&quot;</span> %&gt;</span><br><span class="line">&lt;%@ page <span class="keyword">import</span>=<span class="string">&quot;java.util.ResourceBundle&quot;</span> %&gt;</span><br><span class="line">&lt;%@ page language=<span class="string">&quot;java&quot;</span> contentType=<span class="string">&quot;text/html; charset=UTF-8&quot;</span></span><br><span class="line">pageEncoding=<span class="string">&quot;UTF-8&quot;</span>%&gt;</span><br><span class="line">&lt;!DOCTYPE html PUBLIC <span class="string">&quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;</span> <span class="string">&quot;http://www.w3.org/TR/html4/loose.dtd&quot;</span>&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta http-equiv=<span class="string">&quot;pragma&quot;</span> content=<span class="string">&quot;no-cache&quot;</span> /&gt;</span><br><span class="line">&lt;meta http-equiv=<span class="string">&quot;cache-control&quot;</span> content=<span class="string">&quot;no-cache&quot;</span> /&gt;</span><br><span class="line">&lt;meta http-equiv=<span class="string">&quot;Expires&quot;</span> content=<span class="string">&quot;0&quot;</span> /&gt;</span><br><span class="line">&lt;meta http-equiv=<span class="string">&quot;Content-Type&quot;</span> content=<span class="string">&quot;text/html; charset=UTF-8&quot;</span>&gt;</span><br><span class="line">&lt;title&gt;Insert title here&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;%</span><br><span class="line"><span class="comment">// 从请求头中获取 Locale 信息（语言）</span></span><br><span class="line">Locale locale = request.getLocale();</span><br><span class="line">System.out.println(locale);</span><br><span class="line"><span class="comment">// 获取读取包（根据 指定的 baseName 和 Locale 读取 语言信息）</span></span><br><span class="line">ResourceBundle i18n = ResourceBundle.getBundle(<span class="string">&quot;i18n&quot;</span>, locale);</span><br><span class="line">%&gt;</span><br><span class="line">&lt;a href=&quot;&quot;&gt;中文&lt;/a&gt;|</span><br><span class="line">&lt;a href=&quot;&quot;&gt;english&lt;/a&gt;</span><br><span class="line">&lt;center&gt;</span><br><span class="line">&lt;h1&gt;&lt;%=i18n.getString(&quot;regist&quot;)%&gt;&lt;/h1&gt;</span><br><span class="line">&lt;table&gt;</span><br><span class="line">&lt;form&gt;</span><br><span class="line">&lt;tr&gt;</span><br><span class="line">&lt;td&gt;&lt;%=i18n.getString(&quot;username&quot;)%&gt;&lt;/td&gt;&lt;td&gt;&lt;input name=&quot;username&quot; type=&quot;text&quot; /&gt;&lt;/td&gt;</span><br><span class="line">&lt;/tr&gt;</span><br><span class="line">&lt;tr&gt;</span><br><span class="line">&lt;td&gt;&lt;%=i18n.getString(&quot;password&quot;)%&gt;&lt;/td&gt;</span><br><span class="line">&lt;td&gt;&lt;input type=&quot;password&quot; /&gt;&lt;/td&gt;</span><br><span class="line">&lt;/tr&gt;</span><br><span class="line">&lt;tr&gt;</span><br><span class="line">&lt;td&gt;&lt;%=i18n.getString(&quot;sex&quot;)%&gt;&lt;/td&gt;</span><br><span class="line">&lt;td&gt;</span><br><span class="line">&lt;input type=<span class="string">&quot;radio&quot;</span> /&gt;&lt;%=i18n.getString(<span class="string">&quot;boy&quot;</span>)%&gt;</span><br><span class="line">&lt;input type=<span class="string">&quot;radio&quot;</span> /&gt;&lt;%=i18n.getString(<span class="string">&quot;girl&quot;</span>)%&gt;</span><br><span class="line">&lt;/td&gt;</span><br><span class="line">&lt;/tr&gt;</span><br><span class="line">&lt;tr&gt;</span><br><span class="line">&lt;td&gt;&lt;%=i18n.getString(&quot;email&quot;)%&gt;&lt;/td&gt;</span><br><span class="line">&lt;td&gt;&lt;input type=&quot;text&quot; /&gt;&lt;/td&gt;</span><br><span class="line">&lt;/tr&gt;</span><br><span class="line">&lt;tr&gt;</span><br><span class="line">&lt;td colspan=<span class="string">&quot;2&quot;</span> align=<span class="string">&quot;center&quot;</span>&gt;</span><br><span class="line">&lt;input type=<span class="string">&quot;reset&quot;</span> value=<span class="string">&quot;&lt;%=i18n.getString(&quot;</span>reset<span class="string">&quot;)%&gt;&quot;</span> /&gt;&amp;nbsp;&amp;nbsp;</span><br><span class="line">&lt;input type=&quot;submit&quot; value=&quot;&lt;%=i18n.getString(&quot;submit&quot;)%&gt;&quot; /&gt;&lt;/td&gt;</span><br><span class="line">&lt;/tr&gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line">&lt;/table&gt;</span><br><span class="line">&lt;br /&gt; &lt;br /&gt; &lt;br /&gt; &lt;br /&gt;</span><br><span class="line">&lt;/center&gt;</span><br><span class="line">国际化测试：</span><br><span class="line">&lt;br /&gt; <span class="number">1</span>、访问页面，通过浏览器设置，请求头信息确定国际化语言。</span><br><span class="line">&lt;br /&gt; <span class="number">2</span>、通过左上角，手动切换语言</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="通过显示的选择语言类型进行国际化"><a href="#通过显示的选择语言类型进行国际化" class="headerlink" title="通过显示的选择语言类型进行国际化"></a>通过显示的选择语言类型进行国际化</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page <span class="keyword">import</span>=<span class="string">&quot;java.util.Locale&quot;</span> %&gt;</span><br><span class="line">&lt;%@ page <span class="keyword">import</span>=<span class="string">&quot;java.util.ResourceBundle&quot;</span> %&gt;</span><br><span class="line">&lt;%@ page language=<span class="string">&quot;java&quot;</span> contentType=<span class="string">&quot;text/html; charset=UTF-8&quot;</span></span><br><span class="line">pageEncoding=<span class="string">&quot;UTF-8&quot;</span>%&gt;</span><br><span class="line">&lt;!DOCTYPE html PUBLIC <span class="string">&quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;</span> <span class="string">&quot;http://www.w3.org/TR/html4/loose.dtd&quot;</span>&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta http-equiv=<span class="string">&quot;pragma&quot;</span> content=<span class="string">&quot;no-cache&quot;</span> /&gt;</span><br><span class="line">&lt;meta http-equiv=<span class="string">&quot;cache-control&quot;</span> content=<span class="string">&quot;no-cache&quot;</span> /&gt;</span><br><span class="line">&lt;meta http-equiv=<span class="string">&quot;Expires&quot;</span> content=<span class="string">&quot;0&quot;</span> /&gt;</span><br><span class="line">&lt;meta http-equiv=<span class="string">&quot;Content-Type&quot;</span> content=<span class="string">&quot;text/html; charset=UTF-8&quot;</span>&gt;</span><br><span class="line">&lt;title&gt;Insert title here&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;&lt;body&gt;</span><br><span class="line">&lt;%</span><br><span class="line"><span class="comment">// 从请求头中获取 Locale 信息（语言）</span></span><br><span class="line">Locale locale = <span class="keyword">null</span>;</span><br><span class="line">String country = request.getParameter(<span class="string">&quot;country&quot;</span>);</span><br><span class="line"><span class="keyword">if</span> (<span class="string">&quot;cn&quot;</span>.equals(country)) &#123;</span><br><span class="line">locale = Locale.CHINA;</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">&quot;usa&quot;</span>.equals(country)) &#123;</span><br><span class="line">locale = Locale.US;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">locale = request.getLocale();</span><br><span class="line">&#125;</span><br><span class="line">System.out.println(locale);</span><br><span class="line"><span class="comment">// 获取读取包（根据 指定的 baseName 和 Locale 读取 语言信息）</span></span><br><span class="line">ResourceBundle i18n = ResourceBundle.getBundle(<span class="string">&quot;i18n&quot;</span>, locale);</span><br><span class="line">%&gt;</span><br><span class="line">&lt;a href=&quot;i18n.jsp?country=cn&quot;&gt;中文&lt;/a&gt;|</span><br><span class="line">&lt;a href=&quot;i18n.jsp?country=usa&quot;&gt;english&lt;/a&gt;</span><br><span class="line">&lt;center&gt;</span><br><span class="line">&lt;h1&gt;&lt;%=i18n.getString(&quot;regist&quot;)%&gt;&lt;/h1&gt;</span><br><span class="line">&lt;table&gt;</span><br><span class="line">&lt;form&gt;</span><br><span class="line">&lt;tr&gt;</span><br><span class="line">&lt;td&gt;&lt;%=i18n.getString(&quot;username&quot;)%&gt;&lt;/td&gt;</span><br><span class="line">&lt;td&gt;&lt;input name=&quot;username&quot; type=&quot;text&quot; /&gt;&lt;/td&gt;</span><br><span class="line">&lt;/tr&gt;</span><br><span class="line">&lt;tr&gt;</span><br><span class="line">&lt;td&gt;&lt;%=i18n.getString(&quot;password&quot;)%&gt;&lt;/td&gt;</span><br><span class="line">&lt;td&gt;&lt;input type=&quot;password&quot; /&gt;&lt;/td&gt;</span><br><span class="line">&lt;/tr&gt;</span><br><span class="line">&lt;tr&gt;</span><br><span class="line">&lt;td&gt;&lt;%=i18n.getString(&quot;sex&quot;)%&gt;&lt;/td&gt;</span><br><span class="line">&lt;td&gt;</span><br><span class="line">&lt;input type=<span class="string">&quot;radio&quot;</span> /&gt;&lt;%=i18n.getString(<span class="string">&quot;boy&quot;</span>)%&gt;</span><br><span class="line">&lt;input type=<span class="string">&quot;radio&quot;</span> /&gt;&lt;%=i18n.getString(<span class="string">&quot;girl&quot;</span>)%&gt;</span><br><span class="line">&lt;/td&gt;</span><br><span class="line">&lt;/tr&gt;</span><br><span class="line">&lt;tr&gt;</span><br><span class="line">&lt;td&gt;&lt;%=i18n.getString(&quot;email&quot;)%&gt;&lt;/td&gt;</span><br><span class="line">&lt;td&gt;&lt;input type=&quot;text&quot; /&gt;&lt;/td&gt;</span><br><span class="line">&lt;/tr&gt;</span><br><span class="line">&lt;tr&gt;</span><br><span class="line">&lt;td colspan=<span class="string">&quot;2&quot;</span> align=<span class="string">&quot;center&quot;</span>&gt;</span><br><span class="line">&lt;input type=<span class="string">&quot;reset&quot;</span> value=<span class="string">&quot;&lt;%=i18n.getString(&quot;</span>reset<span class="string">&quot;)%&gt;&quot;</span> /&gt;&amp;nbsp;&amp;nbsp;</span><br><span class="line">&lt;input type=&quot;submit&quot; value=&quot;&lt;%=i18n.getString(&quot;submit&quot;)%&gt;&quot; /&gt;&lt;/td&gt;</span><br><span class="line">&lt;/tr&gt;&lt;/form&gt;</span><br><span class="line">&lt;/table&gt;</span><br><span class="line">&lt;br /&gt; &lt;br /&gt; &lt;br /&gt; &lt;br /&gt;</span><br><span class="line">&lt;/center&gt;</span><br><span class="line">国际化测试：</span><br><span class="line">&lt;br /&gt; <span class="number">1</span>、访问页面，通过浏览器设置，请求头信息确定国际化语言。</span><br><span class="line">&lt;br /&gt; <span class="number">2</span>、通过左上角，手动切换语言</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="JSTL标签库实现国际化"><a href="#JSTL标签库实现国际化" class="headerlink" title="JSTL标签库实现国际化"></a>JSTL标签库实现国际化</h3><figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;%--<span class="number">1</span> 使用标签设置 Locale 信息--%&gt;</span><br><span class="line">&lt;fmt:setLocale value=<span class="string">&quot;&quot;</span> /&gt;</span><br><span class="line">&lt;%--<span class="number">2</span> 使用标签设置 baseName--%&gt;</span><br><span class="line">&lt;fmt:setBundle basename=<span class="string">&quot;&quot;</span>/&gt;</span><br><span class="line">&lt;%--<span class="number">3</span> 输出指定 key 的国际化信息--%&gt;</span><br><span class="line">&lt;fmt:message key=<span class="string">&quot;&quot;</span> /&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ taglib prefix=<span class="string">&quot;fmt&quot;</span> uri=<span class="string">&quot;http://java.sun.com/jsp/jstl/fmt&quot;</span> %&gt;</span><br><span class="line">&lt;%@ page language=<span class="string">&quot;java&quot;</span> contentType=<span class="string">&quot;text/html; charset=UTF-8&quot;</span></span><br><span class="line">pageEncoding=<span class="string">&quot;UTF-8&quot;</span>%&gt;</span><br><span class="line">&lt;!DOCTYPE html PUBLIC <span class="string">&quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;</span> <span class="string">&quot;http://www.w3.org/TR/html4/loose.dtd&quot;</span>&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta http-equiv=<span class="string">&quot;pragma&quot;</span> content=<span class="string">&quot;no-cache&quot;</span> /&gt;</span><br><span class="line">&lt;meta http-equiv=<span class="string">&quot;cache-control&quot;</span> content=<span class="string">&quot;no-cache&quot;</span> /&gt;</span><br><span class="line">&lt;meta http-equiv=<span class="string">&quot;Expires&quot;</span> content=<span class="string">&quot;0&quot;</span> /&gt;</span><br><span class="line">&lt;meta http-equiv=<span class="string">&quot;Content-Type&quot;</span> content=<span class="string">&quot;text/html; charset=UTF-8&quot;</span>&gt;</span><br><span class="line">&lt;title&gt;Insert title here&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;%--<span class="number">1</span> 使用标签设置 Locale 信息--%&gt;</span><br><span class="line">&lt;fmt:setLocale value=<span class="string">&quot;$&#123;param.locale&#125;&quot;</span> /&gt;</span><br><span class="line">&lt;%--<span class="number">2</span> 使用标签设置 baseName--%&gt;</span><br><span class="line">&lt;fmt:setBundle basename=<span class="string">&quot;i18n&quot;</span>/&gt;</span><br><span class="line">&lt;a href=&quot;i18n_fmt.jsp?locale=zh_CN&quot;&gt;中文&lt;/a&gt;|</span><br><span class="line">&lt;a href=&quot;i18n_fmt.jsp?locale=en_US&quot;&gt;english&lt;/a&gt;</span><br><span class="line">&lt;center&gt;</span><br><span class="line">&lt;h1&gt;&lt;fmt:message key=&quot;regist&quot; /&gt;&lt;/h1&gt;</span><br><span class="line">&lt;table&gt;</span><br><span class="line">&lt;form&gt;</span><br><span class="line">&lt;tr&gt;&lt;td&gt;&lt;fmt:message key=&quot;username&quot; /&gt;&lt;/td&gt;</span><br><span class="line">&lt;td&gt;&lt;input name=&quot;username&quot; type=&quot;text&quot; /&gt;&lt;/td&gt;</span><br><span class="line">&lt;/tr&gt;</span><br><span class="line">&lt;tr&gt;</span><br><span class="line">&lt;td&gt;&lt;fmt:message key=&quot;password&quot; /&gt;&lt;/td&gt;</span><br><span class="line">&lt;td&gt;&lt;input type=&quot;password&quot; /&gt;&lt;/td&gt;</span><br><span class="line">&lt;/tr&gt;</span><br><span class="line">&lt;tr&gt;</span><br><span class="line">&lt;td&gt;&lt;fmt:message key=&quot;sex&quot; /&gt;&lt;/td&gt;</span><br><span class="line">&lt;td&gt;</span><br><span class="line">&lt;input type=<span class="string">&quot;radio&quot;</span> /&gt;&lt;fmt:message key=<span class="string">&quot;boy&quot;</span> /&gt;</span><br><span class="line">&lt;input type=<span class="string">&quot;radio&quot;</span> /&gt;&lt;fmt:message key=<span class="string">&quot;girl&quot;</span> /&gt;</span><br><span class="line">&lt;/td&gt;</span><br><span class="line">&lt;/tr&gt;</span><br><span class="line">&lt;tr&gt;</span><br><span class="line">&lt;td&gt;&lt;fmt:message key=&quot;email&quot; /&gt;&lt;/td&gt;</span><br><span class="line">&lt;td&gt;&lt;input type=&quot;text&quot; /&gt;&lt;/td&gt;</span><br><span class="line">&lt;/tr&gt;</span><br><span class="line">&lt;tr&gt;</span><br><span class="line">&lt;td colspan=<span class="string">&quot;2&quot;</span> align=<span class="string">&quot;center&quot;</span>&gt;</span><br><span class="line">&lt;input type=<span class="string">&quot;reset&quot;</span> value=<span class="string">&quot;&lt;fmt:message key=&quot;</span>reset<span class="string">&quot; /&gt;&quot;</span> /&gt;&amp;nbsp;&amp;nbsp;</span><br><span class="line">&lt;input type=&quot;submit&quot; value=&quot;&lt;fmt:message key=&quot;submit&quot; /&gt;&quot; /&gt;&lt;/td&gt;</span><br><span class="line">&lt;/tr&gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line">&lt;/table&gt;</span><br><span class="line">&lt;br /&gt; &lt;br /&gt; &lt;br /&gt; &lt;br /&gt;</span><br><span class="line">&lt;/center&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+        
+            <div class="kratos-copyright text-center clearfix">
+                <h5>本作品采用 <a rel="license nofollow" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可</h5>
+            </div>
+        
+        <footer class="kratos-entry-footer clearfix">
+            
+                <div class="post-like-donate text-center clearfix" id="post-like-donate">
+                
+                
+                    <a class="share" href="javascript:;"><i class="fa fa-share-alt"></i> 分享</a>
+                    <div class="share-wrap" style="display: none;">
+    <div class="share-group">
+        <a href="javascript:;" class="share-plain qq" onclick="share('qq');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-qq"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain qzone" onclick="share('qzone');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-star"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weixin pop style-plain" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weixin"></i>
+            </div>
+            <div class="share-int">
+                <div class="qrcode" id="wechat-qr"></div>
+                <p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weibo" onclick="share('weibo');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weibo"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain facebook style-plain" onclick="share('facebook');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-facebook"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain twitter style-plain" onclick="share('twitter');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-twitter"></i>
+            </div>
+        </a>
+    </div>
+    <script type="text/javascript">
+        $(()=>{
+            new QRCode("wechat-qr", {
+                text: "http://example.com/2021/04/18/JSON&Ajax&i18n/",
+                width: 150,
+                height: 150,
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+        function share(dest) {
+            const qqBase        = "https://connect.qq.com/widget/shareqq/index.html?";
+            const weiboBase     = "https://service.weibo.com/share/share.php?";
+            const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+            const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
+            const twitterBase   = "https://twitter.com/intent/tweet?";
+            const hostUrl       = "http://example.com/2021/04/18/JSON&Ajax&i18n/";
+            const title         = "「JSON&Ajax&i18n」";
+            const excerpt       = `JSON简介JSON (JavaScript Object Notation) 是一种轻量级的数据交换格式。易于人阅读和编写。同时也易于机器解析和生成。JSON 采用完全独立于语言的文本格式，而且很多语言都提供了对 json 的支持（...`;
+            let _URL;
+            switch (dest) {
+                case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
+                case "weibo"    : _URL = weiboBase+"url="+hostUrl+"&title="+title+excerpt;                                 break;
+                case "qzone"    : _URL = qzoneBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";  break;
+                case "facebook" : _URL = facebookBase+"u="+hostUrl;                                                        break;
+                case "twitter"  : _URL = twitterBase+"text="+title+excerpt+"&url="+hostUrl;                                break;
+            }
+            window.open(_URL);
+        };
+    </script>
+</div>
+                
+                </div>
+            
+            <div class="footer-tag clearfix">
+                <div class="pull-left">
+                <i class="fa fa-tags"></i>
+                    
+                </div>
+                <div class="pull-date">
+                <span>最后编辑：2021-04-18</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+        <nav class="navigation post-navigation clearfix" role="navigation">
+            
+            <div class="nav-previous clearfix">
+                <a title=" Filter过滤器" href="/2021/04/13/Filter过滤器/">&lt; 上一篇</a>
+            </div>
+            
+            
+            <div class="nav-next clearfix">
+                <a title=" Spring5框架（IOC）" href="/2021/04/24/Spring5框架（IOC）/">下一篇 &gt;</a>
+            </div>
+            
+        </nav>
+    
+    
+</article>
+        </section>
+
+                
+            
+
+<section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
+    <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
+    
+    
+                <aside id="krw-about" class="widget widget-kratos-about clearfix">
+    <div class="photo-background"></div>
+    <div class="photo-wrapper clearfix">
+        <div class="photo-wrapper-tip text-center">
+            <img class="about-photo" src="/images/avatar.webp" />
+        </div>
+    </div>
+    <div class="textwidget">
+        <p class="text-center">永远不要放弃自己的理想主义！</p>
+    </div>
+</aside>
+            
+                    <div class="sticky-area">
+                
+                    <aside id="krw-toc" class="widget widget-kratos-toc clearfix">
+    <div class="photo-background"></div>
+    <h4 class="widget-title no-after">
+        <i class="fa fa-compass"></i>
+        文章目录
+        <span class="toc-progress-bar"></span>
+    </h4>
+    <div class="textwidget">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JSON"><span class="toc-text">JSON</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-text">简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JavaScript%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-text">JavaScript中的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#json%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-text">json的定义</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B"><span class="toc-text">示例</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#json%E8%AE%BF%E9%97%AE"><span class="toc-text">json访问</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B-1"><span class="toc-text">示例</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#json%E4%B8%A4%E4%B8%AA%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-text">json两个常用方法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B-2"><span class="toc-text">示例</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#json%E5%9C%A8Java%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-text">json在Java中的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#javaBean%E5%92%8Cjson%E7%9A%84%E4%BA%92%E8%BD%AC"><span class="toc-text">javaBean和json的互转</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#List%E5%92%8Cjson%E7%9A%84%E4%BA%92%E8%BD%AC"><span class="toc-text">List和json的互转</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#map%E5%92%8Cjson%E7%9A%84%E4%BA%92%E8%BD%AC"><span class="toc-text">map和json的互转</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AJAX%E8%AF%B7%E6%B1%82"><span class="toc-text">AJAX请求</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B-1"><span class="toc-text">简介</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B-3"><span class="toc-text">示例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jQuery%E4%B8%AD%E7%9A%84Ajax%E8%AF%B7%E6%B1%82"><span class="toc-text">jQuery中的Ajax请求</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ajax%E6%96%B9%E6%B3%95"><span class="toc-text">$.ajax方法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B-4"><span class="toc-text">示例</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#get%E6%96%B9%E6%B3%95%E5%92%8C-post%E6%96%B9%E6%B3%95"><span class="toc-text">$.get方法和$.post方法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B-5"><span class="toc-text">示例</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#getJSON%E6%96%B9%E6%B3%95"><span class="toc-text">$.getJSON方法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B-6"><span class="toc-text">示例</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A1%A8%E5%8D%95%E5%BA%8F%E5%88%97%E5%8C%96serialize"><span class="toc-text">表单序列化serialize()</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#i18n%E5%9B%BD%E9%99%85%E5%8C%96"><span class="toc-text">i18n国际化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B-2"><span class="toc-text">简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E8%A6%81%E7%B4%A0"><span class="toc-text">相关要素</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Locale%E5%AF%B9%E8%B1%A1"><span class="toc-text">Locale对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Properties%E5%B1%9E%E6%80%A7%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-text">Properties属性配置文件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BD%E9%99%85%E5%8C%96%E8%B5%84%E6%BA%90-properties%E6%B5%8B%E8%AF%95"><span class="toc-text">国际化资源 properties测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E8%AF%B7%E6%B1%82%E5%A4%B4%E5%9B%BD%E9%99%85%E5%8C%96%E9%A1%B5%E9%9D%A2"><span class="toc-text">通过请求头国际化页面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E6%98%BE%E7%A4%BA%E7%9A%84%E9%80%89%E6%8B%A9%E8%AF%AD%E8%A8%80%E7%B1%BB%E5%9E%8B%E8%BF%9B%E8%A1%8C%E5%9B%BD%E9%99%85%E5%8C%96"><span class="toc-text">通过显示的选择语言类型进行国际化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JSTL%E6%A0%87%E7%AD%BE%E5%BA%93%E5%AE%9E%E7%8E%B0%E5%9B%BD%E9%99%85%E5%8C%96"><span class="toc-text">JSTL标签库实现国际化</span></a></li></ol></li></ol>
+    </div>
+</aside>
+                
+                
+  <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
+    <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Error/">Error</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JDBC/">JDBC</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-Web/">Java Web</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SSM/">SSM</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ssm/">ssm</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%91%E5%B9%B4%E3%81%AE%E6%97%A5%E5%B8%B8/">少年の日常</a><span class="category-list-count">2</span></li></ul>
+  </aside>
+
+
+            
+                
+  <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
+    <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
+      <div class="tag-clouds">
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 0.6em;">数据结构</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 0.6em;">算法</a>
+      </div>
+  </aside>
+
+            
+                
+  <aside id="krw-posts" class="widget widget-kratos-posts">
+  <h4 class="widget-title"><i class="fa fa-file"></i>最新文章</h4>
+  <div class="tab-content">
+      <ul class="list-group">
+        
+        
+          
+          
+            <a class="list-group-item" href="/2021/06/09/202169-%E5%93%88%E5%B8%8C%E8%A1%A8/"><i class="fa  fa-book"></i> 哈希表</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/06/09/202169-%E4%BA%8C%E5%8F%89%E6%A0%91/"><i class="fa  fa-book"></i> 二叉树</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/06/04/202164-%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95/"><i class="fa  fa-book"></i> 查找算法</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/06/02/202162-%E9%80%92%E5%BD%92/"><i class="fa  fa-book"></i> 递归</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/06/02/202162-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/"><i class="fa  fa-book"></i> 排序算法</a>
+            
+          
+        
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+      </ul>
+  </div>
+  </aside>
+
+            
+    </div>
+</section>
+        
+        </div>
+    </div>
+</div>
+<footer>
+    <div id="footer"  class="ap-lrc"  >
+        <div class="kr-tool text-center">
+            <div class="tool">
+                
+                    <div class="box search-box">
+                        <a href="/search/">
+                            <span class="fa fa-search"></span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="box theme-box" id="darkmode-switch">
+                        <span class="fa fa-adjust"></span>
+                    </div>
+                
+                
+            </div>
+            <div class="box gotop-box">
+                <span class="fa fa-chevron-up"></span>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 footer-list text-center">
+                    <ul class="kratos-social-icons">
+                        
+                        <li><a href="mailto:1922856021@qq.com"><i class="fa fa-envelope"></i></a></li>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    </ul>
+                    <ul class="kratos-copyright">
+                        <div>
+                            <li>&copy; 2021 青い栞 版权所有.</li>
+                            <li>本站已运行<span id="span_dt">Loading...</span></li>
+                        </div>
+                        <div>
+                            <li>Theme <a href="https://github.com/Candinya/Kratos-Rebirth" target="_blank">Kratos:Rebirth</a></li>
+                            <li>Site built with&nbsp;<i class="fa fa-heart throb" style="color:#d43f57"></i>&nbsp;by FunnyLs.</li>
+                        </div>
+                        <div>
+                            <li>Powered by <a href="https://hexo.io" target="_blank" rel="nofollow">Hexo</a></li>
+                            <li>Hosted on <a href="https://github.io" target="_blank">Github Pages</a></li>
+                        </div>
+                        <div>
+                            
+                            
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+
+        <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.4/dist/js/bootstrap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+<script>const notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));</script>
+
+    <div>
+        <canvas id="snow"></canvas>
+        <script async type="text/javascript" src="/js/snow.min.js"></script>
+    </div>
+
+<script async src="/js/candy.min.js"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+    <meting-js
+        server="netease"
+        type="playlist"
+        id="3204190542"
+        order="random"
+        fixed="true"
+    >
+    </meting-js>
+
+
+
+    <script defer src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script defer src="/js/kratosr.min.js"></script>
+<script defer src="/js/pjax.min.js"></script>
+
+
+    <script defer src="/js/kr-dark.min.js"></script>
+
+
+
+<!-- Extra support for third-party plguins  -->
+
+
+    </body>
+</html>
