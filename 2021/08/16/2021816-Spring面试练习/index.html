@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+  <!-- 元数据 -->
+  <meta charset="utf-8">
+  <link rel="icon" href="">
+  <title>Spring面试练习 | 青い栞</title>
+  <meta name="author" content="FunnyLs" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index,follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="format-detection" content="telphone=no, email=no" />
+  
+    <meta name="keywords" content="aop, ioc, spring" />
+  
+  <meta name="description" content="Spring是什么轻量级的开源的JAVAEE框架。它是一个容器框架，用来装JavaBean(Java对象)，中间层框架可以起一个连接作用，比如说把Struts和Hibernate粘合在一起运用，可以让开发更快更简洁 Spring是一个轻量级的控制反转(IOC)和面向切面(AOP)的容器框架  从大小与开销两方面而言Spring都是轻量级的 通过控制反转IOC的技术达到松耦合的目的 提供了面向切面编">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring面试练习">
+<meta property="og:url" content="http://example.com/2021/08/16/2021816-Spring%E9%9D%A2%E8%AF%95%E7%BB%83%E4%B9%A0/index.html">
+<meta property="og:site_name" content="青い栞">
+<meta property="og:description" content="Spring是什么轻量级的开源的JAVAEE框架。它是一个容器框架，用来装JavaBean(Java对象)，中间层框架可以起一个连接作用，比如说把Struts和Hibernate粘合在一起运用，可以让开发更快更简洁 Spring是一个轻量级的控制反转(IOC)和面向切面(AOP)的容器框架  从大小与开销两方面而言Spring都是轻量级的 通过控制反转IOC的技术达到松耦合的目的 提供了面向切面编">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/null">
+<meta property="article:published_time" content="2021-08-15T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-08-24T05:34:33.939Z">
+<meta property="article:author" content="FunnyLs">
+<meta property="article:tag" content="spring">
+<meta property="article:tag" content="ioc">
+<meta property="article:tag" content="aop">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/null">
+<meta name="twitter:site" content="@null">
+  
+  <!-- 站点验证相关 -->
+  
+    
+    
+    
+  
+  <!-- 样式表文件 -->
+  <link rel="stylesheet" id="kratos-css" href="/css/kratosr.min.css" type="text/css" media="all">
+  
+    <link rel="stylesheet" id="highlight-css" href="/css/highlight/night-blue.min.css" type="text/css" media="all">
+  
+  
+  <link rel="stylesheet" id="fontawe-css" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" type="text/css" media="all">
+  <link rel="stylesheet" id="nprogress-css" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" type="text/css" media="all">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+  
+  
+    <link rel="stylesheet" id="darkmode-css" href="/css/kr-dark.min.css" type="text/css" media="all">
+  
+  <!-- 不得不预先加载的一些JS文件 -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+    <body class="custom-background">
+        <div id="kratos-wrapper">
+    <div id="kratos-page">
+        <div id="kratos-header">
+            <header id="kratos-desktop-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="nav-header">
+                        <nav id="kratos-menu-wrap">
+                            <ul id="kratos-primary-menu" class="sf-menu">
+                                
+                                    
+                                        <li><a href="/"><i class="fa fa-home"></i>首页</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/archives/"><i class="fa fa-file"></i>档案馆</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/friends/"></a></li>
+                                    
+                                
+                                    
+                                        <li>
+                                            <a><i class="fa fa-link"></i>链接</a>
+                                            <ul class="sub-menu">
+                                                
+                                                    
+                                                
+                                                    
+                                                        <li><a target="_blank" rel="noopener" href="https://candinya.com">作者博客</a></li>
+                                                    
+                                                
+                                                    
+                                                        <li><a target="_blank" rel="noopener" href="https://github.com/Candinya/Kratos-Rebirth">项目链接</a></li>
+                                                    
+                                                
+                                            </ul>
+                                        </li>
+                                    
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <header id="kratos-mobile-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="color-logo"><a href="/">青い栞</a></div>
+                    <div class="nav-toggle">
+                        <a class="kratos-nav-toggle js-kratos-nav-toggle">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="kratos-start kratos-hero-2">
+            <!-- <div class="kratos-overlay"></div> -->
+            <div class="kratos-cover kratos-cover-2 text-center">
+                <div class="desc desc2 animate-box">
+                    <a href="/">
+                        <h2>青い栞</h2> <br />
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="kratos-blog-post">
+            <div class="container">
+                <div id="main" class="row">
+                    
+
+        
+
+            <section class="col-md-8">
+
+        
+
+            <article>
+    <div class="kratos-hentry kratos-post-inner clearfix">
+        <header class="kratos-entry-header">
+            
+                <h1 class="kratos-entry-title text-center">Spring面试练习</h1>
+            
+            
+            <ul class="kratos-post-meta text-center">
+                <li><i class="fa fa-calendar"></i> 2021-08-16</li>
+                <li><i class="fa fa-user"></i> 作者 FunnyLs</li>
+                <li>
+                    <i class="fa fa-edit"></i> 
+                    
+                    
+                        ~9.64K
+                    
+                    字
+                </li>
+                
+            </ul>
+        </header>
+        <div class="kratos-post-content">
+            <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                本文最后编辑于 <time datetime="1629783273939"></time> 前，其中的内容可能需要更新。
+            </div>
+            
+                <div class="kratos-post-inner-toc">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.</span> <span class="toc-text">Spring是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AOP%E7%9A%84%E7%90%86%E8%A7%A3"><span class="toc-number">2.</span> <span class="toc-text">AOP的理解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IOC%E7%9A%84%E7%90%86%E8%A7%A3"><span class="toc-number">3.</span> <span class="toc-text">IOC的理解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring-Bean%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">4.</span> <span class="toc-text">Spring Bean的生命周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%AD%E6%9C%BA%E5%88%B6"><span class="toc-number">5.</span> <span class="toc-text">Spring事务传播机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring%E4%B8%ADBean%E6%98%AF%E5%90%A6%E6%98%AF%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84"><span class="toc-number">6.</span> <span class="toc-text">Spring中Bean是否是线程安全的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring%E4%B8%AD%E7%9A%84%E4%BA%8B%E5%8A%A1%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E7%9A%84"><span class="toc-number">7.</span> <span class="toc-text">Spring中的事务是如何实现的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%94%A8%E5%88%B0%E4%BA%86%E5%93%AA%E4%BA%9B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="toc-number">8.</span> <span class="toc-text">Spring框架中用到了哪些设计模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring%E5%AE%B9%E5%99%A8%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B%E6%98%AF%E6%80%8E%E6%A0%B7%E7%9A%84"><span class="toc-number">9.</span> <span class="toc-text">Spring容器启动流程是怎样的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring%E4%BA%8B%E5%8A%A1%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E4%BC%9A%E5%A4%B1%E6%95%88"><span class="toc-number">10.</span> <span class="toc-text">Spring事务什么时候会失效</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring%E6%94%AF%E6%8C%81%E7%9A%84%E5%87%A0%E7%A7%8DBean%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="toc-number">11.</span> <span class="toc-text">Spring支持的几种Bean作用域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0AOP%EF%BC%8C%E9%A1%B9%E7%9B%AE%E9%82%A3%E4%BA%9B%E5%9C%B0%E6%96%B9%E7%94%A8%E5%88%B0%E4%BA%86AOP"><span class="toc-number">12.</span> <span class="toc-text">如何实现AOP，项目那些地方用到了AOP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFBean%E7%9A%84%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D%EF%BC%8C%E6%9C%89%E5%93%AA%E4%BA%9B%E6%96%B9%E5%BC%8F"><span class="toc-number">13.</span> <span class="toc-text">什么是Bean的自动装配，有哪些方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring%E4%B8%AD%E5%90%8E%E7%BD%AE%E5%A4%84%E7%90%86%E5%99%A8%E4%BD%9C%E7%94%A8"><span class="toc-number">14.</span> <span class="toc-text">Spring中后置处理器作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SpringMVC%E4%B8%AD%E7%9A%84%E6%8E%A7%E5%88%B6%E5%99%A8%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%EF%BC%9F%E5%A6%82%E6%9E%9C%E6%98%AF%EF%BC%8C%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8"><span class="toc-number">15.</span> <span class="toc-text">SpringMVC中的控制器是不是单例模式？如果是，如何保证线程安全</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BeanFactory%E5%92%8CApplicationContext%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB"><span class="toc-number">16.</span> <span class="toc-text">BeanFactory和ApplicationContext有什么区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SpringMVC%E7%9A%84%E5%BA%95%E5%B1%82%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-number">17.</span> <span class="toc-text">SpringMVC的底层工作流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SpringMVC%E7%9A%84%E4%B9%9D%E5%A4%A7%E7%BB%84%E4%BB%B6"><span class="toc-number">18.</span> <span class="toc-text">SpringMVC的九大组件</span></a></li></ol>
+                </div>
+            
+            <hr />
+            <h2 id="Spring是什么"><a href="#Spring是什么" class="headerlink" title="Spring是什么"></a>Spring是什么</h2><p>轻量级的开源的JAVAEE框架。它是一个容器框架，用来装JavaBean(Java对象)，中间层框架可以起一个连接作用，比如说把Struts和Hibernate粘合在一起运用，可以让开发更快更简洁</p>
+<p>Spring是一个轻量级的控制反转(IOC)和面向切面(AOP)的容器框架</p>
+<ul>
+<li>从大小与开销两方面而言Spring都是轻量级的</li>
+<li>通过控制反转IOC的技术达到松耦合的目的</li>
+<li>提供了面向切面编程的丰富支持，允许通过分离应用的业务逻辑与系统级服务进行内聚性开发</li>
+<li>包含并管理应用对象(Bean)的配置和生命周期，这个意义上是一个容器</li>
+<li>将简单的组件配置、组合成为复杂应用，这个意义上是一个框架</li>
+</ul>
+<h2 id="AOP的理解"><a href="#AOP的理解" class="headerlink" title="AOP的理解"></a>AOP的理解</h2><p>系统是由不同的组件构成的，每个组件各负责一块特定功能。除了实现自身核心功能之外，这些组件还经常承担着额外的职责(例如事务管理、日志和安全)，这些系统服务被称为横切关注点，因为他们会跨越系统的多个组件。</p>
+<p>当要对分散的对象引入公共行为时，OOP则显得无能为力。OOP允许你定义从上到下的关系，但不适用于从左到右的关系</p>
+<p>在OOP设计中，它导致了大量代码的重复，而不利于各个模块的重用</p>
+<p>AOP是将程序中的交叉业务逻辑(比如安全，日志，事务等)，封装成一个切面，然后注入到目标对象(具体业务逻辑)。AOP可以对某个对象或某些对象的功能进行增强，可以在执行某个方法之前或之后做一些额外的事。</p>
+<h2 id="IOC的理解"><a href="#IOC的理解" class="headerlink" title="IOC的理解"></a>IOC的理解</h2><p>容器概念、控制反转、依赖注入</p>
+<p><strong>ioc容器</strong>：</p>
+<p>实际上就是一个map(key,value)，里面存着各种对象(在xml里配置的bean节点、@Repository、@service、@controller、@component)，在项目启动的时候会读取配置文件里边的bean节点，根据全限定类名使用反射创建对象放入map中、扫描到打上注解的类还是通过反射创建对象放到map中。</p>
+<p>这是map中就有各种对象了，当在代码中使用到这些对象时，再通过DI(autowired、resource等注解，xml里bean节点内的ref属性，项目启动时会读取xml节点ref属性根据id注入，也会扫描这些注解，根据类型或id注入，id就是对象名)</p>
+<p><strong>控制反转</strong>：</p>
+<p>没有引用IOC之前，对象A依赖于对象B，那么A在初始化或者运行到某一点时，自己必须去主动创建对象B或者使用已经创建的对象B。无论是创建还是使用对象B，控制权都在自己手上</p>
+<p>引入IOC之后，对象A与B失去了直接联系，当对象A获得依赖对象B的过程，由主动行为变为了被动行为，控制权颠倒，所以被称为控制反转</p>
+<p>全部的对象都交给了第三方IOC容器，所以IOC容器成了关键核心，起到了粘合剂的作用</p>
+<p><strong>依赖注入</strong>：</p>
+<p>获取依赖对象的过程被反转了。控制被反转后，获得依赖对象的过程由自身管理变为了由IOC容器主动注入。依赖注入是实现IOC的方法，就是由IOC容器在运行期间，动态的将某种依赖关系注入到对象中</p>
+<h2 id="Spring-Bean的生命周期"><a href="#Spring-Bean的生命周期" class="headerlink" title="Spring Bean的生命周期"></a>Spring Bean的生命周期</h2><ol>
+<li>解析类得到BeanDefinition</li>
+<li>如果有多个构造方法，则要推断构造方法</li>
+<li>确定好构造方法后，进行实例化得到一个对象</li>
+<li>对对象中的加了@Autowired注解的属性进行属性填充</li>
+<li>回调Aware方法，比如BeanNameAware,BeanFactoryAware</li>
+<li>调用BeanPostProcessor的初始化前的方法</li>
+<li>调用初始化方法</li>
+<li>调用BeanPostProcessor的初始化后的方法，在这里会进行AOP</li>
+<li>如果当前创建的bean是单例的则会把bean放入单例池</li>
+<li>使用bean</li>
+<li>Spring容器关闭时调用DisposableBean中destory()方法</li>
+</ol>
+<h2 id="Spring事务传播机制"><a href="#Spring事务传播机制" class="headerlink" title="Spring事务传播机制"></a>Spring事务传播机制</h2><p>多个事务方法相互调用时，事务如何在这些方法中传播</p>
+<p>REQUIRED（Spring默认的事务传播类型）：如果当前没有事务，则自己新建一个事务，如果当前存在事务，则加入这个事务</p>
+<p>SUPPORTS：当前存在事务，则加入当前事务，如果当前没有事务，就以非事务方法执行</p>
+<p>MANDATORY：当前存在事务，则加入当前事务，如果当前事务不存在，则抛出异常</p>
+<p>REQUIRES_NEW：创建一个新事务，如果当前存在事务，则挂起该事务</p>
+<p>NOT_SUPPORTED：以非事务方式执行，如果存在当前事务，则挂起该事务</p>
+<p>NEVER：不使用事务，如果当前事务存在，则抛出异常</p>
+<p>NESTED：如果当前事务存在，则在嵌套事务中执行，否则REQUIRED的操作一样(开启一个事务)</p>
+<h2 id="Spring中Bean是否是线程安全的"><a href="#Spring中Bean是否是线程安全的" class="headerlink" title="Spring中Bean是否是线程安全的"></a>Spring中Bean是否是线程安全的</h2><p>Spring本身并没有对Bean做线程安全处理，所以：</p>
+<ol>
+<li>如果Bean是无状态的，那么Bean则是线程安全的</li>
+<li>如果Bean是有状态的，那么Bean则不是线程安全的</li>
+</ol>
+<p>另外Bean是不是线程安全和作用于没关系，Bean的作用域只是表示Bean的生命周期范围，对于任何生命周期的Bean都是一个对象，这个对象是不是线程安全的，还是得看这个对象本身。</p>
+<h2 id="Spring中的事务是如何实现的"><a href="#Spring中的事务是如何实现的" class="headerlink" title="Spring中的事务是如何实现的"></a>Spring中的事务是如何实现的</h2><ol>
+<li>  Spring事务底层是基于数据库事务和AOP机制的</li>
+<li>首先使用了@Translactional注解的Bean，Spring会创建一个代理对象作为Bean</li>
+<li>当调用代理对象的方法时，会先判断该方法是或否加上了@Transactional注解</li>
+<li>如果加了，那么则用事务管理器创建一个数据库连接</li>
+<li>并且修改数据库连接的autocommit=false，禁止此链接的自动提交</li>
+<li>然后执行当前方法，方法中会执行sql</li>
+<li>执行完当前方法后，如果没有出现异常就直接提交事务</li>
+<li>如果出现了异常，并且这个异常是需要回滚的就会回滚事务，否则仍然提交事务</li>
+<li>Spring事务的隔离级别对应的就是数据库的隔离级别</li>
+<li>Spring事务的传播机制是Spring事务自己实现的</li>
+<li>Spring事务的传播机制是基于数据库连接来做的，一个数据库连接一个事务，如果传播机制配置为需要新开一个事务，那么实际上就是先建立一个数据库连接，在此新数据库连接上执行sql</li>
+</ol>
+<h2 id="Spring框架中用到了哪些设计模式"><a href="#Spring框架中用到了哪些设计模式" class="headerlink" title="Spring框架中用到了哪些设计模式"></a>Spring框架中用到了哪些设计模式</h2><p><strong>简单工厂</strong>：由一个工厂类根据传入的参数，动态决定应该创建哪一个产品类</p>
+<p>Spring中的BeanFactory就是简单工厂模式的体现，根据传入一个唯一的标识来获得Bean对象，但是否是在传入参数后创建还是传入参数前创建这个要根据具体情况来定</p>
+<p><strong>工厂方法</strong>：</p>
+<p>实现了FactoryBean接口的bean是一类叫做factory的bean。其特点是，spring会在使用getBean()调用获得该bean时，会自动调用该bean的getObject()方法，所以返回的不是factory这个bean，而是这个bean.getObject()方法的返回值</p>
+<p><strong>单例模式</strong>：保证一个类仅有一个实例，并提供一个它的全局访问点</p>
+<p>spring对单例的实现：spring中的单例模式完成了后半句话，即提供了全局的访问点BeanFactory。但没有从构造器级别去控制单例，这是因为spring管理的是任意的java对象</p>
+<p><strong>适配器模式</strong>：</p>
+<p>Spring定义了一个适配接口，使得每一种controller有一种对应的适配器实现类，让适配器代替controller执行相应的方法。这样在扩展controller时，只需要增加一个适配器类就完成了SpringMVC的扩展了。</p>
+<p><strong>装饰器模式</strong>：动态的给一个对象添加一些额外的职责。就增加功能来说，Decorator模式相比生成子类更为灵活</p>
+<p>Spring中用到的包装器模式在类名上有两种体现：一种是类名中含有Wrapper，另一种是类名中含有Decorator</p>
+<p><strong>动态代理</strong>：</p>
+<p>切面在应用运行的时刻被植入。一般情况下，在植入切面时，AOP容器会为目标对象创建动态的代理对象。SpringAOP就是以这种方式植入切面的。</p>
+<p><strong>观察者模式</strong>：</p>
+<p>spring的事件驱动模型使用的是观察者模式，Spring中Observer模式常用的地方是listener的实现</p>
+<p><strong>策略模式</strong>：</p>
+<p>Spring框架的资源访问Resource接口。该接口提供了更强的资源访问能力，Spring框架本身大量使用了Resource接口来访问底层资源</p>
+<p><strong>模板模式</strong>：</p>
+<p>JdbcTemplate</p>
+<p><strong>委派模式</strong>：</p>
+<p>BeanDefinationParserDelegate</p>
+<p><strong>责任链模式</strong>：</p>
+<p>BeanPostProcessor</p>
+<p><strong>访问者模式</strong>：</p>
+<p>PropertyAccessor接口，属性访问器，用来访问和设置某个对象的某个属性</p>
+<h2 id="Spring容器启动流程是怎样的"><a href="#Spring容器启动流程是怎样的" class="headerlink" title="Spring容器启动流程是怎样的"></a>Spring容器启动流程是怎样的</h2><ol>
+<li>创建Spring容器，启动Spring</li>
+<li>首先会进行扫描，扫描得到的所有BeanDefinition对象，并存在一个Map中</li>
+<li>挑选出所有非懒加载单例BeanDefinition进行创建Bean，对于多例Bean不需要在启动过程中创建，而是会在每次获取Bean时利用BeanDefinition去创建</li>
+<li>利用BeanDefinition创建Bean就是Bean的创建生命周期，这期间包括了合并BeanDefinition、推断构造方法、实例化、属性填充、初始化前、初始化、初始化后等步骤，其中AOP就是发生在初始化后这一步骤中</li>
+<li>单例Bean创建完后，Spring会发布一个容器启动事件</li>
+<li>Spring启动结束</li>
+</ol>
+<h2 id="Spring事务什么时候会失效"><a href="#Spring事务什么时候会失效" class="headerlink" title="Spring事务什么时候会失效"></a>Spring事务什么时候会失效</h2><p>Spring事务原理是AOP，进行了切面增强，那么失效的根本原因是这个AOP不起作用了，常见请况一般为：</p>
+<ol>
+<li>发生自调用，类里面使用this调用本类的方法(this通常省略)，此时这个this对象不是代理类，而是UserService本身</li>
+<li>方法不是public的：@Transactional只能用于public的方法上，否则事务不会失效，如果用在非public方法上，可以开启Aspectj代理模式</li>
+<li>数据库不支持事务</li>
+<li>没有被Spring管理</li>
+<li>异常被吃掉，事务不会回滚(或者抛出的异常没有被定义，默认为RuntimeException)</li>
+</ol>
+<h2 id="Spring支持的几种Bean作用域"><a href="#Spring支持的几种Bean作用域" class="headerlink" title="Spring支持的几种Bean作用域"></a>Spring支持的几种Bean作用域</h2><ol>
+<li>singleton：默认，每个容器中只有一个Bean的实例，单例的模式由BeanFactory自身来维护。该对象的生命周期是与Spring IOC容器一致的(但在第一次被注入时才会创建)</li>
+<li>prototype：为每一个bean请求提供一个实例。但在每次注入时都会创建一个新的对象</li>
+<li>request：bean被定义为在每个Http请求中创建一个单例对象，也就是说在单例请求中都会复用这一个单例对象</li>
+<li>session：与request范围类似，确保每个session中有一个bean的实例，在session过期后，bean会随之失效</li>
+<li>application：bean被定义为在ServletContext的生命周期中复用一个单例对象</li>
+<li>websocket：bean被定义为在websocket的生命周期中复用一个单例对象</li>
+</ol>
+<h2 id="如何实现AOP，项目那些地方用到了AOP"><a href="#如何实现AOP，项目那些地方用到了AOP" class="headerlink" title="如何实现AOP，项目那些地方用到了AOP"></a>如何实现AOP，项目那些地方用到了AOP</h2><p>利用动态代理技术来实现AOP，比如JDK动态代理或Cglib动态代理，利用动态代理技术，可以针对某个类生成代理对象，当调用代理对象的某个方法时，可以任意控制该方法的执行，比如可以先打印执行时间，再执行该方法，并且该方法执行完成后，再次打印执行时间。</p>
+<p>项目中，比如事务、权限控制、方法执行时长日志都是通过AOP技术实现的，凡是需要对某些方法做统一处理的都可以用AOP来实现，利用AOP可以做到业务无入侵</p>
+<h2 id="什么是Bean的自动装配，有哪些方式"><a href="#什么是Bean的自动装配，有哪些方式" class="headerlink" title="什么是Bean的自动装配，有哪些方式"></a>什么是Bean的自动装配，有哪些方式</h2><p>开启自动装配，只需要在xml配置文件&lt; bean &gt;中定义”auotwire”属性</p>
+<p>autowire属性有五种装配方式：</p>
+<ul>
+<li><p>no-缺省情况下，自动装配是通过”ref”属性手动设定</p>
+<p>手动装配：以value或ref的方式明确指定属性值都是手动装配。需要通过ref属性来连接bean</p>
+</li>
+<li><p>byName-根据bean的属性名称进行自动装配</p>
+<p>Cutomer的属性名称是Person，Spring会将bean id为person的bean通过setter方法进行自动装配。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id=<span class="string">&quot;cutomer&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;com.xxx.xxx.Cutomer&quot;</span> autowire=<span class="string">&quot;byName&quot;</span>/&gt;</span><br><span class="line">&lt;bean id=<span class="string">&quot;Person&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;com.xxx.xxx.Person&quot;</span>/&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>byType-根据bean的类型进行自动装配</p>
+<p>Cutomer的属性person的类型是Person，Spring会将Person类型通过setter方法进行自动装配。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id=<span class="string">&quot;Cutomer&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;com.xxx.xxx.Cutomer&quot;</span> autowire=<span class="string">&quot;construtor&quot;</span>/&gt;</span><br><span class="line">&lt;bean id=<span class="string">&quot;person&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;com.xxx.xxx.Person&quot;</span>/&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>constructor-类似byType，不过是应用于构造器参数。如果一个bean与构造器参数的类型相同，则进行自动装配，否则导致异常</p>
+<p>Cutomer构造函数的参数person的类型为Person,Spring会将Person类型通过构造方法进行自动装配</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id=<span class="string">&quot;cutomer&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;com.xxx.xxx.Cutomer&quot;</span> autowire=<span class="string">&quot;constructor&quot;</span>/&gt;</span><br><span class="line">&lt;bean id=<span class="string">&quot;person&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;com.xxx.xxx.Person&quot;</span>/&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>autodetect-如果有默认的构造器，则通过constructor方式进行自动装配，否则使用byType方式进行自动装配</p>
+</li>
+</ul>
+<p>@Autowired自动装配bean,可以在字段、setter方法、构造函数上使用</p>
+<h2 id="Spring中后置处理器作用"><a href="#Spring中后置处理器作用" class="headerlink" title="Spring中后置处理器作用"></a>Spring中后置处理器作用</h2><p>Spring中的后置处理器分为<strong>BeanFactory后置处理器</strong>和<strong>Bean后置处理器</strong>，他们是Spring底层源码架构设计中非常重要的一种机制，开发者可以根据这两种后置处理器来进行扩展。BeanFactory后置处理器表示针对BeanFactory的处理器，Spring启动过程中，会先创建出BeanFactory实例，然后利用BeanFactory处理器来加工BeanFactory，比如Spring的扫描就是基于BeanFactory后置处理器实现的，而Bean后置处理器也类似，Spring在创建一个Bean的过程中，首先会实例化得到一个对象，然后再利用Bean后置处理器来对该实例对象进行加工，比如我们常说的依赖注入就是基于一个Bean后置处理器来实现的，基于原实例对象，判断是否需要进行AOP，如果需要，那么就基于原实例对象进行动态代理，生成一个代理对象</p>
+<h2 id="SpringMVC中的控制器是不是单例模式？如果是，如何保证线程安全"><a href="#SpringMVC中的控制器是不是单例模式？如果是，如何保证线程安全" class="headerlink" title="SpringMVC中的控制器是不是单例模式？如果是，如何保证线程安全"></a>SpringMVC中的控制器是不是单例模式？如果是，如何保证线程安全</h2><p>控制器是单例模式</p>
+<p>单例模式下就会有线程安全问题</p>
+<p>Spring中保证线程安全的方法</p>
+<ol>
+<li>将Scope设置成非Singleton。prototype,request</li>
+<li>最好的方式是将控制器设计成无状态模式</li>
+</ol>
+<h2 id="BeanFactory和ApplicationContext有什么区别"><a href="#BeanFactory和ApplicationContext有什么区别" class="headerlink" title="BeanFactory和ApplicationContext有什么区别"></a>BeanFactory和ApplicationContext有什么区别</h2><p>ApplicationContext是BeanFactory的子接口</p>
+<p>ApplicationContext提供了更完整的功能</p>
+<ol>
+<li>继承MessageSource，因此支持国际化</li>
+<li>统一的资源文件访问方式</li>
+<li>提供在监听器中注册bean的事件</li>
+<li>同时加载多个配置文件</li>
+<li>载入多个(有继承关系)上下文，使得每一个上下文都专注于一个特定的层次，比如应用的web层</li>
+</ol>
+<ul>
+<li>BeanFatory采用的是延迟加载形式来注入Bean的，即只有在使用到某个Bean时(调用getBean())，才对该Bean进行加载实例化。这样，我们就不能发现存在的Spring的配置问题。如果Bean的某一个属性没有注入，BeanFactory加载后，直至第一次使用调用getBean方法才会抛出异常</li>
+<li>ApplicationContext，它是在容器启动时，一次性创建了所有Bean。这样，在容器启动时，我们就可以发现Spring中存在的配置错误，这样有利于检查所依赖属性是否注入。ApplicationContext启动后预载入所有的单实例Bean，通过预载入单实例bean，确保当你需要的时候，你就不需要等待，因为他们已经创建好了</li>
+<li>相对于基本的BeanFactory，ApplicationContext唯一的不足就是占用内存空间。当应用程序配置Bean较多时，程序启动较慢。</li>
+<li>BeanFactory通常以编程的方式被创建，ApplicationContext还能以声明的方式创建</li>
+</ul>
+<h2 id="SpringMVC的底层工作流程"><a href="#SpringMVC的底层工作流程" class="headerlink" title="SpringMVC的底层工作流程"></a>SpringMVC的底层工作流程</h2><ol>
+<li>用户向服务器发送请求，请求被SpringMVC 前端控制器 DispatcherServlet捕获。</li>
+<li>DispatcherServlet收到请求调用HandlerMapping处理器映射器</li>
+<li>处理器映射器找到具体的处理器(可根据xml配置、注解进行查找)，生成处理器及处理器拦截器(如果有则生成)一并返回给DispatcherServlet</li>
+<li>DispatcherServlet调用HandlerAdapter处理器适配器</li>
+<li>HandlerAdapter经过适配调用具体的处理器(controller,也叫后端控制器)</li>
+<li>Controller执行完成返回ModelAndView</li>
+<li>HandlerAdapter将controller执行结果ModelAndView返回给DispatcherServlet</li>
+<li>DispatcherServlet将ModelAndView传给ViewResolver视图解析器</li>
+<li>ViewResolver解析后返回具体View</li>
+<li>DispatcherServlet根据View进行渲染视图(即，将模型数据填充到视图中)</li>
+<li>DispatcherServlet响应用户</li>
+</ol>
+<h2 id="SpringMVC的九大组件"><a href="#SpringMVC的九大组件" class="headerlink" title="SpringMVC的九大组件"></a>SpringMVC的九大组件</h2><p> Handler：处理器。它直接对应着MVC中的C也就是Controller层，它的具体表现形式有很多，可以是类，也可以是方法。在controller层中@RequestMapping标注的所有方法都可以看成是一个Handler，只要可以实际处理请求就可以是Handler</p>
+<ol>
+<li><p>HandlerMapping</p>
+<p>initHandlerMappings(context)，处理器映射器，根据用户请求的资源uri来查找Handler的。在SpringMVC中会有很多请求，每个请求都需要一个Handler处理，，具体接收到一个请求之后使用哪个Handler进行，这就是HandlerMapping需要做的事</p>
+</li>
+<li><p>HandlerAdapter</p>
+<p>initHandlerAdapters(context),适配器。因为SpringMVC中的Handler可以是任意的形式，只要能处理请求就OK，但是Servlet需要的处理方法的结构是固定的，都是以request和response为参数的方法。让固定的Servlet处理方法调用灵活的Handler来进行处理，这就是HandlerAdapter要做的事情。</p>
+<p>Handler是干活的工具；HandlerMapping用于根据需要干的活找到相应工具；HandlerAdapter是使用工具干活的人</p>
+</li>
+<li><p>HandlerExceptionResolver</p>
+<p>initHandlerExceptionResolvers(context)，其他组件都是用来干活的。在干活的过程中难免会出现问题，需要有一个专门的角色对异常情况进行处理，在SpringMVC中就是HandlerExceptionResolver。此组件的作用就是根据异常设置ModelAndVierw，之后再交给render方法进行渲染</p>
+</li>
+<li><p>ViewResolver</p>
+<p>initViewResolver(context)，ViewResolver用来将Spring类型的视图名和Locale解析为View类型的视图。View是用来渲染页面的，也就是将程序返回的参数填入模板里。生成Html(也可能是其他类型)文件。ViewResolver需要找到渲染所用的模板和所用的技术(也就是视图的类型)进行渲染，具体的渲染过程则交由不同的视图自己完成</p>
+</li>
+<li><p>RequestToViewNameTranslator</p>
+<p>initRequestToViewNameTranslator(context)，ViewResolver是根据ViewName查找View，但有的Handler处理完后并没有设置ViewName，这时就需要从request获取ViewName了，如何从Request中获取ViewName就是RequestToViewNameTranslator要做的事。RequestToViewNameTranslator在SpringMVC容器里只可以配置一个，所以所有request到ViewName的转换规则都要在一个Translator里面全部实现</p>
+</li>
+<li><p>LocaleResolver</p>
+<p>initLocaleResolver(context)，解析视图需要两个参数：一个是视图名，另一个是Locale。视图名是处理器返回的。LocaleResolver则用于从request中解析出Locale，Locale就是zh-cn之类，表示有一个区域，有了这个可以对不同区域的用户显示不同结果。SpringMVC主要有两个地方用到了Locale：一是ViewResolver视图解析的时候；二是用到国际化资源或者主题的时候</p>
+</li>
+<li><p>ThemeResolver</p>
+<p>initThemeResolver(context)，用于解析主题。SpringMVC中一个主题对应一个properties文件，里面存放着跟当前主题相关的所有资源、如图片、css样式等。SpringMVC的主题也支持国际化，同一个主题不同区域也可以显示不同的风格。SpringMVC中跟主题相关的类有ThemeResolver、ThemeSource和Theme。主题是通过一系列资源来具体体现的，要得到一个主题的资源，首先要得到资源名称，这是ThemeResolver的工作。然后通过主题名称找到对应主题(可以理解为一个配置)文件，这是ThemeSource的工作。最后从主题中获取资源就可以</p>
+</li>
+<li><p>MultipartResolver</p>
+<p>initMultipartResolver(context)，用于处理上传请求。处理方法是将普通的request包装成MultipartHttpServletRequest，后者可以直接调用getFile方法获取File，如果上传多个文件，还可以调用getFileMap得到FileName→File结构的Map。此组件中一共有三个方法，作用分别是判断是不是上传请求，将request包装成MultipartHttpServletRequest、处理完后清理上传过程中产生的临时资源</p>
+</li>
+<li><p>FlashMapManager</p>
+<p>initFlashMapManager(context)，用来管理FlashMap的，FlashMap主要用在redirect中传递参数</p>
+</li>
+</ol>
+
+        </div>
+        
+            <div class="kratos-copyright text-center clearfix">
+                <h5>本作品采用 <a rel="license nofollow" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可</h5>
+            </div>
+        
+        <footer class="kratos-entry-footer clearfix">
+            
+                <div class="post-like-donate text-center clearfix" id="post-like-donate">
+                
+                
+                    <a class="share" href="javascript:;"><i class="fa fa-share-alt"></i> 分享</a>
+                    <div class="share-wrap" style="display: none;">
+    <div class="share-group">
+        <a href="javascript:;" class="share-plain qq" onclick="share('qq');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-qq"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain qzone" onclick="share('qzone');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-star"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weixin pop style-plain" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weixin"></i>
+            </div>
+            <div class="share-int">
+                <div class="qrcode" id="wechat-qr"></div>
+                <p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weibo" onclick="share('weibo');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weibo"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain facebook style-plain" onclick="share('facebook');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-facebook"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain twitter style-plain" onclick="share('twitter');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-twitter"></i>
+            </div>
+        </a>
+    </div>
+    <script type="text/javascript">
+        $(()=>{
+            new QRCode("wechat-qr", {
+                text: "http://example.com/2021/08/16/2021816-Spring%E9%9D%A2%E8%AF%95%E7%BB%83%E4%B9%A0/",
+                width: 150,
+                height: 150,
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+        function share(dest) {
+            const qqBase        = "https://connect.qq.com/widget/shareqq/index.html?";
+            const weiboBase     = "https://service.weibo.com/share/share.php?";
+            const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+            const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
+            const twitterBase   = "https://twitter.com/intent/tweet?";
+            const hostUrl       = "http://example.com/2021/08/16/2021816-Spring%E9%9D%A2%E8%AF%95%E7%BB%83%E4%B9%A0/";
+            const title         = "「Spring面试练习」";
+            const excerpt       = `Spring是什么轻量级的开源的JAVAEE框架。它是一个容器框架，用来装JavaBean(Java对象)，中间层框架可以起一个连接作用，比如说把Struts和Hibernate粘合在一起运用，可以让开发更快更简洁
+Spring是一个...`;
+            let _URL;
+            switch (dest) {
+                case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
+                case "weibo"    : _URL = weiboBase+"url="+hostUrl+"&title="+title+excerpt;                                 break;
+                case "qzone"    : _URL = qzoneBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";  break;
+                case "facebook" : _URL = facebookBase+"u="+hostUrl;                                                        break;
+                case "twitter"  : _URL = twitterBase+"text="+title+excerpt+"&url="+hostUrl;                                break;
+            }
+            window.open(_URL);
+        };
+    </script>
+</div>
+                
+                </div>
+            
+            <div class="footer-tag clearfix">
+                <div class="pull-left">
+                <i class="fa fa-tags"></i>
+                    <a class="tag-none-link" href="/tags/aop/" rel="tag">aop</a>, <a class="tag-none-link" href="/tags/ioc/" rel="tag">ioc</a>, <a class="tag-none-link" href="/tags/spring/" rel="tag">spring</a>
+                </div>
+                <div class="pull-date">
+                <span>最后编辑：2021-08-24</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+        <nav class="navigation post-navigation clearfix" role="navigation">
+            
+            <div class="nav-previous clearfix">
+                <a title=" 常用类" href="/2021/07/30/2021730-常用类/">&lt; 上一篇</a>
+            </div>
+            
+            
+        </nav>
+    
+    
+</article>
+
+        
+
+            </section>
+
+        
+
+                
+            
+
+<section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
+    <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
+    
+    
+                <aside id="krw-about" class="widget widget-kratos-about clearfix">
+    <div class="photo-background"></div>
+    <div class="photo-wrapper clearfix">
+        <div class="photo-wrapper-tip text-center">
+            <img class="about-photo" src="/images/avatar.webp" />
+        </div>
+    </div>
+    <div class="textwidget">
+        <p class="text-center">不要走进那个温和的良宵。</p>
+    </div>
+</aside>
+            
+                    <div class="sticky-area">
+                
+                    <aside id="krw-toc" class="widget widget-kratos-toc clearfix">
+    <div class="photo-background"></div>
+    <h4 class="widget-title no-after">
+        <i class="fa fa-compass"></i>
+        文章目录
+        <span class="toc-progress-bar"></span>
+    </h4>
+    <div class="textwidget">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">Spring是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AOP%E7%9A%84%E7%90%86%E8%A7%A3"><span class="toc-text">AOP的理解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IOC%E7%9A%84%E7%90%86%E8%A7%A3"><span class="toc-text">IOC的理解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring-Bean%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-text">Spring Bean的生命周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%AD%E6%9C%BA%E5%88%B6"><span class="toc-text">Spring事务传播机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring%E4%B8%ADBean%E6%98%AF%E5%90%A6%E6%98%AF%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84"><span class="toc-text">Spring中Bean是否是线程安全的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring%E4%B8%AD%E7%9A%84%E4%BA%8B%E5%8A%A1%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E7%9A%84"><span class="toc-text">Spring中的事务是如何实现的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%94%A8%E5%88%B0%E4%BA%86%E5%93%AA%E4%BA%9B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="toc-text">Spring框架中用到了哪些设计模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring%E5%AE%B9%E5%99%A8%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B%E6%98%AF%E6%80%8E%E6%A0%B7%E7%9A%84"><span class="toc-text">Spring容器启动流程是怎样的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring%E4%BA%8B%E5%8A%A1%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E4%BC%9A%E5%A4%B1%E6%95%88"><span class="toc-text">Spring事务什么时候会失效</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring%E6%94%AF%E6%8C%81%E7%9A%84%E5%87%A0%E7%A7%8DBean%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="toc-text">Spring支持的几种Bean作用域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0AOP%EF%BC%8C%E9%A1%B9%E7%9B%AE%E9%82%A3%E4%BA%9B%E5%9C%B0%E6%96%B9%E7%94%A8%E5%88%B0%E4%BA%86AOP"><span class="toc-text">如何实现AOP，项目那些地方用到了AOP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFBean%E7%9A%84%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D%EF%BC%8C%E6%9C%89%E5%93%AA%E4%BA%9B%E6%96%B9%E5%BC%8F"><span class="toc-text">什么是Bean的自动装配，有哪些方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring%E4%B8%AD%E5%90%8E%E7%BD%AE%E5%A4%84%E7%90%86%E5%99%A8%E4%BD%9C%E7%94%A8"><span class="toc-text">Spring中后置处理器作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SpringMVC%E4%B8%AD%E7%9A%84%E6%8E%A7%E5%88%B6%E5%99%A8%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%EF%BC%9F%E5%A6%82%E6%9E%9C%E6%98%AF%EF%BC%8C%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8"><span class="toc-text">SpringMVC中的控制器是不是单例模式？如果是，如何保证线程安全</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BeanFactory%E5%92%8CApplicationContext%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB"><span class="toc-text">BeanFactory和ApplicationContext有什么区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SpringMVC%E7%9A%84%E5%BA%95%E5%B1%82%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-text">SpringMVC的底层工作流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SpringMVC%E7%9A%84%E4%B9%9D%E5%A4%A7%E7%BB%84%E4%BB%B6"><span class="toc-text">SpringMVC的九大组件</span></a></li></ol>
+    </div>
+</aside>
+                
+                
+  <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
+    <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Error/">Error</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JDBC/">JDBC</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">28</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-Web/">Java Web</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SSM/">SSM</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ssm/">ssm</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%91%E5%B9%B4%E3%81%AE%E6%97%A5%E5%B8%B8/">少年の日常</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a><span class="category-list-count">1</span></li></ul>
+  </aside>
+
+
+            
+                
+  <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
+    <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
+      <div class="tag-clouds">
+        <a href="/tags/Callable/" style="font-size: 0.6em;">Callable</a> <a href="/tags/Date/" style="font-size: 0.6em;">Date</a> <a href="/tags/Java%E5%9F%BA%E7%A1%80/" style="font-size: 0.6em;">Java基础</a> <a href="/tags/Map/" style="font-size: 0.6em;">Map</a> <a href="/tags/OOP/" style="font-size: 0.6em;">OOP</a> <a href="/tags/Set/" style="font-size: 0.6em;">Set</a> <a href="/tags/Socket/" style="font-size: 0.6em;">Socket</a> <a href="/tags/String/" style="font-size: 0.6em;">String</a> <a href="/tags/TCP/" style="font-size: 0.6em;">TCP</a> <a href="/tags/UDP/" style="font-size: 0.6em;">UDP</a> <a href="/tags/aop/" style="font-size: 0.6em;">aop</a> <a href="/tags/ioc/" style="font-size: 0.6em;">ioc</a> <a href="/tags/lock/" style="font-size: 0.6em;">lock</a> <a href="/tags/spring/" style="font-size: 0.6em;">spring</a> <a href="/tags/synchronized/" style="font-size: 0.6em;">synchronized</a> <a href="/tags/%E5%8C%85%E8%A3%85%E7%B1%BB/" style="font-size: 0.6em;">包装类</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 0.8em;">数据结构</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 0.8em;">算法</a>
+      </div>
+  </aside>
+
+            
+                
+  <aside id="krw-posts" class="widget widget-kratos-posts">
+  <h4 class="widget-title"><i class="fa fa-file"></i>最新文章</h4>
+  <div class="tab-content">
+      <ul class="list-group">
+        
+        
+          
+          
+            <a class="list-group-item" href="/2021/08/16/2021816-Spring%E9%9D%A2%E8%AF%95%E7%BB%83%E4%B9%A0/"><i class="fa  fa-book"></i> Spring面试练习</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/07/30/2021730-%E5%B8%B8%E7%94%A8%E7%B1%BB/"><i class="fa  fa-book"></i> 常用类</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/07/22/2021722-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B(OOP)/"><i class="fa  fa-book"></i> 面向对象编程(OOP)</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/07/15/2021715-%E4%B8%83%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/"><i class="fa  fa-book"></i> 七大设计原则</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/06/29/2021-6-29-%E4%BA%8C%E5%8F%89%E5%B9%B3%E8%A1%A1%E6%A0%91(AVL%E6%A0%91)/"><i class="fa  fa-book"></i> 二叉平衡树(AVL树)</a>
+            
+          
+        
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+      </ul>
+  </div>
+  </aside>
+
+            
+    </div>
+</section>
+        
+        </div>
+    </div>
+</div>
+<footer>
+    <div id="footer"  class="ap-lrc"  >
+        <div class="kr-tool text-center">
+            <div class="tool">
+                
+                    <div class="box search-box">
+                        <a href="/search/">
+                            <span class="fa fa-search"></span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="box theme-box" id="darkmode-switch">
+                        <span class="fa fa-adjust"></span>
+                    </div>
+                
+                
+            </div>
+            <div class="box gotop-box">
+                <span class="fa fa-chevron-up"></span>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 footer-list text-center">
+                    <ul class="kratos-social-icons">
+                        
+                        <li><a href="mailto:1922856021@qq.com"><i class="fa fa-envelope"></i></a></li>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    </ul>
+                    <ul class="kratos-copyright">
+                        <div>
+                            <li>&copy; 2021 青い栞 版权所有.</li>
+                            <li>本站已运行<span id="span_dt">Loading...</span></li>
+                        </div>
+                        <div>
+                            <li>Theme <a href="https://github.com/Candinya/Kratos-Rebirth" target="_blank">Kratos:Rebirth</a></li>
+                            <li>Site built with&nbsp;<i class="fa fa-heart throb" style="color:#d43f57"></i>&nbsp;by FunnyLs.</li>
+                        </div>
+                        <div>
+                            <li>Powered by <a href="https://hexo.io" target="_blank" rel="nofollow">Hexo</a></li>
+                            <li>Hosted on <a href="https://github.io" target="_blank">Github Pages</a></li>
+                        </div>
+                        <div>
+                            
+                            
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+
+        <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.4/dist/js/bootstrap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+<script>const notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));</script>
+
+    <div>
+        <canvas id="snow"></canvas>
+        <script async type="text/javascript" src="/js/snow.min.js"></script>
+    </div>
+
+<script async src="/js/candy.min.js"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+    <meting-js
+        server="netease"
+        type="playlist"
+        id="3204190542"
+        order="random"
+        fixed="true"
+    >
+    </meting-js>
+
+
+
+    <script defer src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script defer src="/js/kratosr.min.js"></script>
+<script defer src="/js/pjax.min.js"></script>
+
+
+    <script defer src="/js/kr-dark.min.js"></script>
+
+
+
+<!-- Extra support for third-party plguins  -->
+
+
+    </body>
+</html>
