@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+  <!-- 元数据 -->
+  <meta charset="utf-8">
+  <link rel="icon" href="">
+  <title>Nginx | 青い栞</title>
+  <meta name="author" content="FunnyLs" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index,follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="format-detection" content="telphone=no, email=no" />
+  
+    <meta name="keywords" content="并发, 服务器" />
+  
+  <meta name="description" content="Nginx简介Nginx是高性能的Http和反向代理的服务器，占用内存少，有处理高并发的能力，能经受高负载考验 Nginx 可以作为静态页面的 web 服务器，同时还支持 CGI 协议的动态语言，比如 perl、php 等。但是不支持 java。Java 程序只能通过与 tomcat 配合完成。Nginx 专为性能优化而开发， 性能是其最重要的考量,实现上非常注重效率 正向代理如果把局域网外的 I">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx">
+<meta property="og:url" content="http://example.com/2021/10/24/20211024-Nginx/index.html">
+<meta property="og:site_name" content="青い栞">
+<meta property="og:description" content="Nginx简介Nginx是高性能的Http和反向代理的服务器，占用内存少，有处理高并发的能力，能经受高负载考验 Nginx 可以作为静态页面的 web 服务器，同时还支持 CGI 协议的动态语言，比如 perl、php 等。但是不支持 java。Java 程序只能通过与 tomcat 配合完成。Nginx 专为性能优化而开发， 性能是其最重要的考量,实现上非常注重效率 正向代理如果把局域网外的 I">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/null">
+<meta property="article:published_time" content="2021-10-23T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-11-02T07:41:36.670Z">
+<meta property="article:author" content="FunnyLs">
+<meta property="article:tag" content="并发">
+<meta property="article:tag" content="服务器">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/null">
+<meta name="twitter:site" content="@null">
+  
+  <!-- 站点验证相关 -->
+  
+    
+    
+    
+  
+  <!-- 样式表文件 -->
+  <link rel="stylesheet" id="kratos-css" href="/css/kratosr.min.css" type="text/css" media="all">
+  
+    <link rel="stylesheet" id="highlight-css" href="/css/highlight/night-blue.min.css" type="text/css" media="all">
+  
+  
+  <link rel="stylesheet" id="fontawe-css" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" type="text/css" media="all">
+  <link rel="stylesheet" id="nprogress-css" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" type="text/css" media="all">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+  
+  
+    <link rel="stylesheet" id="darkmode-css" href="/css/kr-dark.min.css" type="text/css" media="all">
+  
+  <!-- 不得不预先加载的一些JS文件 -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+    <body class="custom-background">
+        <div id="kratos-wrapper">
+    <div id="kratos-page">
+        <div id="kratos-header">
+            <header id="kratos-desktop-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="nav-header">
+                        <nav id="kratos-menu-wrap">
+                            <ul id="kratos-primary-menu" class="sf-menu">
+                                
+                                    
+                                        <li><a href="/"><i class="fa fa-home"></i>首页</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/archives/"><i class="fa fa-file"></i>档案馆</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/friends/"></a></li>
+                                    
+                                
+                                    
+                                        <li>
+                                            <a><i class="fa fa-link"></i>链接</a>
+                                            <ul class="sub-menu">
+                                                
+                                                    
+                                                
+                                                    
+                                                        <li><a target="_blank" rel="noopener" href="https://candinya.com">作者博客</a></li>
+                                                    
+                                                
+                                                    
+                                                        <li><a target="_blank" rel="noopener" href="https://github.com/Candinya/Kratos-Rebirth">项目链接</a></li>
+                                                    
+                                                
+                                            </ul>
+                                        </li>
+                                    
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <header id="kratos-mobile-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="color-logo"><a href="/">青い栞</a></div>
+                    <div class="nav-toggle">
+                        <a class="kratos-nav-toggle js-kratos-nav-toggle">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="kratos-start kratos-hero-2">
+            <!-- <div class="kratos-overlay"></div> -->
+            <div class="kratos-cover kratos-cover-2 text-center">
+                <div class="desc desc2 animate-box">
+                    <a href="/">
+                        <h2>青い栞</h2> <br />
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="kratos-blog-post">
+            <div class="container">
+                <div id="main" class="row">
+                    
+
+        
+
+            <section class="col-md-8">
+
+        
+
+            <article>
+    <div class="kratos-hentry kratos-post-inner clearfix">
+        <header class="kratos-entry-header">
+            
+                <h1 class="kratos-entry-title text-center">Nginx</h1>
+            
+            
+            <ul class="kratos-post-meta text-center">
+                <li><i class="fa fa-calendar"></i> 2021-10-24</li>
+                <li><i class="fa fa-user"></i> 作者 FunnyLs</li>
+                <li>
+                    <i class="fa fa-edit"></i> 
+                    
+                    
+                        ~4.07K
+                    
+                    字
+                </li>
+                
+            </ul>
+        </header>
+        <div class="kratos-post-content">
+            <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                本文最后编辑于 <time datetime="1635838896670"></time> 前，其中的内容可能需要更新。
+            </div>
+            
+                <div class="kratos-post-inner-toc">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">Nginx简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A3%E5%90%91%E4%BB%A3%E7%90%86"><span class="toc-number">1.1.</span> <span class="toc-text">正向代理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86"><span class="toc-number">1.2.</span> <span class="toc-text">反向代理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="toc-number">1.3.</span> <span class="toc-text">负载均衡</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E9%9D%99%E5%88%86%E7%A6%BB"><span class="toc-number">1.4.</span> <span class="toc-text">动静分离</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx%E5%8E%9F%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">Nginx原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#master-amp-amp-worker"><span class="toc-number">2.1.</span> <span class="toc-text">master&amp;&amp;worker</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx%E8%AF%A6%E7%BB%86%E9%85%8D%E7%BD%AE"><span class="toc-number">3.</span> <span class="toc-text">Nginx详细配置</span></a></li></ol>
+                </div>
+            
+            <hr />
+            <h2 id="Nginx简介"><a href="#Nginx简介" class="headerlink" title="Nginx简介"></a>Nginx简介</h2><p>Nginx是高性能的Http和反向代理的服务器，占用内存少，有处理高并发的能力，能经受高负载考验</p>
+<p>Nginx 可以作为静态页面的 web 服务器，同时还支持 CGI 协议的动态语言，比如 perl、php 等。但是不支持 java。Java 程序只能通过与 tomcat 配合完成。Nginx 专为性能优化而开发， 性能是其最重要的考量,实现上非常注重效率</p>
+<h3 id="正向代理"><a href="#正向代理" class="headerlink" title="正向代理"></a>正向代理</h3><p>如果把局域网外的 Internet 想象成一个巨大的资源库，则局域网中的客户端要访 问 Internet，则需要通过代理服务器来访问，这种代理服务就称为正向代理</p>
+<h3 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h3><p>反向代理，其实客户端对代理是无感知的，因为客户端不需要任何配置就可以访问，我们只需要将请求发送到反向代理服务器，由反向代理服务器去选择目标服务器获取数据后，在返回给客户端，此时反向代理服务器和目标服务器整体对外就是一个服务器，暴露的是代理服务器地址，隐藏了真实服务器 IP 地址。</p>
+<h3 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h3><p><strong>普通流程为</strong>：客户端发送多个请求到服务器，服务器处理请求，有一些可能要与数据库进行交互，服 务器处理完毕后，再将结果返回给客户端。</p>
+<p>这种架构模式适合系统相对单一，并发请求相对较少的情况。但随着访问量的增长以及业务的复杂程度增加，会导致服务器响应客户端的请求缓慢，并发量特别大的时候，还可能会导致服务器直接崩溃。</p>
+<p>通过增加服务器的物理配置可以缓解这一情况，但是面对如双十一的商品的瞬时访问量来讲，现有的顶级物理配置也是不够的。因此，可以通过<strong>增加服务器的数量(集群)<strong>来解决。通过增加服务器的数量，将请求分发到各个服务器上，将原先请求集中到单个服务器上的情况改为将请求分发到多个服务器上，每个服务器分开承担负载，即为</strong>负载均衡</strong> </p>
+<h3 id="动静分离"><a href="#动静分离" class="headerlink" title="动静分离"></a>动静分离</h3><p>为了加快网站的解析速度，可以把动态页面和静态页面由不同的服务器来解析，加快解析速度。降低原来单个服务器的压力</p>
+<h2 id="Nginx原理"><a href="#Nginx原理" class="headerlink" title="Nginx原理"></a>Nginx原理</h2><h3 id="master-amp-amp-worker"><a href="#master-amp-amp-worker" class="headerlink" title="master&amp;&amp;worker"></a>master&amp;&amp;worker</h3><p><a target="_blank" rel="noopener" href="https://imgtu.com/i/Iirsgg"><img src="https://z3.ax1x.com/2021/11/02/Iirsgg.md.png" alt="Iirsgg.md.png"></a></p>
+<ol>
+<li><p>nginx启动后会有一个Master进程和多个Worker进程，Master进程主要用来管理Worker进程，包括：</p>
+<p>接收信号，将信号分发给Worker进程，监听Worker进程的工作状态，当worker进程非正常退出时，会启动新的Worker进程。基本的网络事件会交给Worker进程处理。多个worker进程之间是对等的，他们同等竞争来自客户端的请求，各进程互相之间是独立的 。一个请求，只可能在一个worker进程中处理，一个worker进程，不可能处理其它进程的请求。Worker数量是可以设置的，一般与服务器的CPU数相等最为适宜。</p>
+</li>
+<li><p>Master接收到重新加载的信号</p>
+<p>当Master接收到重新加载的信号(./nginx -s reload)时，Master会重新加载配置文件，然后启动新的进程，使用新的Worker进程来接受请求，老的Worker进程将不再接收新的，处理完正在处理的请求就会退出</p>
+</li>
+<li><p>worker进程处理用户的请求</p>
+<p>首先Master会根据配置文件生成一个监听相应端口的socket，然后再faster出多个worker进程，这样每个worker就可以接受从socket过来的信息（一般来讲，每个Worker都有一个socket，但是这些socket监听的地址是一样的）。当一个连接过来的时候，每一个Worker都能接收到通知，但是只有一个Worker可以连接成功，其余的Worker就会连接失败，也就是<strong>惊群效应</strong>。因此，nginx提供了一个共享锁accept_mutex，有这个共享锁，就会只有一个worker去接受这个连接。当一个Worker进程在接受这个连接之后，就开始读取请求，解析请求，处理请求，产生数据，返回客户端，断开连接。</p>
+</li>
+</ol>
+<h2 id="Nginx详细配置"><a href="#Nginx详细配置" class="headerlink" title="Nginx详细配置"></a>Nginx详细配置</h2><p>1、全局块：配置影响nginx全局的指令。一般有运行nginx服务器的用户组，nginx进程pid存放路径，日志存放路径，配置文件引入，允许生成worker process数等。</p>
+<p>2、events块：配置影响nginx服务器或与用户的网络连接。有每个进程的最大连接数，选取哪种事件驱动模型处理连接请求，是否允许同时接受多个网路连接，开启多个网络连接序列化等。</p>
+<p>3、http块：可以嵌套多个server，配置代理，缓存，日志定义等绝大多数功能和第三方模块的配置。如文件引入，mime-type定义，日志自定义，是否使用sendfile传输文件，连接超时时间，单连接请求数等。</p>
+<p>4、server块：配置虚拟主机的相关参数，一个http中可以有多个server。</p>
+<p>5、location块：配置请求的路由，以及各种页面的处理情况</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">########### 每个指令必须有分号结束。#################</span><br><span class="line">#user administrator administrators;  #配置用户或者组，默认为nobody nobody。</span><br><span class="line">#worker_processes 2;  #允许生成的进程数，默认为1</span><br><span class="line">#pid /nginx/pid/nginx.pid;   #指定nginx进程运行文件存放地址</span><br><span class="line">error_log log/error.log debug;  #制定日志路径，级别。这个设置可以放入全局块，http块，server块，级别以此为：debug|info|notice|warn|error|crit|alert|emerg</span><br><span class="line">events &#123;</span><br><span class="line">    accept_mutex on;   #设置网路连接序列化，防止惊群现象发生，默认为on</span><br><span class="line">    multi_accept on;  #设置一个进程是否同时接受多个网络连接，默认为off</span><br><span class="line">    #use epoll;      #事件驱动模型，select|poll|kqueue|epoll|resig|/dev/poll|eventport</span><br><span class="line">    worker_connections  1024;    #最大连接数，默认为512</span><br><span class="line">&#125;</span><br><span class="line">http &#123;</span><br><span class="line">    include       mime.types;   #文件扩展名与文件类型映射表</span><br><span class="line">    default_type  application/octet-stream; #默认文件类型，默认为text/plain</span><br><span class="line">    #access_log off; #取消服务日志    </span><br><span class="line">    log_format myFormat &#x27;$remote_addr–$remote_user [$time_local] $request $status $body_bytes_sent $http_referer $http_user_agent $http_x_forwarded_for&#x27;; #自定义格式</span><br><span class="line">    access_log log/access.log myFormat;  #combined为日志格式的默认值</span><br><span class="line">    sendfile on;   #允许sendfile方式传输文件，默认为off，可以在http块，server块，location块。</span><br><span class="line">    sendfile_max_chunk 100k;  #每个进程每次调用传输数量不能大于设定的值，默认为0，即不设上限。</span><br><span class="line">    keepalive_timeout 65;  #连接超时时间，默认为75s，可以在http，server，location块。</span><br><span class="line"> </span><br><span class="line">    upstream mysvr &#123;   </span><br><span class="line">      server 127.0.0.1:7878;</span><br><span class="line">      server 192.168.10.121:3333 backup;  #热备</span><br><span class="line">    &#125;</span><br><span class="line">    error_page 404 https://www.baidu.com; #错误页</span><br><span class="line">    server &#123;</span><br><span class="line">        keepalive_requests 120; #单连接请求上限次数。</span><br><span class="line">        listen       4545;   #监听端口</span><br><span class="line">        server_name  127.0.0.1;   #监听地址       </span><br><span class="line">        location  ~*^.+$ &#123;       #请求的url过滤，正则匹配，~为区分大小写，~*为不区分大小写。</span><br><span class="line">           #root path;  #根目录</span><br><span class="line">           #index vv.txt;  #设置默认页</span><br><span class="line">           proxy_pass  http://mysvr;  #请求转向mysvr 定义的服务器列表</span><br><span class="line">           deny 127.0.0.1;  #拒绝的ip</span><br><span class="line">           allow 172.18.5.54; #允许的ip           </span><br><span class="line">        &#125; </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>1、1.$remote_addr 与$http_x_forwarded_for 用以记录客户端的ip地址； 2.$remote_user ：用来记录客户端用户名称； 3.$time_local ： 用来记录访问时间与时区；4.$request ： 用来记录请求的url与http协议；</p>
+<p>  5.$status ： 用来记录请求状态；成功是200， 6.$body_bytes_s ent ：记录发送给客户端文件主体内容大小；7.$http_referer ：用来记录从那个页面链接访问过来的； 8.$http_user_agent ：记录客户端浏览器的相关信息；</p>
+<p>2、惊群现象：一个网路连接到来，多个睡眠的进程被同事叫醒，但只有一个进程能获得链接，这样会影响系统性能。</p>
+<p>3、每个指令必须有分号结束。</p>
+
+        </div>
+        
+            <div class="kratos-copyright text-center clearfix">
+                <h5>本作品采用 <a rel="license nofollow" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可</h5>
+            </div>
+        
+        <footer class="kratos-entry-footer clearfix">
+            
+                <div class="post-like-donate text-center clearfix" id="post-like-donate">
+                
+                
+                    <a class="share" href="javascript:;"><i class="fa fa-share-alt"></i> 分享</a>
+                    <div class="share-wrap" style="display: none;">
+    <div class="share-group">
+        <a href="javascript:;" class="share-plain qq" onclick="share('qq');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-qq"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain qzone" onclick="share('qzone');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-star"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weixin pop style-plain" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weixin"></i>
+            </div>
+            <div class="share-int">
+                <div class="qrcode" id="wechat-qr"></div>
+                <p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weibo" onclick="share('weibo');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weibo"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain facebook style-plain" onclick="share('facebook');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-facebook"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain twitter style-plain" onclick="share('twitter');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-twitter"></i>
+            </div>
+        </a>
+    </div>
+    <script type="text/javascript">
+        $(()=>{
+            new QRCode("wechat-qr", {
+                text: "http://example.com/2021/10/24/20211024-Nginx/",
+                width: 150,
+                height: 150,
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+        function share(dest) {
+            const qqBase        = "https://connect.qq.com/widget/shareqq/index.html?";
+            const weiboBase     = "https://service.weibo.com/share/share.php?";
+            const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+            const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
+            const twitterBase   = "https://twitter.com/intent/tweet?";
+            const hostUrl       = "http://example.com/2021/10/24/20211024-Nginx/";
+            const title         = "「Nginx」";
+            const excerpt       = `Nginx简介Nginx是高性能的Http和反向代理的服务器，占用内存少，有处理高并发的能力，能经受高负载考验
+Nginx 可以作为静态页面的 web 服务器，同时还支持 CGI 协议的动态语言，比如 perl、php 等。但是不支持...`;
+            let _URL;
+            switch (dest) {
+                case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
+                case "weibo"    : _URL = weiboBase+"url="+hostUrl+"&title="+title+excerpt;                                 break;
+                case "qzone"    : _URL = qzoneBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";  break;
+                case "facebook" : _URL = facebookBase+"u="+hostUrl;                                                        break;
+                case "twitter"  : _URL = twitterBase+"text="+title+excerpt+"&url="+hostUrl;                                break;
+            }
+            window.open(_URL);
+        };
+    </script>
+</div>
+                
+                </div>
+            
+            <div class="footer-tag clearfix">
+                <div class="pull-left">
+                <i class="fa fa-tags"></i>
+                    <a class="tag-none-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a>, <a class="tag-none-link" href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="tag">服务器</a>
+                </div>
+                <div class="pull-date">
+                <span>最后编辑：2021-11-02</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+        <nav class="navigation post-navigation clearfix" role="navigation">
+            
+            <div class="nav-previous clearfix">
+                <a title=" MySQL存储引擎" href="/2021/09/29/2021929-MySQL存储引擎/">&lt; 上一篇</a>
+            </div>
+            
+            
+            <div class="nav-next clearfix">
+                <a title=" Java虚拟机体系结构" href="/2021/11/04/2021114-Java虚拟机体系结构/">下一篇 &gt;</a>
+            </div>
+            
+        </nav>
+    
+    
+</article>
+
+        
+
+            </section>
+
+        
+
+                
+            
+
+<section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
+    <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
+    
+    
+                <aside id="krw-about" class="widget widget-kratos-about clearfix">
+    <div class="photo-background"></div>
+    <div class="photo-wrapper clearfix">
+        <div class="photo-wrapper-tip text-center">
+            <img class="about-photo" src="/images/avatar.webp" />
+        </div>
+    </div>
+    <div class="textwidget">
+        <p class="text-center">不要走进那个温和的良宵。</p>
+    </div>
+</aside>
+            
+                    <div class="sticky-area">
+                
+                    <aside id="krw-toc" class="widget widget-kratos-toc clearfix">
+    <div class="photo-background"></div>
+    <h4 class="widget-title no-after">
+        <i class="fa fa-compass"></i>
+        文章目录
+        <span class="toc-progress-bar"></span>
+    </h4>
+    <div class="textwidget">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx%E7%AE%80%E4%BB%8B"><span class="toc-text">Nginx简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A3%E5%90%91%E4%BB%A3%E7%90%86"><span class="toc-text">正向代理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86"><span class="toc-text">反向代理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="toc-text">负载均衡</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E9%9D%99%E5%88%86%E7%A6%BB"><span class="toc-text">动静分离</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx%E5%8E%9F%E7%90%86"><span class="toc-text">Nginx原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#master-amp-amp-worker"><span class="toc-text">master&amp;&amp;worker</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx%E8%AF%A6%E7%BB%86%E9%85%8D%E7%BD%AE"><span class="toc-text">Nginx详细配置</span></a></li></ol>
+    </div>
+</aside>
+                
+                
+  <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
+    <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Error/">Error</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JDBC/">JDBC</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JVM/">JVM</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">29</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-Web/">Java Web</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MyBatis/">MyBatis</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Nginx/">Nginx</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SSM/">SSM</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/redis/">redis</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/springmvc/">springmvc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ssm/">ssm</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%91%E5%B9%B4%E3%81%AE%E6%97%A5%E5%B8%B8/">少年の日常</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a><span class="category-list-count">1</span></li></ul>
+  </aside>
+
+
+            
+                
+  <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
+    <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
+      <div class="tag-clouds">
+        <a href="/tags/Callable/" style="font-size: 0.6em;">Callable</a> <a href="/tags/Date/" style="font-size: 0.6em;">Date</a> <a href="/tags/Java%E5%9F%BA%E7%A1%80/" style="font-size: 0.6em;">Java基础</a> <a href="/tags/Map/" style="font-size: 0.6em;">Map</a> <a href="/tags/NoSQL/" style="font-size: 0.6em;">NoSQL</a> <a href="/tags/OOP/" style="font-size: 0.6em;">OOP</a> <a href="/tags/Set/" style="font-size: 0.6em;">Set</a> <a href="/tags/Socket/" style="font-size: 0.6em;">Socket</a> <a href="/tags/String/" style="font-size: 0.6em;">String</a> <a href="/tags/TCP/" style="font-size: 0.6em;">TCP</a> <a href="/tags/UDP/" style="font-size: 0.6em;">UDP</a> <a href="/tags/lock/" style="font-size: 0.6em;">lock</a> <a href="/tags/mybatis/" style="font-size: 0.6em;">mybatis</a> <a href="/tags/redis/" style="font-size: 0.6em;">redis</a> <a href="/tags/springmvc/" style="font-size: 0.6em;">springmvc</a> <a href="/tags/ssm/" style="font-size: 0.6em;">ssm</a> <a href="/tags/synchronized/" style="font-size: 0.6em;">synchronized</a> <a href="/tags/%E5%8C%85%E8%A3%85%E7%B1%BB/" style="font-size: 0.6em;">包装类</a>
+      </div>
+  </aside>
+
+            
+                
+  <aside id="krw-posts" class="widget widget-kratos-posts">
+  <h4 class="widget-title"><i class="fa fa-file"></i>最新文章</h4>
+  <div class="tab-content">
+      <ul class="list-group">
+        
+        
+          
+          
+            <a class="list-group-item" href="/2021/11/11/20211111-%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%8C%96%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E4%B8%8E%E8%AE%BF%E9%97%AE%E5%AE%9A%E4%BD%8D/"><i class="fa  fa-book"></i> 对象的实例化内存布局与访问定位</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/11/11/20211111-%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E(%E6%9C%AA%E5%AE%8C)/"><i class="fa  fa-book"></i> 执行引擎</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/11/11/20211111-%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98/"><i class="fa  fa-book"></i> 直接内存</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/11/11/20211111-Java8%E6%96%B0%E7%89%B9%E6%80%A7/"><i class="fa  fa-book"></i> Java8新特性</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/11/10/20211110-JVM%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/"><i class="fa  fa-book"></i> JVM常见面试题</a>
+            
+          
+        
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+      </ul>
+  </div>
+  </aside>
+
+            
+    </div>
+</section>
+        
+        </div>
+    </div>
+</div>
+<footer>
+    <div id="footer"  class="ap-lrc"  >
+        <div class="kr-tool text-center">
+            <div class="tool">
+                
+                    <div class="box search-box">
+                        <a href="/search/">
+                            <span class="fa fa-search"></span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="box theme-box" id="darkmode-switch">
+                        <span class="fa fa-adjust"></span>
+                    </div>
+                
+                
+            </div>
+            <div class="box gotop-box">
+                <span class="fa fa-chevron-up"></span>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 footer-list text-center">
+                    <ul class="kratos-social-icons">
+                        
+                        <li><a href="mailto:1922856021@qq.com"><i class="fa fa-envelope"></i></a></li>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    </ul>
+                    <ul class="kratos-copyright">
+                        <div>
+                            <li>&copy; 2021 青い栞 版权所有.</li>
+                            <li>本站已运行<span id="span_dt">Loading...</span></li>
+                        </div>
+                        <div>
+                            <li>Theme <a href="https://github.com/Candinya/Kratos-Rebirth" target="_blank">Kratos:Rebirth</a></li>
+                            <li>Site built with&nbsp;<i class="fa fa-heart throb" style="color:#d43f57"></i>&nbsp;by FunnyLs.</li>
+                        </div>
+                        <div>
+                            <li>Powered by <a href="https://hexo.io" target="_blank" rel="nofollow">Hexo</a></li>
+                            <li>Hosted on <a href="https://github.io" target="_blank">Github Pages</a></li>
+                        </div>
+                        <div>
+                            
+                            
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+
+        <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.4/dist/js/bootstrap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+<script>const notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));</script>
+
+    <div>
+        <canvas id="snow"></canvas>
+        <script async type="text/javascript" src="/js/snow.min.js"></script>
+    </div>
+
+<script async src="/js/candy.min.js"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+    <meting-js
+        server="netease"
+        type="playlist"
+        id="3204190542"
+        order="random"
+        fixed="true"
+    >
+    </meting-js>
+
+
+
+    <script defer src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script defer src="/js/kratosr.min.js"></script>
+<script defer src="/js/pjax.min.js"></script>
+
+
+    <script defer src="/js/kr-dark.min.js"></script>
+
+
+
+<!-- Extra support for third-party plguins  -->
+
+
+    </body>
+</html>

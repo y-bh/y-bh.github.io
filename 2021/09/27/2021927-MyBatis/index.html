@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+  <!-- 元数据 -->
+  <meta charset="utf-8">
+  <link rel="icon" href="">
+  <title>MyBatis | 青い栞</title>
+  <meta name="author" content="FunnyLs" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index,follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="format-detection" content="telphone=no, email=no" />
+  
+    <meta name="keywords" content="mybatis, ssm" />
+  
+  <meta name="description" content="MyBatis使用（接口式编程） 创建maven工程，导入依赖 1234567891011121314151617181920212223242526272829303132333435363738&lt;dependencies&gt;    &lt;!--MyBatis--&gt;    &lt;dependency&gt;        &lt;groupId&gt;org.mybatis&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MyBatis">
+<meta property="og:url" content="http://example.com/2021/09/27/2021927-MyBatis/index.html">
+<meta property="og:site_name" content="青い栞">
+<meta property="og:description" content="MyBatis使用（接口式编程） 创建maven工程，导入依赖 1234567891011121314151617181920212223242526272829303132333435363738&lt;dependencies&gt;    &lt;!--MyBatis--&gt;    &lt;dependency&gt;        &lt;groupId&gt;org.mybatis&amp;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/null">
+<meta property="article:published_time" content="2021-09-26T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-11-14T15:49:59.508Z">
+<meta property="article:author" content="FunnyLs">
+<meta property="article:tag" content="mybatis">
+<meta property="article:tag" content="ssm">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/null">
+<meta name="twitter:site" content="@null">
+  
+  <!-- 站点验证相关 -->
+  
+    
+    
+    
+  
+  <!-- 样式表文件 -->
+  <link rel="stylesheet" id="kratos-css" href="/css/kratosr.min.css" type="text/css" media="all">
+  
+    <link rel="stylesheet" id="highlight-css" href="/css/highlight/night-blue.min.css" type="text/css" media="all">
+  
+  
+  <link rel="stylesheet" id="fontawe-css" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" type="text/css" media="all">
+  <link rel="stylesheet" id="nprogress-css" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" type="text/css" media="all">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+  
+  
+    <link rel="stylesheet" id="darkmode-css" href="/css/kr-dark.min.css" type="text/css" media="all">
+  
+  <!-- 不得不预先加载的一些JS文件 -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+    <body class="custom-background">
+        <div id="kratos-wrapper">
+    <div id="kratos-page">
+        <div id="kratos-header">
+            <header id="kratos-desktop-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="nav-header">
+                        <nav id="kratos-menu-wrap">
+                            <ul id="kratos-primary-menu" class="sf-menu">
+                                
+                                    
+                                        <li><a href="/"><i class="fa fa-home"></i>首页</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/archives/"><i class="fa fa-file"></i>档案馆</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/friends/"></a></li>
+                                    
+                                
+                                    
+                                        <li>
+                                            <a><i class="fa fa-link"></i>链接</a>
+                                            <ul class="sub-menu">
+                                                
+                                                    
+                                                
+                                                    
+                                                        <li><a target="_blank" rel="noopener" href="https://candinya.com">作者博客</a></li>
+                                                    
+                                                
+                                                    
+                                                        <li><a target="_blank" rel="noopener" href="https://github.com/Candinya/Kratos-Rebirth">项目链接</a></li>
+                                                    
+                                                
+                                            </ul>
+                                        </li>
+                                    
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <header id="kratos-mobile-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="color-logo"><a href="/">青い栞</a></div>
+                    <div class="nav-toggle">
+                        <a class="kratos-nav-toggle js-kratos-nav-toggle">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="kratos-start kratos-hero-2">
+            <!-- <div class="kratos-overlay"></div> -->
+            <div class="kratos-cover kratos-cover-2 text-center">
+                <div class="desc desc2 animate-box">
+                    <a href="/">
+                        <h2>青い栞</h2> <br />
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="kratos-blog-post">
+            <div class="container">
+                <div id="main" class="row">
+                    
+
+        
+
+            <section class="col-md-8">
+
+        
+
+            <article>
+    <div class="kratos-hentry kratos-post-inner clearfix">
+        <header class="kratos-entry-header">
+            
+                <h1 class="kratos-entry-title text-center">MyBatis</h1>
+            
+            
+            <ul class="kratos-post-meta text-center">
+                <li><i class="fa fa-calendar"></i> 2021-09-27</li>
+                <li><i class="fa fa-user"></i> 作者 FunnyLs</li>
+                <li>
+                    <i class="fa fa-edit"></i> 
+                    
+                    
+                        ~8.87K
+                    
+                    字
+                </li>
+                
+            </ul>
+        </header>
+        <div class="kratos-post-content">
+            <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                本文最后编辑于 <time datetime="1636904999508"></time> 前，其中的内容可能需要更新。
+            </div>
+            
+                <div class="kratos-post-inner-toc">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MyBatis%E4%BD%BF%E7%94%A8%EF%BC%88%E6%8E%A5%E5%8F%A3%E5%BC%8F%E7%BC%96%E7%A8%8B%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">MyBatis使用（接口式编程）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text">全局配置文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MyBatis%E5%AE%98%E6%96%B9%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3"><span class="toc-number">2.1.</span> <span class="toc-text">MyBatis官方中文文档</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL%E6%98%A0%E5%B0%84%E6%96%87%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">SQL映射文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CRUD"><span class="toc-number">3.1.</span> <span class="toc-text">CRUD</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E8%87%AA%E5%A2%9E%E4%B8%BB%E9%94%AE%E7%9A%84%E5%80%BC"><span class="toc-number">3.1.1.</span> <span class="toc-text">获取自增主键的值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E5%A4%84%E7%90%86"><span class="toc-number">3.1.2.</span> <span class="toc-text">参数处理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%92%8C-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">3.1.3.</span> <span class="toc-text">#{}和${}的区别</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MyBatis%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="toc-number">4.</span> <span class="toc-text">MyBatis执行流程</span></a></li></ol>
+                </div>
+            
+            <hr />
+            <h2 id="MyBatis使用（接口式编程）"><a href="#MyBatis使用（接口式编程）" class="headerlink" title="MyBatis使用（接口式编程）"></a>MyBatis使用（接口式编程）</h2><ol>
+<li><p>创建maven工程，导入依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--MyBatis--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mybatis<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.4.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--日志 start--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.17<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.slf4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>slf4j-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.7.25<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.slf4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>slf4j-log4j12<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.7.25<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--日志end--&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--mysql驱动包--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>8.0.23<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.12<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">scope</span>&gt;</span>compile<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>创建bean对象Employee和dao层接口EmployeeMapper，接口中创建待实现的方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">EmployeeMapper</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Employee <span class="title">getEmpById</span><span class="params">(Integer id)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>在resource目录下创建mybatis-config.xml(全局配置文件)，创建一个SqlSessionFactory对象，配置数据源(dataSource)信息</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">configuration</span></span></span><br><span class="line"><span class="meta">        <span class="meta-keyword">PUBLIC</span> <span class="meta-string">&quot;-//mybatis.org//DTD Config 3.0//EN&quot;</span></span></span><br><span class="line"><span class="meta">        <span class="meta-string">&quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">environments</span> <span class="attr">default</span>=<span class="string">&quot;development&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">environment</span> <span class="attr">id</span>=<span class="string">&quot;development&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">transactionManager</span> <span class="attr">type</span>=<span class="string">&quot;JDBC&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">dataSource</span> <span class="attr">type</span>=<span class="string">&quot;POOLED&quot;</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;driver&quot;</span> <span class="attr">value</span>=<span class="string">&quot;com.mysql.cj.jdbc.Driver&quot;</span>/&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;url&quot;</span> <span class="attr">value</span>=<span class="string">&quot;jdbc:mysql://localhost:3306/mybatis&quot;</span>/&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;username&quot;</span> <span class="attr">value</span>=<span class="string">&quot;root&quot;</span>/&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span> <span class="attr">value</span>=<span class="string">&quot;root&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">dataSource</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">environment</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">environments</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>resource目录下新建mapper包，创建EmployeeMapper.xml(SQL映射文件)，里面配置了每一个sql，以及sql的封装规则。其中namespace是用来绑定接口的，即面向接口编程。当绑定接口后，可以不用写接口的实现类，mybatis会通过该绑定自动找到要执行的sql语句.接口中的方法需要与映射文件中的SQL语句的id一一对应.</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">mapper</span></span></span><br><span class="line"><span class="meta">        <span class="meta-keyword">PUBLIC</span> <span class="meta-string">&quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;</span></span></span><br><span class="line"><span class="meta">        <span class="meta-string">&quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mapper</span> <span class="attr">namespace</span>=<span class="string">&quot;com.ybh.mybatis.dao.EmployeeMapper&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">    namespace:名称空间</span></span><br><span class="line"><span class="comment">    id:唯一标识符</span></span><br><span class="line"><span class="comment">    resultType:返回值类型</span></span><br><span class="line"><span class="comment">    #&#123;id&#125;:从传递过来的参数中取出id值</span></span><br><span class="line"><span class="comment">    --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;getEmpById&quot;</span> <span class="attr">resultType</span>=<span class="string">&quot;com.ybh.mybatis.bean.Employee&quot;</span>&gt;</span></span><br><span class="line"> select id,last_name lastName,email,gender from tbl_employee where id = #&#123;id&#125;</span><br><span class="line"> <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mapper</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>将SQL映射文件注册到全局配置文件中</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mappers</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--将写好的文件注册到全局文件配置中--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mapper</span> <span class="attr">resource</span>=<span class="string">&quot;mapper/EmployeeMapper.xml&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">mappers</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>编写测试类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyBatisTest</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="comment">//根据全局配置文件得到SqlSessionFactory</span></span><br><span class="line">        String resource = <span class="string">&quot;mybatis-config.xml&quot;</span>;</span><br><span class="line">        InputStream inputStream = Resources.getResourceAsStream(resource);</span><br><span class="line">        SqlSessionFactory sqlSessionFactory = <span class="keyword">new</span> SqlSessionFactoryBuilder().build(inputStream);</span><br><span class="line">        <span class="comment">//获取sqlSession实例，能直接执行已经映射的sql语句，一个SqlSession就是代表和数据库的一次会话，用完关闭</span></span><br><span class="line">        SqlSession session = sqlSessionFactory.openSession();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            EmployeeMapper mapper = session.getMapper(EmployeeMapper.class);</span><br><span class="line">            Employee empById = mapper.getEmpById(<span class="number">1</span>);</span><br><span class="line">            System.out.println(empById);</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            session.close();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>SqlSession代表和数据库的一次会话，用完必须关闭</p>
+<p>SqlSession和connection一样，都是非线程安全的，每次使用都应该去获取新的对象</p>
+<p>mapper接口没有实现类，将接口和xml文件绑定后，mybatis会为接口自动的创建一个<strong>代理对象</strong>，通过代理对象来执行增删改查方法</p>
+<h2 id="全局配置文件"><a href="#全局配置文件" class="headerlink" title="全局配置文件"></a>全局配置文件</h2><h3 id="MyBatis官方中文文档"><a href="#MyBatis官方中文文档" class="headerlink" title="MyBatis官方中文文档"></a>MyBatis官方中文文档</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://mybatis.org/mybatis-3/zh/configuration.html#properties">properties（属性）</a></li>
+<li><a target="_blank" rel="noopener" href="https://mybatis.org/mybatis-3/zh/configuration.html#settings">settings（设置）</a></li>
+<li><a target="_blank" rel="noopener" href="https://mybatis.org/mybatis-3/zh/configuration.html#typeAliases">typeAliases（类型别名）</a></li>
+<li><a target="_blank" rel="noopener" href="https://mybatis.org/mybatis-3/zh/configuration.html#typeHandlers">typeHandlers（类型处理器）</a></li>
+<li><a target="_blank" rel="noopener" href="https://mybatis.org/mybatis-3/zh/configuration.html#objectFactory">objectFactory（对象工厂）</a></li>
+<li><a target="_blank" rel="noopener" href="https://mybatis.org/mybatis-3/zh/configuration.html#plugins">plugins（插件）</a></li>
+<li><a target="_blank" rel="noopener" href="https://mybatis.org/mybatis-3/zh/configuration.html#environments">environments（环境配置）</a><ul>
+<li>environment（环境变量）<ul>
+<li>transactionManager（事务管理器）</li>
+<li>dataSource（数据源）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a target="_blank" rel="noopener" href="https://mybatis.org/mybatis-3/zh/configuration.html#databaseIdProvider">databaseIdProvider（数据库厂商标识）</a></li>
+<li><a target="_blank" rel="noopener" href="https://mybatis.org/mybatis-3/zh/configuration.html#mappers">mappers（映射器）</a></li>
+</ul>
+<h2 id="SQL映射文件"><a href="#SQL映射文件" class="headerlink" title="SQL映射文件"></a>SQL映射文件</h2><h3 id="CRUD"><a href="#CRUD" class="headerlink" title="CRUD"></a>CRUD</h3><ol>
+<li><p>接口中定义CRUD方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">EmployeeMapper</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Employee <span class="title">getEmpById</span><span class="params">(Integer id)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addEmp</span><span class="params">(Employee employee)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateEmp</span><span class="params">(Employee employee)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">deleteEmpById</span><span class="params">(Integer id)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>SQL映射文件中加入相应的SQL语句</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mapper</span> <span class="attr">namespace</span>=<span class="string">&quot;com.ybh.mybatis.dao.EmployeeMapper&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;getEmpById&quot;</span> <span class="attr">resultType</span>=<span class="string">&quot;com.ybh.mybatis.bean.Employee&quot;</span>&gt;</span></span><br><span class="line">        select id,last_name lastName,email,gender from tbl_employee where id = #&#123;id&#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">&quot;addEmp&quot;</span> <span class="attr">parameterType</span>=<span class="string">&quot;com.ybh.mybatis.bean.Employee&quot;</span>&gt;</span></span><br><span class="line">        insert into tbl_employee(last_name,email,gender)values(#&#123;lastname&#125;,#&#123;email&#125;,#&#123;gender&#125;)</span><br><span class="line">    <span class="tag">&lt;/<span class="name">insert</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">update</span> <span class="attr">id</span>=<span class="string">&quot;updateEmp&quot;</span> <span class="attr">parameterType</span>=<span class="string">&quot;com.ybh.mybatis.bean.Employee&quot;</span>&gt;</span></span><br><span class="line">        update tbl_employee set last_name=#&#123;lastname&#125;,email=#&#123;email&#125;,gender=#&#123;gender&#125; where id=#&#123;id&#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">update</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">delete</span> <span class="attr">id</span>=<span class="string">&quot;deleteEmpById&quot;</span>&gt;</span></span><br><span class="line">        delete from tbl_employee where id=#&#123;id&#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">delete</span>&gt;</span></span><br><span class="line">        </span><br><span class="line"><span class="tag">&lt;/<span class="name">mapper</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>测试类实现方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        String resource = <span class="string">&quot;mybatis-config.xml&quot;</span>;</span><br><span class="line">        InputStream inputStream = Resources.getResourceAsStream(resource);</span><br><span class="line">        SqlSessionFactory sqlSessionFactory = <span class="keyword">new</span> SqlSessionFactoryBuilder().build(inputStream);</span><br><span class="line">        <span class="comment">//获取sqlSession实例，能直接执行已经映射的sql语句</span></span><br><span class="line">        SqlSession session = sqlSessionFactory.openSession();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            EmployeeMapper mapper = session.getMapper(EmployeeMapper.class);</span><br><span class="line">            <span class="comment">//添加</span></span><br><span class="line"><span class="comment">//            Employee employee = new Employee(null, &quot;tom&quot;, &quot;tom@qq.com&quot;, &quot;1&quot;);</span></span><br><span class="line"><span class="comment">//            mapper.addEmp(employee);</span></span><br><span class="line">            <span class="comment">//修改</span></span><br><span class="line"><span class="comment">//            Employee employee = new Employee(1, &quot;ybh&quot;, &quot;ybh@qq.com&quot;, &quot;1&quot;);</span></span><br><span class="line"><span class="comment">//            mapper.updateEmp(employee);</span></span><br><span class="line">            <span class="comment">//删除</span></span><br><span class="line"><span class="comment">//            mapper.deleteEmpById(2);</span></span><br><span class="line">            <span class="comment">//查询</span></span><br><span class="line"><span class="comment">//            Employee empById = mapper.getEmpById(1);</span></span><br><span class="line"><span class="comment">//            System.out.println(empById);</span></span><br><span class="line">            <span class="comment">//手动提交数据</span></span><br><span class="line">            session.commit();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            session.close();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="获取自增主键的值"><a href="#获取自增主键的值" class="headerlink" title="获取自增主键的值"></a>获取自增主键的值</h4><p>mysql支持自增主键、自增主键的值的获取</p>
+<p>useGeneratedKeys=”true”，开启使用自增主键获取主键值策略</p>
+<p>keyProperty：指定对应的主键属性，也就是mybatis获取到主键的值后，将这个值封装给JavaBean的哪个属性</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">&quot;addEmp&quot;</span> <span class="attr">parameterType</span>=<span class="string">&quot;com.ybh.mybatis.bean.Employee&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">useGeneratedKeys</span>=<span class="string">&quot;true&quot;</span> <span class="attr">keyProperty</span>=<span class="string">&quot;id&quot;</span>&gt;</span></span><br><span class="line">        insert into tbl_employee(last_name,email,gender)values(#&#123;lastname&#125;,#&#123;email&#125;,#&#123;gender&#125;)</span><br><span class="line">    <span class="tag">&lt;/<span class="name">insert</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="参数处理"><a href="#参数处理" class="headerlink" title="参数处理"></a>参数处理</h4><p><strong>单个参数</strong>：mybatis不会做特殊处理，#{参数名}，取出参数值</p>
+<p><strong>多个参数</strong>：mybatis会做特殊处理。多个参数会被封装成一个map</p>
+<p>key:param1…paramN,或者参数的索引</p>
+<p>value:传入的参数值</p>
+<p>#{}就是从map中获取指定的key的值</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id=<span class="string">&quot;getEmpByIdAndLastName&quot;</span> resultType=<span class="string">&quot;com.ybh.mybatis.bean.Employee&quot;</span>&gt;</span><br><span class="line">        select * from tbl_employee where id=#&#123;param1&#125; and last_name=#&#123;param2&#125;</span><br><span class="line">    &lt;/select&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>命名参数</strong>：明确指定封装参数时map的key：@Param(“id”)</p>
+<p>多个参数会被封装成一个map，key为使用@Param注解指定的值，value:参数值</p>
+<p>#{指定的key}取出对应的参数值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Employee <span class="title">getEmpByIdAndLastName</span><span class="params">(<span class="meta">@Param(&quot;id&quot;)</span>Integer id, <span class="meta">@Param(&quot;lastname&quot;)</span>String lastName)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>POJO</strong>：如果多个参数正好是业务逻辑的数据模型，就可以直接传入POJO</p>
+<p>#{属性名}：取出传入的POJO的属性值</p>
+<p><strong>Map</strong>：如果多个参数不是业务模型中的数据，没有对应的POJO，不经常使用，也可以传入Map</p>
+<p>#{key}：取出map中对应的值</p>
+<p>如果多个参数不是业务模型中的数据，但是要经常使用，推荐来编写一个TO(Transfer)</p>
+<p><strong>TO</strong>：如果多个参数不是业务模型中的的数据，但是要经常使用，推荐来编写一个TO(Transfer Object)数据传输对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Page&#123;</span><br><span class="line">	<span class="keyword">int</span> index;</span><br><span class="line">	<span class="keyword">int</span> size;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="和-的区别"><a href="#和-的区别" class="headerlink" title="#{}和${}的区别"></a>#{}和${}的区别</h4><p>#{}：是以预编译的形式，将参数设置到sql语句中，实现的是向prepareStatement中的预处理语句中设置参数值，防止SQL注入</p>
+<p>${}：取出的值直接拼装在sql语句中，无法阻止SQL注入</p>
+<p>大多数情况下，取参数的值都应该去使用#{}</p>
+<h2 id="MyBatis执行流程"><a href="#MyBatis执行流程" class="headerlink" title="MyBatis执行流程"></a>MyBatis执行流程</h2><ol>
+<li>mybatis应用程序通过SqlSessionFactoryBuilder从mybatis-config.xml配置文件（也可以用Java文件配置的方式，需要添加@Configuration）来构建SqlSessionFactory（SqlSessionFactory是线程安全的）</li>
+<li>SqlSessionFactory的实例直接开启一个SqlSession，再通过SqlSession实例获得Mapper对象并运行Mapper映射的SQL语句，完成对数据库的CRUD和事务提交，之后关闭SqlSession。</li>
+<li></li>
+</ol>
+
+        </div>
+        
+            <div class="kratos-copyright text-center clearfix">
+                <h5>本作品采用 <a rel="license nofollow" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可</h5>
+            </div>
+        
+        <footer class="kratos-entry-footer clearfix">
+            
+                <div class="post-like-donate text-center clearfix" id="post-like-donate">
+                
+                
+                    <a class="share" href="javascript:;"><i class="fa fa-share-alt"></i> 分享</a>
+                    <div class="share-wrap" style="display: none;">
+    <div class="share-group">
+        <a href="javascript:;" class="share-plain qq" onclick="share('qq');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-qq"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain qzone" onclick="share('qzone');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-star"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weixin pop style-plain" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weixin"></i>
+            </div>
+            <div class="share-int">
+                <div class="qrcode" id="wechat-qr"></div>
+                <p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weibo" onclick="share('weibo');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weibo"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain facebook style-plain" onclick="share('facebook');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-facebook"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain twitter style-plain" onclick="share('twitter');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-twitter"></i>
+            </div>
+        </a>
+    </div>
+    <script type="text/javascript">
+        $(()=>{
+            new QRCode("wechat-qr", {
+                text: "http://example.com/2021/09/27/2021927-MyBatis/",
+                width: 150,
+                height: 150,
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+        function share(dest) {
+            const qqBase        = "https://connect.qq.com/widget/shareqq/index.html?";
+            const weiboBase     = "https://service.weibo.com/share/share.php?";
+            const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+            const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
+            const twitterBase   = "https://twitter.com/intent/tweet?";
+            const hostUrl       = "http://example.com/2021/09/27/2021927-MyBatis/";
+            const title         = "「MyBatis」";
+            const excerpt       = `MyBatis使用（接口式编程）
+创建maven工程，导入依赖
+1234567891011121314151617181920212223242526272829303132333435363738&lt;dependencies&g...`;
+            let _URL;
+            switch (dest) {
+                case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
+                case "weibo"    : _URL = weiboBase+"url="+hostUrl+"&title="+title+excerpt;                                 break;
+                case "qzone"    : _URL = qzoneBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";  break;
+                case "facebook" : _URL = facebookBase+"u="+hostUrl;                                                        break;
+                case "twitter"  : _URL = twitterBase+"text="+title+excerpt+"&url="+hostUrl;                                break;
+            }
+            window.open(_URL);
+        };
+    </script>
+</div>
+                
+                </div>
+            
+            <div class="footer-tag clearfix">
+                <div class="pull-left">
+                <i class="fa fa-tags"></i>
+                    <a class="tag-none-link" href="/tags/mybatis/" rel="tag">mybatis</a>, <a class="tag-none-link" href="/tags/ssm/" rel="tag">ssm</a>
+                </div>
+                <div class="pull-date">
+                <span>最后编辑：2021-11-14</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+        <nav class="navigation post-navigation clearfix" role="navigation">
+            
+            <div class="nav-previous clearfix">
+                <a title=" ConcurrentHashMap" href="/2021/09/25/2021925-ConcurrentHashMap/">&lt; 上一篇</a>
+            </div>
+            
+            
+            <div class="nav-next clearfix">
+                <a title=" MySQL存储引擎" href="/2021/09/29/2021929-MySQL存储引擎/">下一篇 &gt;</a>
+            </div>
+            
+        </nav>
+    
+    
+</article>
+
+        
+
+            </section>
+
+        
+
+                
+            
+
+<section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
+    <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
+    
+    
+                <aside id="krw-about" class="widget widget-kratos-about clearfix">
+    <div class="photo-background"></div>
+    <div class="photo-wrapper clearfix">
+        <div class="photo-wrapper-tip text-center">
+            <img class="about-photo" src="/images/avatar.webp" />
+        </div>
+    </div>
+    <div class="textwidget">
+        <p class="text-center">不要走进那个温和的良宵。</p>
+    </div>
+</aside>
+            
+                    <div class="sticky-area">
+                
+                    <aside id="krw-toc" class="widget widget-kratos-toc clearfix">
+    <div class="photo-background"></div>
+    <h4 class="widget-title no-after">
+        <i class="fa fa-compass"></i>
+        文章目录
+        <span class="toc-progress-bar"></span>
+    </h4>
+    <div class="textwidget">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MyBatis%E4%BD%BF%E7%94%A8%EF%BC%88%E6%8E%A5%E5%8F%A3%E5%BC%8F%E7%BC%96%E7%A8%8B%EF%BC%89"><span class="toc-text">MyBatis使用（接口式编程）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-text">全局配置文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MyBatis%E5%AE%98%E6%96%B9%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3"><span class="toc-text">MyBatis官方中文文档</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL%E6%98%A0%E5%B0%84%E6%96%87%E4%BB%B6"><span class="toc-text">SQL映射文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CRUD"><span class="toc-text">CRUD</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E8%87%AA%E5%A2%9E%E4%B8%BB%E9%94%AE%E7%9A%84%E5%80%BC"><span class="toc-text">获取自增主键的值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E5%A4%84%E7%90%86"><span class="toc-text">参数处理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%92%8C-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">#{}和${}的区别</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MyBatis%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="toc-text">MyBatis执行流程</span></a></li></ol>
+    </div>
+</aside>
+                
+                
+  <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
+    <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Error/">Error</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JDBC/">JDBC</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JVM/">JVM</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">29</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-Web/">Java Web</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MyBatis/">MyBatis</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Nginx/">Nginx</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SSM/">SSM</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/redis/">redis</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/springmvc/">springmvc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ssm/">ssm</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%91%E5%B9%B4%E3%81%AE%E6%97%A5%E5%B8%B8/">少年の日常</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a><span class="category-list-count">1</span></li></ul>
+  </aside>
+
+
+            
+                
+  <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
+    <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
+      <div class="tag-clouds">
+        <a href="/tags/Callable/" style="font-size: 0.6em;">Callable</a> <a href="/tags/Date/" style="font-size: 0.6em;">Date</a> <a href="/tags/Java%E5%9F%BA%E7%A1%80/" style="font-size: 0.6em;">Java基础</a> <a href="/tags/Map/" style="font-size: 0.6em;">Map</a> <a href="/tags/NoSQL/" style="font-size: 0.6em;">NoSQL</a> <a href="/tags/OOP/" style="font-size: 0.6em;">OOP</a> <a href="/tags/Set/" style="font-size: 0.6em;">Set</a> <a href="/tags/Socket/" style="font-size: 0.6em;">Socket</a> <a href="/tags/String/" style="font-size: 0.6em;">String</a> <a href="/tags/TCP/" style="font-size: 0.6em;">TCP</a> <a href="/tags/UDP/" style="font-size: 0.6em;">UDP</a> <a href="/tags/lock/" style="font-size: 0.6em;">lock</a> <a href="/tags/mybatis/" style="font-size: 0.6em;">mybatis</a> <a href="/tags/redis/" style="font-size: 0.6em;">redis</a> <a href="/tags/springmvc/" style="font-size: 0.6em;">springmvc</a> <a href="/tags/ssm/" style="font-size: 0.6em;">ssm</a> <a href="/tags/synchronized/" style="font-size: 0.6em;">synchronized</a> <a href="/tags/%E5%8C%85%E8%A3%85%E7%B1%BB/" style="font-size: 0.6em;">包装类</a>
+      </div>
+  </aside>
+
+            
+                
+  <aside id="krw-posts" class="widget widget-kratos-posts">
+  <h4 class="widget-title"><i class="fa fa-file"></i>最新文章</h4>
+  <div class="tab-content">
+      <ul class="list-group">
+        
+        
+          
+          
+            <a class="list-group-item" href="/2021/11/11/20211111-%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%8C%96%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E4%B8%8E%E8%AE%BF%E9%97%AE%E5%AE%9A%E4%BD%8D/"><i class="fa  fa-book"></i> 对象的实例化内存布局与访问定位</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/11/11/20211111-%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E(%E6%9C%AA%E5%AE%8C)/"><i class="fa  fa-book"></i> 执行引擎</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/11/11/20211111-%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98/"><i class="fa  fa-book"></i> 直接内存</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/11/11/20211111-Java8%E6%96%B0%E7%89%B9%E6%80%A7/"><i class="fa  fa-book"></i> Java8新特性</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/11/10/20211110-JVM%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/"><i class="fa  fa-book"></i> JVM常见面试题</a>
+            
+          
+        
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+      </ul>
+  </div>
+  </aside>
+
+            
+    </div>
+</section>
+        
+        </div>
+    </div>
+</div>
+<footer>
+    <div id="footer"  class="ap-lrc"  >
+        <div class="kr-tool text-center">
+            <div class="tool">
+                
+                    <div class="box search-box">
+                        <a href="/search/">
+                            <span class="fa fa-search"></span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="box theme-box" id="darkmode-switch">
+                        <span class="fa fa-adjust"></span>
+                    </div>
+                
+                
+            </div>
+            <div class="box gotop-box">
+                <span class="fa fa-chevron-up"></span>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 footer-list text-center">
+                    <ul class="kratos-social-icons">
+                        
+                        <li><a href="mailto:1922856021@qq.com"><i class="fa fa-envelope"></i></a></li>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    </ul>
+                    <ul class="kratos-copyright">
+                        <div>
+                            <li>&copy; 2021 青い栞 版权所有.</li>
+                            <li>本站已运行<span id="span_dt">Loading...</span></li>
+                        </div>
+                        <div>
+                            <li>Theme <a href="https://github.com/Candinya/Kratos-Rebirth" target="_blank">Kratos:Rebirth</a></li>
+                            <li>Site built with&nbsp;<i class="fa fa-heart throb" style="color:#d43f57"></i>&nbsp;by FunnyLs.</li>
+                        </div>
+                        <div>
+                            <li>Powered by <a href="https://hexo.io" target="_blank" rel="nofollow">Hexo</a></li>
+                            <li>Hosted on <a href="https://github.io" target="_blank">Github Pages</a></li>
+                        </div>
+                        <div>
+                            
+                            
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+
+        <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.4/dist/js/bootstrap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+<script>const notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));</script>
+
+    <div>
+        <canvas id="snow"></canvas>
+        <script async type="text/javascript" src="/js/snow.min.js"></script>
+    </div>
+
+<script async src="/js/candy.min.js"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+    <meting-js
+        server="netease"
+        type="playlist"
+        id="3204190542"
+        order="random"
+        fixed="true"
+    >
+    </meting-js>
+
+
+
+    <script defer src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script defer src="/js/kratosr.min.js"></script>
+<script defer src="/js/pjax.min.js"></script>
+
+
+    <script defer src="/js/kr-dark.min.js"></script>
+
+
+
+<!-- Extra support for third-party plguins  -->
+
+
+    </body>
+</html>

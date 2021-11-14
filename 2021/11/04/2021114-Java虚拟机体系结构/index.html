@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+  <!-- 元数据 -->
+  <meta charset="utf-8">
+  <link rel="icon" href="">
+  <title>Java虚拟机体系结构 | 青い栞</title>
+  <meta name="author" content="FunnyLs" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index,follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="format-detection" content="telphone=no, email=no" />
+  
+    <meta name="keywords" content="" />
+  
+  <meta name="description" content="虚拟机虚拟机概念所谓虚拟机（Virtual Machine），就是一台虚拟的计算机。它是一款软件，用来执行一系列虚拟计算机指令。大体上，虚拟机可以分为系统虚拟机和程序虚拟机 Virtual Box，VMware就属于系统虚拟机，它们完全是对物理计算机硬件的仿真(模拟)，提供了一个可运行完整操作系统的软件平台 程序虚拟机的典型代表就是Java虚拟机，它专门为执行单个计算机程序而设计，在Java虚拟机">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java虚拟机体系结构">
+<meta property="og:url" content="http://example.com/2021/11/04/2021114-Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/index.html">
+<meta property="og:site_name" content="青い栞">
+<meta property="og:description" content="虚拟机虚拟机概念所谓虚拟机（Virtual Machine），就是一台虚拟的计算机。它是一款软件，用来执行一系列虚拟计算机指令。大体上，虚拟机可以分为系统虚拟机和程序虚拟机 Virtual Box，VMware就属于系统虚拟机，它们完全是对物理计算机硬件的仿真(模拟)，提供了一个可运行完整操作系统的软件平台 程序虚拟机的典型代表就是Java虚拟机，它专门为执行单个计算机程序而设计，在Java虚拟机">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/null">
+<meta property="article:published_time" content="2021-11-03T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-11-06T09:49:13.887Z">
+<meta property="article:author" content="FunnyLs">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/null">
+<meta name="twitter:site" content="@null">
+  
+  <!-- 站点验证相关 -->
+  
+    
+    
+    
+  
+  <!-- 样式表文件 -->
+  <link rel="stylesheet" id="kratos-css" href="/css/kratosr.min.css" type="text/css" media="all">
+  
+    <link rel="stylesheet" id="highlight-css" href="/css/highlight/night-blue.min.css" type="text/css" media="all">
+  
+  
+  <link rel="stylesheet" id="fontawe-css" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" type="text/css" media="all">
+  <link rel="stylesheet" id="nprogress-css" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" type="text/css" media="all">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+  
+  
+    <link rel="stylesheet" id="darkmode-css" href="/css/kr-dark.min.css" type="text/css" media="all">
+  
+  <!-- 不得不预先加载的一些JS文件 -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+    <body class="custom-background">
+        <div id="kratos-wrapper">
+    <div id="kratos-page">
+        <div id="kratos-header">
+            <header id="kratos-desktop-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="nav-header">
+                        <nav id="kratos-menu-wrap">
+                            <ul id="kratos-primary-menu" class="sf-menu">
+                                
+                                    
+                                        <li><a href="/"><i class="fa fa-home"></i>首页</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/archives/"><i class="fa fa-file"></i>档案馆</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/friends/"></a></li>
+                                    
+                                
+                                    
+                                        <li>
+                                            <a><i class="fa fa-link"></i>链接</a>
+                                            <ul class="sub-menu">
+                                                
+                                                    
+                                                
+                                                    
+                                                        <li><a target="_blank" rel="noopener" href="https://candinya.com">作者博客</a></li>
+                                                    
+                                                
+                                                    
+                                                        <li><a target="_blank" rel="noopener" href="https://github.com/Candinya/Kratos-Rebirth">项目链接</a></li>
+                                                    
+                                                
+                                            </ul>
+                                        </li>
+                                    
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <header id="kratos-mobile-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="color-logo"><a href="/">青い栞</a></div>
+                    <div class="nav-toggle">
+                        <a class="kratos-nav-toggle js-kratos-nav-toggle">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="kratos-start kratos-hero-2">
+            <!-- <div class="kratos-overlay"></div> -->
+            <div class="kratos-cover kratos-cover-2 text-center">
+                <div class="desc desc2 animate-box">
+                    <a href="/">
+                        <h2>青い栞</h2> <br />
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="kratos-blog-post">
+            <div class="container">
+                <div id="main" class="row">
+                    
+
+        
+
+            <section class="col-md-8">
+
+        
+
+            <article>
+    <div class="kratos-hentry kratos-post-inner clearfix">
+        <header class="kratos-entry-header">
+            
+                <h1 class="kratos-entry-title text-center">Java虚拟机体系结构</h1>
+            
+            
+            <ul class="kratos-post-meta text-center">
+                <li><i class="fa fa-calendar"></i> 2021-11-04</li>
+                <li><i class="fa fa-user"></i> 作者 FunnyLs</li>
+                <li>
+                    <i class="fa fa-edit"></i> 
+                    
+                    
+                        ~6.31K
+                    
+                    字
+                </li>
+                
+            </ul>
+        </header>
+        <div class="kratos-post-content">
+            <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                本文最后编辑于 <time datetime="1636192153887"></time> 前，其中的内容可能需要更新。
+            </div>
+            
+                <div class="kratos-post-inner-toc">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-number">1.</span> <span class="toc-text">虚拟机</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">虚拟机概念</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-number">2.</span> <span class="toc-text">Java虚拟机</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%9C%E7%94%A8"><span class="toc-number">2.1.</span> <span class="toc-text">作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E7%82%B9"><span class="toc-number">2.2.</span> <span class="toc-text">特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%8D%E7%BD%AE"><span class="toc-number">2.3.</span> <span class="toc-text">位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JVM%E6%95%B4%E4%BD%93%E7%BB%93%E6%9E%84"><span class="toc-number">2.4.</span> <span class="toc-text">JVM整体结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="toc-number">2.5.</span> <span class="toc-text">Java代码执行流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JVM%E7%9A%84%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.6.</span> <span class="toc-text">JVM的架构模型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%88%E7%9A%84%E6%8C%87%E4%BB%A4%E9%9B%86%E6%9E%B6%E6%9E%84"><span class="toc-number">2.6.1.</span> <span class="toc-text">栈的指令集架构</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%89%B9%E7%82%B9-1"><span class="toc-number">2.6.1.1.</span> <span class="toc-text">特点</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%84%E5%AD%98%E5%99%A8%E7%9A%84%E6%8C%87%E4%BB%A4%E9%9B%86%E6%9E%B6%E6%9E%84"><span class="toc-number">2.6.2.</span> <span class="toc-text">寄存器的指令集架构</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%89%B9%E7%82%B9-2"><span class="toc-number">2.6.2.1.</span> <span class="toc-text">特点</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">2.6.3.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JVM%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">2.7.</span> <span class="toc-text">JVM的生命周期</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E5%90%AF%E5%8A%A8"><span class="toc-number">2.7.1.</span> <span class="toc-text">虚拟机的启动</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E6%89%A7%E8%A1%8C"><span class="toc-number">2.7.2.</span> <span class="toc-text">虚拟机的执行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E9%80%80%E5%87%BA"><span class="toc-number">2.7.3.</span> <span class="toc-text">虚拟机的退出</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JVM%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text">JVM发展历程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Sun-Classic-VM"><span class="toc-number">3.1.</span> <span class="toc-text">Sun Classic VM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Exact-VM"><span class="toc-number">3.2.</span> <span class="toc-text">Exact VM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HotSpot-VM"><span class="toc-number">3.3.</span> <span class="toc-text">HotSpot VM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JRockit-%E5%95%86%E7%94%A8%E4%B8%89%E5%A4%A7%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B9%8B%E4%B8%80"><span class="toc-number">3.4.</span> <span class="toc-text">JRockit(商用三大虚拟机之一)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IBM%E7%9A%84J9-%E4%B8%89%E5%A4%A7%E5%95%86%E7%94%A8%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B9%8B%E4%B8%80"><span class="toc-number">3.5.</span> <span class="toc-text">IBM的J9(三大商用虚拟机之一)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#KVM%E5%92%8CCDC-CLDC-Hotspot"><span class="toc-number">3.6.</span> <span class="toc-text">KVM和CDC&#x2F;CLDC Hotspot</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Azul-VM"><span class="toc-number">3.7.</span> <span class="toc-text">Azul VM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Liquid-VM"><span class="toc-number">3.8.</span> <span class="toc-text">Liquid VM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Apache-Marmony"><span class="toc-number">3.9.</span> <span class="toc-text">Apache Marmony</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Micorsoft-JVM"><span class="toc-number">3.10.</span> <span class="toc-text">Micorsoft JVM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Taobao-JVM"><span class="toc-number">3.11.</span> <span class="toc-text">Taobao JVM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dalvik-VM"><span class="toc-number">3.12.</span> <span class="toc-text">Dalvik VM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Graal-VM%EF%BC%88%E6%9C%AA%E6%9D%A5%E8%99%9A%E6%8B%9F%E6%9C%BA%EF%BC%89"><span class="toc-number">3.13.</span> <span class="toc-text">Graal VM（未来虚拟机）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93-1"><span class="toc-number">3.14.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
+                </div>
+            
+            <hr />
+            <h2 id="虚拟机"><a href="#虚拟机" class="headerlink" title="虚拟机"></a>虚拟机</h2><h3 id="虚拟机概念"><a href="#虚拟机概念" class="headerlink" title="虚拟机概念"></a>虚拟机概念</h3><p>所谓虚拟机（Virtual Machine），就是一台虚拟的计算机。它是一款软件，用来执行一系列虚拟计算机指令。大体上，虚拟机可以分为<strong>系统虚拟机</strong>和<strong>程序虚拟机</strong></p>
+<p>Virtual Box，VMware就属于<strong>系统虚拟机</strong>，它们完全是对物理计算机硬件的仿真(模拟)，提供了一个可运行完整操作系统的软件平台</p>
+<p><strong>程序虚拟机</strong>的典型代表就是Java虚拟机，它专门为执行单个计算机程序而设计，在Java虚拟机中执行的指令我们称为Java字节码指令</p>
+<p>无论是系统虚拟机还是程序虚拟机，在上面运行的软件都被限制于虚拟机提供的资源中。</p>
+<h2 id="Java虚拟机"><a href="#Java虚拟机" class="headerlink" title="Java虚拟机"></a>Java虚拟机</h2><p>Java虚拟机是一台执行Java字节码的虚拟计算机，它拥有<strong>独立的运行机制</strong>，其运行的Java字节码也未必由Java语言编译而成。</p>
+<p>JVM平台的各种语言可以共享Java虚拟机带来的跨平台性、优秀的垃圾回器，以及可靠的即时编译器。</p>
+<p><strong>Java技术的核心就是Java虚拟机</strong>（JVM，Java Virtual Machine），因为所有的Java程序都运行在Java虚拟机内部</p>
+<h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><p>Java虚拟机就是二进制字节码的运行环境，负责装载字节码到其内部，解释/编译为对应平台上的机器指令执行。每一条Java指令，Java虚拟机规范中都有详细定义，如怎么取操作数，怎么处理操作数，处理结果放在哪里</p>
+<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ol>
+<li>一次编译，到处运行</li>
+<li>自动内存管理</li>
+<li>自动垃圾回收</li>
+</ol>
+<h3 id="位置"><a href="#位置" class="headerlink" title="位置"></a>位置</h3><p>JVM是运行在操作系统之上的，它与硬件没有直接的交互</p>
+<p>由内到外为：硬件→操作系统→JVM→字节码文件→用户</p>
+<h3 id="JVM整体结构"><a href="#JVM整体结构" class="headerlink" title="JVM整体结构"></a>JVM整体结构</h3><p>简图</p>
+<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/ImtKvF"><img src="https://z3.ax1x.com/2021/11/04/ImtKvF.md.jpg" alt="ImtKvF.md.jpg"></a></p>
+<p>完整图</p>
+<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/ImtugU"><img src="https://z3.ax1x.com/2021/11/04/ImtugU.md.jpg" alt="ImtugU.md.jpg"></a></p>
+<ol>
+<li>HotSpot VM是目前市面上高性能虚拟机的代表作之一</li>
+<li>它采用解释器与即时编译器并存的架构</li>
+</ol>
+<h3 id="Java代码执行流程"><a href="#Java代码执行流程" class="headerlink" title="Java代码执行流程"></a>Java代码执行流程</h3><p>首先Java源码(xxx.java文件)会通过<strong>Java编译器</strong>生成字节码文件(xxx.class文件)。</p>
+<p><strong>Java编译器</strong>的处理过程为：词法分析→语法分析→语法/抽象语法树→语义分析→注解抽象语法树→字节码生成器</p>
+<p>字节码文件经过JVM处理后交给操作系统处理，处理过程为：</p>
+<p>类加载器→字节码校验器→翻译字节码(解析执行)&amp;JIT编译器(编译执行)</p>
+<h3 id="JVM的架构模型"><a href="#JVM的架构模型" class="headerlink" title="JVM的架构模型"></a>JVM的架构模型</h3><p>Java编译器输入的指令流基本上是一种基于<strong>栈的指令集架构</strong>，另外一种指令集架构则是基于<strong>寄存器的指令集架构</strong></p>
+<h4 id="栈的指令集架构"><a href="#栈的指令集架构" class="headerlink" title="栈的指令集架构"></a>栈的指令集架构</h4><h5 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h5><ol>
+<li>设计和实现更简单，适用于资源受限的系统</li>
+<li>避开了寄存器的分配难题：使用0地址指令方式分配</li>
+<li>指令流中的指令大部分都是0地址指令，其执行过程依赖于操作栈。指令集更小，编译器更容易实现</li>
+<li>不需要硬件支持，可移植性更好，更好实现跨平台</li>
+</ol>
+<h4 id="寄存器的指令集架构"><a href="#寄存器的指令集架构" class="headerlink" title="寄存器的指令集架构"></a>寄存器的指令集架构</h4><h5 id="特点-2"><a href="#特点-2" class="headerlink" title="特点"></a>特点</h5><ol>
+<li>典型的应用是x86的二进制指令集：比如传统的PC以及Android的Davlik虚拟机</li>
+<li>完全依赖硬件，与硬件的耦合度高，可移植性差</li>
+<li>性能优秀和执行更高效</li>
+<li>花费更少的指令去完成一项操作</li>
+<li>在大部分情况下，基于寄存器架构的指令集往往都以一地址指令、二地址指令和三地址指令为主，而基于栈式架构的指令集却是以零地址指令为主</li>
+</ol>
+<p>例如：</p>
+<p>执行2+3逻辑操作，其指令分别如下：</p>
+<p>基于栈的计算流程(以Java虚拟机为例)：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">iconst_2 <span class="comment">//常量2入栈</span></span><br><span class="line">istore_1</span><br><span class="line">iconst_3 <span class="comment">// 常量3入栈</span></span><br><span class="line">istore_2</span><br><span class="line">iload_1</span><br><span class="line">iload_2</span><br><span class="line">iadd <span class="comment">//常量2/3出栈，执行相加</span></span><br><span class="line">istore_0 <span class="comment">// 结果5入栈</span></span><br></pre></td></tr></table></figure>
+
+<p>共8个指令</p>
+<p>基于寄存器的计算流程：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mov eax,<span class="number">2</span> <span class="comment">//将eax寄存器的值设为1</span></span><br><span class="line">add eax,<span class="number">3</span> <span class="comment">//使eax寄存器的值加3</span></span><br></pre></td></tr></table></figure>
+
+<p>2个指令</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p><strong>由于跨平台性的设计，Java的指令都是根据栈来设计的</strong>。不同平台CPU架构不同，所以不能设计为基于寄存器的。栈的优点：跨平台，指令集小，编译器容易实现，缺点是性能比寄存器差一些。</p>
+<h3 id="JVM的生命周期"><a href="#JVM的生命周期" class="headerlink" title="JVM的生命周期"></a>JVM的生命周期</h3><h4 id="虚拟机的启动"><a href="#虚拟机的启动" class="headerlink" title="虚拟机的启动"></a>虚拟机的启动</h4><p>Java虚拟机的启动是通过引导类加载器（bootstrap class loader）创建一个初始类（initial class）来完成的，这个类是由虚拟机的具体实现指定的。</p>
+<h4 id="虚拟机的执行"><a href="#虚拟机的执行" class="headerlink" title="虚拟机的执行"></a>虚拟机的执行</h4><ol>
+<li>一个运行中的Java虚拟机有着一个清晰的任务：执行Java程序</li>
+<li>程序开始执行时它才运行，程序结束时它就停止</li>
+<li>执行一个所谓的Java程序的时候，真真正正在执行的是一个叫做Java虚拟机的进程</li>
+</ol>
+<h4 id="虚拟机的退出"><a href="#虚拟机的退出" class="headerlink" title="虚拟机的退出"></a>虚拟机的退出</h4><ol>
+<li>程序正常执行结束</li>
+<li>程序在执行过程中遇到了异常或错误而异常终止</li>
+<li>由于操作系统用现错误而导致Java虚拟机进程终止</li>
+<li>某线程调用Runtime类或System类的exit()方法，或Runtime类的halt()方法，并且Java安全管理器也允许这次exit()或halt()操作。</li>
+<li>除此之外，JNI（Java Native Interface）规范描述了用JNI Invocation API来加载或卸载 Java虚拟机时，Java虚拟机的退出情况。</li>
+</ol>
+<h2 id="JVM发展历程"><a href="#JVM发展历程" class="headerlink" title="JVM发展历程"></a>JVM发展历程</h2><h3 id="Sun-Classic-VM"><a href="#Sun-Classic-VM" class="headerlink" title="Sun Classic VM"></a>Sun Classic VM</h3><ol>
+<li>早在1996年Java1.0版本的时候，Sun公司发布了一款名为sun classic VM的Java虚拟机，它同时也是<strong>世界上第一款商用Java虚拟机</strong>，JDK1.4时完全被淘汰。</li>
+<li>这款虚拟机内部只提供解释器，没有即时编译器，因此效率比较低。【即时编译器会把热点代码的本地机器指令缓存起来，那么以后使用热点代码的时候，效率就比较高】</li>
+<li>如果使用JIT编译器，就需要进行外挂。但是一旦使用了JIT编译器，JIT就会接管虚拟机的执行系统。解释器就不再工作，解释器和编译器不能配合工作。<ul>
+<li>我们将字节码指令翻译成机器指令也是需要花时间的，如果只使用JIT，就需要把所有字节码指令都翻译成机器指令，就会导致翻译时间过长，也就是说在程序刚启动的时候，等待时间会很长。</li>
+<li>而解释器就是走到哪，解释到哪。</li>
+</ul>
+</li>
+<li>现在Hotspot内置了此虚拟机。</li>
+</ol>
+<h3 id="Exact-VM"><a href="#Exact-VM" class="headerlink" title="Exact VM"></a>Exact VM</h3><ol>
+<li>为了解决上一个虚拟机问题，jdk1.2时，Sun提供了此虚拟机。</li>
+<li>Exact Memory Management：准确式内存管理<ul>
+<li>也可以叫Non-Conservative/Accurate Memory Management</li>
+<li>虚拟机可以知道内存中某个位置的数据具体是什么类型。</li>
+</ul>
+</li>
+<li>具备现代高性能虚拟机的维形<ul>
+<li>热点探测（寻找出热点代码进行缓存）</li>
+<li>编译器与解释器混合工作模式</li>
+</ul>
+</li>
+<li>只在Solaris平台短暂使用，其他平台上还是classic vm，英雄气短，终被Hotspot虚拟机替换</li>
+</ol>
+<h3 id="HotSpot-VM"><a href="#HotSpot-VM" class="headerlink" title="HotSpot VM"></a>HotSpot VM</h3><ol>
+<li>HotSpot历史<ul>
+<li>最初由一家名为“Longview Technologies”的小公司设计</li>
+<li>1997年，此公司被Sun收购；2009年，Sun公司被甲骨文收购。</li>
+<li>JDK1.3时，HotSpot VM成为默认虚拟机</li>
+</ul>
+</li>
+<li>目前<strong>Hotspot占有绝对的市场地位，称霸武林</strong>。<ul>
+<li>不管是现在仍在广泛使用的JDK6，还是使用比例较多的JDK8中，默认的虚拟机都是HotSpot</li>
+<li>Sun/oracle JDK和openJDK的默认虚拟机</li>
+<li>因此本课程中默认介绍的虚拟机都是HotSpot，相关机制也主要是指HotSpot的GC机制。（比如其他两个商用虚机都没有方法区的概念）</li>
+</ul>
+</li>
+<li>从服务器、桌面到移动端、嵌入式都有应用。</li>
+<li>名称中的HotSpot指的就是它的热点代码探测技术。<ul>
+<li>通过计数器找到最具编译价值代码，触发即时编译或栈上替换</li>
+<li>通过编译器与解释器协同工作，在最优化的程序响应时间与最佳执行性能中取得平衡</li>
+</ul>
+</li>
+</ol>
+<h3 id="JRockit-商用三大虚拟机之一"><a href="#JRockit-商用三大虚拟机之一" class="headerlink" title="JRockit(商用三大虚拟机之一)"></a>JRockit(商用三大虚拟机之一)</h3><ol>
+<li>专注于服务器端应用：它可以不太关注程序启动速度，因此JRockit内部不包含解析器实现，全部代码都靠即时编译器编译后执行。</li>
+<li>大量的行业基准测试显示，JRockit JVM是世界上最快的JVM：使用JRockit产品，客户已经体验到了显著的性能提高（一些超过了70%）和硬件成本的减少（达50%）。</li>
+<li>优势：全面的Java运行时解决方案组合<ul>
+<li>JRockit面向延迟敏感型应用的解决方案JRockit Real Time提供以毫秒或微秒级的JVM响应时间，适合财务、军事指挥、电信网络的需要</li>
+<li>Mission Control服务套件，它是一组以极低的开销来监控、管理和分析生产环境中的应用程序的工具。</li>
+</ul>
+</li>
+<li>2008年，JRockit被Oracle收购。</li>
+<li>Oracle表达了整合两大优秀虚拟机的工作，大致在JDK8中完成。整合的方式是在HotSpot的基础上，移植JRockit的优秀特性。</li>
+<li>高斯林：目前就职于谷歌，研究人工智能和水下机器人</li>
+</ol>
+<h3 id="IBM的J9-三大商用虚拟机之一"><a href="#IBM的J9-三大商用虚拟机之一" class="headerlink" title="IBM的J9(三大商用虚拟机之一)"></a>IBM的J9(三大商用虚拟机之一)</h3><ol>
+<li>全称：IBM Technology for Java Virtual Machine，简称IT4J，内部代号：J9</li>
+<li>市场定位与HotSpot接近，服务器端、桌面应用、嵌入式等多用途VM广泛用于IBM的各种Java产品。</li>
+<li>目前，有影响力的三大商用虚拟机之一，也号称是世界上最快的Java虚拟机。</li>
+<li>2017年左右，IBM发布了开源J9VM，命名为openJ9，交给Eclipse基金会管理，也称为Eclipse OpenJ9</li>
+<li>OpenJDK -&gt; 是JDK开源了，包括了虚拟机</li>
+</ol>
+<h3 id="KVM和CDC-CLDC-Hotspot"><a href="#KVM和CDC-CLDC-Hotspot" class="headerlink" title="KVM和CDC/CLDC Hotspot"></a>KVM和CDC/CLDC Hotspot</h3><ol>
+<li>Oracle在Java ME产品线上的两款虚拟机为：CDC/CLDC HotSpot Implementation VM</li>
+<li>KVM（Kilobyte）是CLDC-HI早期产品</li>
+<li>目前移动领域地位尴尬，智能机被Android和iOS二分天下。</li>
+<li>KVM简单、轻量、高度可移植，面向更低端的设备上还维持自己的一片市场<ul>
+<li>智能控制器、传感器</li>
+<li>老人手机、经济欠发达地区的功能手机</li>
+</ul>
+</li>
+<li>所有的虚拟机的原则：一次编译，到处运行。</li>
+</ol>
+<h3 id="Azul-VM"><a href="#Azul-VM" class="headerlink" title="Azul VM"></a>Azul VM</h3><ol>
+<li>前面三大“高性能Java虚拟机”使用在<strong>通用硬件平台上</strong></li>
+<li>这里Azul VW和BEA Liquid VM是与<strong>特定硬件平台绑定</strong>、软硬件配合的专有虚拟机：高性能Java虚拟机中的战斗机。</li>
+<li>Azul VM是Azul Systems公司在HotSpot基础上进行大量改进，运行于Azul Systems公司的专有硬件Vega系统上的Java虚拟机。</li>
+<li>每个Azul VM实例都可以管理至少数十个CPU和数百GB内存的硬件资源，并提供在巨大内存范围内实现可控的GC时间的垃圾收集器、专有硬件优化的线程调度等优秀特性。</li>
+<li>2010年，Azul Systems公司开始从硬件转向软件，发布了自己的Zing JVM，可以在通用x86平台上提供接近于Vega系统的特性。</li>
+</ol>
+<h3 id="Liquid-VM"><a href="#Liquid-VM" class="headerlink" title="Liquid VM"></a>Liquid VM</h3><ol>
+<li>高性能Java虚拟机中的战斗机。</li>
+<li>BEA公司开发的，直接运行在自家Hypervisor系统上</li>
+<li>Liquid VM即是现在的JRockit VE（Virtual Edition）。<strong>Liquid VM不需要操作系统的支持，或者说它自己本身实现了一个专用操作系统的必要功能，如线程调度、文件系统、网络支持等</strong>。</li>
+<li>随着JRockit虚拟机终止开发，Liquid vM项目也停止了。</li>
+</ol>
+<h3 id="Apache-Marmony"><a href="#Apache-Marmony" class="headerlink" title="Apache Marmony"></a>Apache Marmony</h3><ol>
+<li>Apache也曾经推出过与JDK1.5和JDK1.6兼容的Java运行平台Apache Harmony。</li>
+<li>它是IElf和Intel联合开发的开源JVM，受到同样开源的Open JDK的压制，Sun坚决不让Harmony获得JCP认证，最终于2011年退役，IBM转而参与OpenJDK</li>
+<li>虽然目前并没有Apache Harmony被大规模商用的案例，但是它的Java类库代码吸纳进了Android SDK。</li>
+</ol>
+<h3 id="Micorsoft-JVM"><a href="#Micorsoft-JVM" class="headerlink" title="Micorsoft JVM"></a>Micorsoft JVM</h3><ol>
+<li>微软为了在IE3浏览器中支持Java Applets，开发了Microsoft JVM。</li>
+<li>只能在window平台下运行。但确是当时Windows下性能最好的Java VM。</li>
+<li>1997年，Sun以侵犯商标、不正当竞争罪名指控微软成功，赔了Sun很多钱。微软WindowsXP SP3中抹掉了其VM。现在Windows上安装的jdk都是HotSpot。</li>
+</ol>
+<h3 id="Taobao-JVM"><a href="#Taobao-JVM" class="headerlink" title="Taobao JVM"></a>Taobao JVM</h3><ol>
+<li>由AliJVM团队发布。阿里，国内使用Java最强大的公司，覆盖云计算、金融、物流、电商等众多领域，需要解决高并发、高可用、分布式的复合问题。有大量的开源产品。</li>
+<li><strong>基于OpenJDK开发了自己的定制版本AlibabaJDK</strong>，简称AJDK。是整个阿里Java体系的基石。</li>
+<li>基于OpenJDK Hotspot VM发布的国内第一个优化、深度定制且开源的高性能服务器版Java虚拟机。<ul>
+<li>创新的GCIH（GCinvisible heap）技术实现了off-heap，<strong>即将生命周期较长的Java对象从heap中移到heap之外，并且GC不能管理GCIH内部的Java对象，以此达到降低GC的回收频率和提升GC的回收效率的目的</strong>。</li>
+<li>GCIH中的<strong>对象还能够在多个Java虚拟机进程中实现共享</strong></li>
+<li>使用crc32指令实现JvM intrinsic降低JNI的调用开销</li>
+<li>PMU hardware的Java profiling tool和诊断协助功能</li>
+<li>针对大数据场景的ZenGC</li>
+</ul>
+</li>
+<li>taobao vm应用在阿里产品上性能高，<strong>硬件严重依赖inte1的cpu，损失了兼容性，但提高了性能</strong></li>
+</ol>
+<ul>
+<li>目前已经在淘宝、天猫上线，把Oracle官方JvM版本全部替换了。</li>
+</ul>
+<h3 id="Dalvik-VM"><a href="#Dalvik-VM" class="headerlink" title="Dalvik VM"></a>Dalvik VM</h3><ol>
+<li>谷歌开发的，应用于Android系统，并在Android2.2中提供了JIT，发展迅猛。</li>
+<li><strong>Dalvik VM只能称作虚拟机，而不能称作“Java虚拟机”</strong>，它没有遵循 Java虚拟机规范</li>
+<li>不能直接执行Java的Class文件</li>
+<li>基于寄存器架构，不是jvm的栈架构。</li>
+<li>执行的是编译以后的dex（Dalvik Executable）文件。执行效率比较高。</li>
+</ol>
+<ul>
+<li>它执行的dex（Dalvik Executable）文件可以通过class文件转化而来，使用Java语法编写应用程序，可以直接使用大部分的Java API等。</li>
+</ul>
+<ol>
+<li>Android 5.0使用支持提前编译（Ahead of Time Compilation，AoT）的ART VM替换Dalvik VM。</li>
+</ol>
+<h3 id="Graal-VM（未来虚拟机）"><a href="#Graal-VM（未来虚拟机）" class="headerlink" title="Graal VM（未来虚拟机）"></a>Graal VM（未来虚拟机）</h3><ol>
+<li>2018年4月，Oracle Labs公开了GraalvM，号称 “<strong>Run Programs Faster Anywhere</strong>”，勃勃野心。与1995年java的”write once，run anywhere”遥相呼应。</li>
+<li>GraalVM在HotSpot VM基础上增强而成的<strong>跨语言全栈虚拟机，可以作为“任何语言”</strong>的运行平台使用。语言包括：Java、Scala、Groovy、Kotlin；C、C++、Javascript、Ruby、Python、R等</li>
+<li>支持不同语言中混用对方的接口和对象，支持这些语言使用已经编写好的本地库文件</li>
+<li>工作原理是将这些语言的源代码或源代码编译后的中间格式，通过解释器转换为能被Graal VM接受的中间表示。Graal VM提供Truffle工具集快速构建面向一种新语言的解释器。在运行时还能进行即时编译优化，获得比原生编译器更优秀的执行效率。</li>
+<li><strong>如果说HotSpot有一天真的被取代，Graalvm希望最大</strong>。但是Java的软件生态没有丝毫变化。</li>
+</ol>
+<h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><p>具体JVM的内存结构，其实取决于其实现，不同厂商的JVM，或者同一厂商发布的不同版本，都有可能存在一定差异。主要以Oracle HotSpot VM为默认虚拟机。</p>
+
+        </div>
+        
+            <div class="kratos-copyright text-center clearfix">
+                <h5>本作品采用 <a rel="license nofollow" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可</h5>
+            </div>
+        
+        <footer class="kratos-entry-footer clearfix">
+            
+                <div class="post-like-donate text-center clearfix" id="post-like-donate">
+                
+                
+                    <a class="share" href="javascript:;"><i class="fa fa-share-alt"></i> 分享</a>
+                    <div class="share-wrap" style="display: none;">
+    <div class="share-group">
+        <a href="javascript:;" class="share-plain qq" onclick="share('qq');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-qq"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain qzone" onclick="share('qzone');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-star"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weixin pop style-plain" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weixin"></i>
+            </div>
+            <div class="share-int">
+                <div class="qrcode" id="wechat-qr"></div>
+                <p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weibo" onclick="share('weibo');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weibo"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain facebook style-plain" onclick="share('facebook');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-facebook"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain twitter style-plain" onclick="share('twitter');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-twitter"></i>
+            </div>
+        </a>
+    </div>
+    <script type="text/javascript">
+        $(()=>{
+            new QRCode("wechat-qr", {
+                text: "http://example.com/2021/11/04/2021114-Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/",
+                width: 150,
+                height: 150,
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+        function share(dest) {
+            const qqBase        = "https://connect.qq.com/widget/shareqq/index.html?";
+            const weiboBase     = "https://service.weibo.com/share/share.php?";
+            const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+            const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
+            const twitterBase   = "https://twitter.com/intent/tweet?";
+            const hostUrl       = "http://example.com/2021/11/04/2021114-Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/";
+            const title         = "「Java虚拟机体系结构」";
+            const excerpt       = `虚拟机虚拟机概念所谓虚拟机（Virtual Machine），就是一台虚拟的计算机。它是一款软件，用来执行一系列虚拟计算机指令。大体上，虚拟机可以分为系统虚拟机和程序虚拟机
+Virtual Box，VMware就属于系统虚拟机，它们完...`;
+            let _URL;
+            switch (dest) {
+                case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
+                case "weibo"    : _URL = weiboBase+"url="+hostUrl+"&title="+title+excerpt;                                 break;
+                case "qzone"    : _URL = qzoneBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";  break;
+                case "facebook" : _URL = facebookBase+"u="+hostUrl;                                                        break;
+                case "twitter"  : _URL = twitterBase+"text="+title+excerpt+"&url="+hostUrl;                                break;
+            }
+            window.open(_URL);
+        };
+    </script>
+</div>
+                
+                </div>
+            
+            <div class="footer-tag clearfix">
+                <div class="pull-left">
+                <i class="fa fa-tags"></i>
+                    
+                </div>
+                <div class="pull-date">
+                <span>最后编辑：2021-11-06</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+        <nav class="navigation post-navigation clearfix" role="navigation">
+            
+            <div class="nav-previous clearfix">
+                <a title=" Nginx" href="/2021/10/24/20211024-Nginx/">&lt; 上一篇</a>
+            </div>
+            
+            
+            <div class="nav-next clearfix">
+                <a title=" 运行时数据区" href="/2021/11/06/2021116-运行时数据区/">下一篇 &gt;</a>
+            </div>
+            
+        </nav>
+    
+    
+</article>
+
+        
+
+            </section>
+
+        
+
+                
+            
+
+<section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
+    <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
+    
+    
+                <aside id="krw-about" class="widget widget-kratos-about clearfix">
+    <div class="photo-background"></div>
+    <div class="photo-wrapper clearfix">
+        <div class="photo-wrapper-tip text-center">
+            <img class="about-photo" src="/images/avatar.webp" />
+        </div>
+    </div>
+    <div class="textwidget">
+        <p class="text-center">不要走进那个温和的良宵。</p>
+    </div>
+</aside>
+            
+                    <div class="sticky-area">
+                
+                    <aside id="krw-toc" class="widget widget-kratos-toc clearfix">
+    <div class="photo-background"></div>
+    <h4 class="widget-title no-after">
+        <i class="fa fa-compass"></i>
+        文章目录
+        <span class="toc-progress-bar"></span>
+    </h4>
+    <div class="textwidget">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-text">虚拟机</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A6%82%E5%BF%B5"><span class="toc-text">虚拟机概念</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-text">Java虚拟机</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%9C%E7%94%A8"><span class="toc-text">作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E7%82%B9"><span class="toc-text">特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%8D%E7%BD%AE"><span class="toc-text">位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JVM%E6%95%B4%E4%BD%93%E7%BB%93%E6%9E%84"><span class="toc-text">JVM整体结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="toc-text">Java代码执行流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JVM%E7%9A%84%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%9E%8B"><span class="toc-text">JVM的架构模型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%88%E7%9A%84%E6%8C%87%E4%BB%A4%E9%9B%86%E6%9E%B6%E6%9E%84"><span class="toc-text">栈的指令集架构</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%89%B9%E7%82%B9-1"><span class="toc-text">特点</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%84%E5%AD%98%E5%99%A8%E7%9A%84%E6%8C%87%E4%BB%A4%E9%9B%86%E6%9E%B6%E6%9E%84"><span class="toc-text">寄存器的指令集架构</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%89%B9%E7%82%B9-2"><span class="toc-text">特点</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JVM%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-text">JVM的生命周期</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E5%90%AF%E5%8A%A8"><span class="toc-text">虚拟机的启动</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E6%89%A7%E8%A1%8C"><span class="toc-text">虚拟机的执行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E9%80%80%E5%87%BA"><span class="toc-text">虚拟机的退出</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JVM%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B"><span class="toc-text">JVM发展历程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Sun-Classic-VM"><span class="toc-text">Sun Classic VM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Exact-VM"><span class="toc-text">Exact VM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HotSpot-VM"><span class="toc-text">HotSpot VM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JRockit-%E5%95%86%E7%94%A8%E4%B8%89%E5%A4%A7%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B9%8B%E4%B8%80"><span class="toc-text">JRockit(商用三大虚拟机之一)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IBM%E7%9A%84J9-%E4%B8%89%E5%A4%A7%E5%95%86%E7%94%A8%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B9%8B%E4%B8%80"><span class="toc-text">IBM的J9(三大商用虚拟机之一)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#KVM%E5%92%8CCDC-CLDC-Hotspot"><span class="toc-text">KVM和CDC&#x2F;CLDC Hotspot</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Azul-VM"><span class="toc-text">Azul VM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Liquid-VM"><span class="toc-text">Liquid VM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Apache-Marmony"><span class="toc-text">Apache Marmony</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Micorsoft-JVM"><span class="toc-text">Micorsoft JVM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Taobao-JVM"><span class="toc-text">Taobao JVM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dalvik-VM"><span class="toc-text">Dalvik VM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Graal-VM%EF%BC%88%E6%9C%AA%E6%9D%A5%E8%99%9A%E6%8B%9F%E6%9C%BA%EF%BC%89"><span class="toc-text">Graal VM（未来虚拟机）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93-1"><span class="toc-text">总结</span></a></li></ol></li></ol>
+    </div>
+</aside>
+                
+                
+  <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
+    <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Error/">Error</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JDBC/">JDBC</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JVM/">JVM</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">29</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-Web/">Java Web</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MyBatis/">MyBatis</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Nginx/">Nginx</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SSM/">SSM</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/redis/">redis</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/springmvc/">springmvc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ssm/">ssm</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%91%E5%B9%B4%E3%81%AE%E6%97%A5%E5%B8%B8/">少年の日常</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a><span class="category-list-count">1</span></li></ul>
+  </aside>
+
+
+            
+                
+  <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
+    <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
+      <div class="tag-clouds">
+        <a href="/tags/Callable/" style="font-size: 0.6em;">Callable</a> <a href="/tags/Date/" style="font-size: 0.6em;">Date</a> <a href="/tags/Java%E5%9F%BA%E7%A1%80/" style="font-size: 0.6em;">Java基础</a> <a href="/tags/Map/" style="font-size: 0.6em;">Map</a> <a href="/tags/NoSQL/" style="font-size: 0.6em;">NoSQL</a> <a href="/tags/OOP/" style="font-size: 0.6em;">OOP</a> <a href="/tags/Set/" style="font-size: 0.6em;">Set</a> <a href="/tags/Socket/" style="font-size: 0.6em;">Socket</a> <a href="/tags/String/" style="font-size: 0.6em;">String</a> <a href="/tags/TCP/" style="font-size: 0.6em;">TCP</a> <a href="/tags/UDP/" style="font-size: 0.6em;">UDP</a> <a href="/tags/lock/" style="font-size: 0.6em;">lock</a> <a href="/tags/mybatis/" style="font-size: 0.6em;">mybatis</a> <a href="/tags/redis/" style="font-size: 0.6em;">redis</a> <a href="/tags/springmvc/" style="font-size: 0.6em;">springmvc</a> <a href="/tags/ssm/" style="font-size: 0.6em;">ssm</a> <a href="/tags/synchronized/" style="font-size: 0.6em;">synchronized</a> <a href="/tags/%E5%8C%85%E8%A3%85%E7%B1%BB/" style="font-size: 0.6em;">包装类</a>
+      </div>
+  </aside>
+
+            
+                
+  <aside id="krw-posts" class="widget widget-kratos-posts">
+  <h4 class="widget-title"><i class="fa fa-file"></i>最新文章</h4>
+  <div class="tab-content">
+      <ul class="list-group">
+        
+        
+          
+          
+            <a class="list-group-item" href="/2021/11/11/20211111-%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%8C%96%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E4%B8%8E%E8%AE%BF%E9%97%AE%E5%AE%9A%E4%BD%8D/"><i class="fa  fa-book"></i> 对象的实例化内存布局与访问定位</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/11/11/20211111-%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E(%E6%9C%AA%E5%AE%8C)/"><i class="fa  fa-book"></i> 执行引擎</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/11/11/20211111-%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98/"><i class="fa  fa-book"></i> 直接内存</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/11/11/20211111-Java8%E6%96%B0%E7%89%B9%E6%80%A7/"><i class="fa  fa-book"></i> Java8新特性</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/11/10/20211110-JVM%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/"><i class="fa  fa-book"></i> JVM常见面试题</a>
+            
+          
+        
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+      </ul>
+  </div>
+  </aside>
+
+            
+    </div>
+</section>
+        
+        </div>
+    </div>
+</div>
+<footer>
+    <div id="footer"  class="ap-lrc"  >
+        <div class="kr-tool text-center">
+            <div class="tool">
+                
+                    <div class="box search-box">
+                        <a href="/search/">
+                            <span class="fa fa-search"></span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="box theme-box" id="darkmode-switch">
+                        <span class="fa fa-adjust"></span>
+                    </div>
+                
+                
+            </div>
+            <div class="box gotop-box">
+                <span class="fa fa-chevron-up"></span>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 footer-list text-center">
+                    <ul class="kratos-social-icons">
+                        
+                        <li><a href="mailto:1922856021@qq.com"><i class="fa fa-envelope"></i></a></li>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    </ul>
+                    <ul class="kratos-copyright">
+                        <div>
+                            <li>&copy; 2021 青い栞 版权所有.</li>
+                            <li>本站已运行<span id="span_dt">Loading...</span></li>
+                        </div>
+                        <div>
+                            <li>Theme <a href="https://github.com/Candinya/Kratos-Rebirth" target="_blank">Kratos:Rebirth</a></li>
+                            <li>Site built with&nbsp;<i class="fa fa-heart throb" style="color:#d43f57"></i>&nbsp;by FunnyLs.</li>
+                        </div>
+                        <div>
+                            <li>Powered by <a href="https://hexo.io" target="_blank" rel="nofollow">Hexo</a></li>
+                            <li>Hosted on <a href="https://github.io" target="_blank">Github Pages</a></li>
+                        </div>
+                        <div>
+                            
+                            
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+
+        <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.4/dist/js/bootstrap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+<script>const notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));</script>
+
+    <div>
+        <canvas id="snow"></canvas>
+        <script async type="text/javascript" src="/js/snow.min.js"></script>
+    </div>
+
+<script async src="/js/candy.min.js"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+    <meting-js
+        server="netease"
+        type="playlist"
+        id="3204190542"
+        order="random"
+        fixed="true"
+    >
+    </meting-js>
+
+
+
+    <script defer src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script defer src="/js/kratosr.min.js"></script>
+<script defer src="/js/pjax.min.js"></script>
+
+
+    <script defer src="/js/kr-dark.min.js"></script>
+
+
+
+<!-- Extra support for third-party plguins  -->
+
+
+    </body>
+</html>

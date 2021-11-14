@@ -147,7 +147,7 @@
             <div class="kratos-entry-border-new clearfix">
                 
                 <div class="kratos-entry-thumb-new">
-                    <a href="/2021/05/17/Mybatis/">
+                    <a href="/2021/06/29/2021-6-29-%E4%BA%8C%E5%8F%89%E5%B9%B3%E8%A1%A1%E6%A0%91(AVL%E6%A0%91)/">
                         
                             <img class="kratos-entry-thumb-new-img">
                         
@@ -155,16 +155,20 @@
                 </div>
                 <div class="kratos-post-inner-new">
                     <header class="kratos-entry-header-new">
-                            <a class="label-link" href="/categories/ssm/">ssm</a>
-                        <h2 class="kratos-entry-title-new"><a href="/2021/05/17/Mybatis/">Mybatis</a>
+                            <a class="label-link" href="/categories/Java/">Java</a>
+                        <h2 class="kratos-entry-title-new"><a href="/2021/06/29/2021-6-29-%E4%BA%8C%E5%8F%89%E5%B9%B3%E8%A1%A1%E6%A0%91(AVL%E6%A0%91)/">二叉平衡树(AVL树)</a>
                     </header>
                     <div class="kratos-entry-content-new">
                         <p>
                             
-                                简介
-MyBatis 是支持定制化 SQL、存储过程以及高级映射的优秀的持久层框架。
-MyBatis 避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集
-MyBatis可以使用简单的XML或注解用于配置和原始映射，将接口和J...
+                                平衡二叉树
+问题分析
+
+左子树全部为空，从形式上看，更像一个单链表
+插入速度没有影响
+查询速度明显降低(因为需要依次比较), 不能发挥BST 的优势，因为每次还需要比较左子树，其查询速度比 单链表还慢
+解决方案-平衡二叉树(AVL)
+...
                             
                         </p>
                     </div>
@@ -173,16 +177,19 @@ MyBatis可以使用简单的XML或注解用于配置和原始映射，将接口�
                     <span class="pull-left">
                         <a>
                             <i class="fa fa-calendar"></i>
-                            2021-05-17
+                            2021-06-29
                         </a>
                         <a>
+                            
+                                <i class="fa fa-tags"></i>
+                                <a class="tag-none-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a>, <a class="tag-none-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
                             
                         </a>
                         
                         
                     </span>
                     <span class="pull-right">
-                        <a class="read-more" href="/2021/05/17/Mybatis/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
+                        <a class="read-more" href="/2021/06/29/2021-6-29-%E4%BA%8C%E5%8F%89%E5%B9%B3%E8%A1%A1%E6%A0%91(AVL%E6%A0%91)/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
                     </span>
                 </footer>
             </div>
@@ -195,7 +202,7 @@ MyBatis可以使用简单的XML或注解用于配置和原始映射，将接口�
             <div class="kratos-entry-border-new clearfix">
                 
                 <div class="kratos-entry-thumb-new">
-                    <a href="/2021/05/16/SpringMVC2/">
+                    <a href="/2021/06/29/2021-6-29-%E4%BA%8C%E5%8F%89%E6%8E%92%E5%BA%8F%E6%A0%91/">
                         
                             <img class="kratos-entry-thumb-new-img">
                         
@@ -203,16 +210,14 @@ MyBatis可以使用简单的XML或注解用于配置和原始映射，将接口�
                 </div>
                 <div class="kratos-post-inner-new">
                     <header class="kratos-entry-header-new">
-                            <a class="label-link" href="/categories/ssm/">ssm</a>
-                        <h2 class="kratos-entry-title-new"><a href="/2021/05/16/SpringMVC2/">SpringMVC2</a>
+                            <a class="label-link" href="/categories/Java/">Java</a>
+                        <h2 class="kratos-entry-title-new"><a href="/2021/06/29/2021-6-29-%E4%BA%8C%E5%8F%89%E6%8E%92%E5%BA%8F%E6%A0%91/">二叉排序树</a>
                     </header>
                     <div class="kratos-entry-content-new">
                         <p>
                             
-                                数据绑定流程：
-
-Spring MVC 主框架将 ServletRequest 对象及目标方法的参数实例传递给 WebDataBinderFactory 实例，以创建 DataBinder 实例对象
-DataBinder 调用装配在 ...
+                                二叉排序树对于二叉排序树的任何一个非叶子节点，要求左子节点的值比当前节点的值小，右节点的值比当前节点大（如果有相同的值，可以将该节点放在左子节点或右子节点）
+应用实例一个数组{7，3，10，12，5，1，9}创建成对应的二叉排序树，并...
                             
                         </p>
                     </div>
@@ -221,16 +226,19 @@ DataBinder 调用装配在 ...
                     <span class="pull-left">
                         <a>
                             <i class="fa fa-calendar"></i>
-                            2021-05-16
+                            2021-06-29
                         </a>
                         <a>
+                            
+                                <i class="fa fa-tags"></i>
+                                <a class="tag-none-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a>, <a class="tag-none-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
                             
                         </a>
                         
                         
                     </span>
                     <span class="pull-right">
-                        <a class="read-more" href="/2021/05/16/SpringMVC2/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
+                        <a class="read-more" href="/2021/06/29/2021-6-29-%E4%BA%8C%E5%8F%89%E6%8E%92%E5%BA%8F%E6%A0%91/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
                     </span>
                 </footer>
             </div>
@@ -243,7 +251,7 @@ DataBinder 调用装配在 ...
             <div class="kratos-entry-border-new clearfix">
                 
                 <div class="kratos-entry-thumb-new">
-                    <a href="/2021/05/15/SpringMVC1/">
+                    <a href="/2021/06/29/2021-6-29-%E5%9B%BE/">
                         
                             <img class="kratos-entry-thumb-new-img">
                         
@@ -251,16 +259,15 @@ DataBinder 调用装配在 ...
                 </div>
                 <div class="kratos-post-inner-new">
                     <header class="kratos-entry-header-new">
-                            <a class="label-link" href="/categories/ssm/">ssm</a>
-                        <h2 class="kratos-entry-title-new"><a href="/2021/05/15/SpringMVC1/">SpringMVC1</a>
+                            <a class="label-link" href="/categories/Java/">Java</a>
+                        <h2 class="kratos-entry-title-new"><a href="/2021/06/29/2021-6-29-%E5%9B%BE/">图</a>
                     </header>
                     <div class="kratos-entry-content-new">
                         <p>
                             
-                                概要本文章基于Spring4.x版本的SpringMVC,源码上与Spring5会有些许不同
-
-Spring为展现层提供的基于MVC设计理念的优秀的Web框架，是目前最主流的MVC框架之一
-SpringMVC通过一套MVC注解，让PO...
+                                图线性表局限于一个直接前驱和一个直接后继的关系，树也只能有一个直接前驱，也就是父节点。当需要表示多对多的关系时，就会用到图
+图是一种数据结构，其中结点可以具有零个或多个相邻元素。两个结点之间的连接称为边。 结点也可以称为顶点
+图包括：...
                             
                         </p>
                     </div>
@@ -269,16 +276,19 @@ SpringMVC通过一套MVC注解，让PO...
                     <span class="pull-left">
                         <a>
                             <i class="fa fa-calendar"></i>
-                            2021-05-15
+                            2021-06-29
                         </a>
                         <a>
+                            
+                                <i class="fa fa-tags"></i>
+                                <a class="tag-none-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a>, <a class="tag-none-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
                             
                         </a>
                         
                         
                     </span>
                     <span class="pull-right">
-                        <a class="read-more" href="/2021/05/15/SpringMVC1/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
+                        <a class="read-more" href="/2021/06/29/2021-6-29-%E5%9B%BE/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
                     </span>
                 </footer>
             </div>
@@ -291,7 +301,7 @@ SpringMVC通过一套MVC注解，让PO...
             <div class="kratos-entry-border-new clearfix">
                 
                 <div class="kratos-entry-thumb-new">
-                    <a href="/2021/04/25/Spring5%E6%A1%86%E6%9E%B6%EF%BC%88%E4%BA%8B%E5%8A%A1%EF%BC%89/">
+                    <a href="/2021/06/29/2021-6-29-%E5%A4%9A%E8%B7%AF%E6%9F%A5%E6%89%BE%E6%A0%91/">
                         
                             <img class="kratos-entry-thumb-new-img">
                         
@@ -299,22 +309,15 @@ SpringMVC通过一套MVC注解，让PO...
                 </div>
                 <div class="kratos-post-inner-new">
                     <header class="kratos-entry-header-new">
-                            <a class="label-link" href="/categories/ssm/">ssm</a>
-                        <h2 class="kratos-entry-title-new"><a href="/2021/04/25/Spring5%E6%A1%86%E6%9E%B6%EF%BC%88%E4%BA%8B%E5%8A%A1%EF%BC%89/">Spring5框架（事务）</a>
+                            <a class="label-link" href="/categories/Java/">Java</a>
+                        <h2 class="kratos-entry-title-new"><a href="/2021/06/29/2021-6-29-%E5%A4%9A%E8%B7%AF%E6%9F%A5%E6%89%BE%E6%A0%91/">多路查找树</a>
                     </header>
                     <div class="kratos-entry-content-new">
                         <p>
                             
-                                事务操作简介
-事务是数据库操作最基本单元，逻辑上一组操作，要么都成功，如果有一个失败所有操作都失败
+                                多路查找树二叉树问题分析二叉树需要加载到内存的，如果二叉树的节点少，没有什么问题，但是如果二叉树的节点很多(比如1亿)， 就存在如下问题：
 
-典型场景：银行转账
-lucy转账100元给mary
-lucy少100元，mary多100元
-
-
-事务特性（ACID）
-原子性:事务包...
+构建二叉树时，需要多次进行i/o操作(海量数据存在数据库或文件中),节点海量构建二叉树时，速...
                             
                         </p>
                     </div>
@@ -323,16 +326,19 @@ lucy少100元，mary多100元
                     <span class="pull-left">
                         <a>
                             <i class="fa fa-calendar"></i>
-                            2021-04-25
+                            2021-06-29
                         </a>
                         <a>
+                            
+                                <i class="fa fa-tags"></i>
+                                <a class="tag-none-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a>, <a class="tag-none-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
                             
                         </a>
                         
                         
                     </span>
                     <span class="pull-right">
-                        <a class="read-more" href="/2021/04/25/Spring5%E6%A1%86%E6%9E%B6%EF%BC%88%E4%BA%8B%E5%8A%A1%EF%BC%89/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
+                        <a class="read-more" href="/2021/06/29/2021-6-29-%E5%A4%9A%E8%B7%AF%E6%9F%A5%E6%89%BE%E6%A0%91/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
                     </span>
                 </footer>
             </div>
@@ -345,7 +351,7 @@ lucy少100元，mary多100元
             <div class="kratos-entry-border-new clearfix">
                 
                 <div class="kratos-entry-thumb-new">
-                    <a href="/2021/04/25/Spring5%E6%A1%86%E6%9E%B6%EF%BC%88AOP%E3%80%81JDBCTemplate%EF%BC%89/">
+                    <a href="/2021/06/29/2021-06-29-10%E5%A4%A7%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95/">
                         
                             <img class="kratos-entry-thumb-new-img">
                         
@@ -353,16 +359,16 @@ lucy少100元，mary多100元
                 </div>
                 <div class="kratos-post-inner-new">
                     <header class="kratos-entry-header-new">
-                            <a class="label-link" href="/categories/ssm/">ssm</a>
-                        <h2 class="kratos-entry-title-new"><a href="/2021/04/25/Spring5%E6%A1%86%E6%9E%B6%EF%BC%88AOP%E3%80%81JDBCTemplate%EF%BC%89/">Spring5框架（AOP、JDBCTemplate）</a>
+                            <a class="label-link" href="/categories/Java/">Java</a>
+                        <h2 class="kratos-entry-title-new"><a href="/2021/06/29/2021-06-29-10%E5%A4%A7%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95/">10大常用算法</a>
                     </header>
                     <div class="kratos-entry-content-new">
                         <p>
                             
-                                AOP简介
-AOP（Aspect-OrientedProgramming，面向切面编程），可以说是OOP（Object-Oriented Programing，面向对象编程）的补充和完善。
-
-利用 AOP 可以对业务逻辑的各个部分进行...
+                                二分查找算法(非递归)
+前面我们讲过了二分查找算法，是使用递归的方式，下面我们讲解二分查找算法的非递归方式
+二分查找法只适用于从有序的数列中进行查找(比如数字和字母等)，将数列排序后再进行查找
+1)二分查找法的运行时间为对数时间O(㏒...
                             
                         </p>
                     </div>
@@ -371,16 +377,19 @@ AOP（Aspect-OrientedProgramming，面向切面编程），可以说是OOP（Obj
                     <span class="pull-left">
                         <a>
                             <i class="fa fa-calendar"></i>
-                            2021-04-25
+                            2021-06-29
                         </a>
                         <a>
+                            
+                                <i class="fa fa-tags"></i>
+                                <a class="tag-none-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a>, <a class="tag-none-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
                             
                         </a>
                         
                         
                     </span>
                     <span class="pull-right">
-                        <a class="read-more" href="/2021/04/25/Spring5%E6%A1%86%E6%9E%B6%EF%BC%88AOP%E3%80%81JDBCTemplate%EF%BC%89/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
+                        <a class="read-more" href="/2021/06/29/2021-06-29-10%E5%A4%A7%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
                     </span>
                 </footer>
             </div>
@@ -393,7 +402,7 @@ AOP（Aspect-OrientedProgramming，面向切面编程），可以说是OOP（Obj
             <div class="kratos-entry-border-new clearfix">
                 
                 <div class="kratos-entry-thumb-new">
-                    <a href="/2021/04/24/Spring5%E6%A1%86%E6%9E%B6%EF%BC%88IOC%EF%BC%89/">
+                    <a href="/2021/06/22/2021-6-22-%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91/">
                         
                             <img class="kratos-entry-thumb-new-img">
                         
@@ -401,21 +410,15 @@ AOP（Aspect-OrientedProgramming，面向切面编程），可以说是OOP（Obj
                 </div>
                 <div class="kratos-post-inner-new">
                     <header class="kratos-entry-header-new">
-                            <a class="label-link" href="/categories/ssm/">ssm</a>
-                        <h2 class="kratos-entry-title-new"><a href="/2021/04/24/Spring5%E6%A1%86%E6%9E%B6%EF%BC%88IOC%EF%BC%89/">Spring5框架（IOC）</a>
+                            <a class="label-link" href="/categories/Java/">Java</a>
+                        <h2 class="kratos-entry-title-new"><a href="/2021/06/22/2021-6-22-%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91/">哈夫曼树</a>
                     </header>
                     <div class="kratos-entry-content-new">
                         <p>
                             
-                                Spring5框架概述
-Spring5是轻量级的开源的JavaEE框架
-SPring可以解决企业应用开发复杂性
-核心部分：
-IOC：控制反转，把创建对象过程交给Spring进行管理
-AOP：面向切面，不修改源代码进行功能增强
-
-
-特点...
+                                哈夫曼树给定n个权值作为n个叶子节点，构造一棵二叉树，若该树的带权路径长度(wpl)达到最小，称这样的二叉树为最优二叉树，也称为哈夫曼树(Huffman Tree)
+赫夫曼树是带权路径长度最短的树，权值较大的结点离根较近
+路径和路径长...
                             
                         </p>
                     </div>
@@ -424,16 +427,19 @@ AOP：面向切面，不修改源代码进行功能增强
                     <span class="pull-left">
                         <a>
                             <i class="fa fa-calendar"></i>
-                            2021-04-24
+                            2021-06-22
                         </a>
                         <a>
+                            
+                                <i class="fa fa-tags"></i>
+                                <a class="tag-none-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a>, <a class="tag-none-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
                             
                         </a>
                         
                         
                     </span>
                     <span class="pull-right">
-                        <a class="read-more" href="/2021/04/24/Spring5%E6%A1%86%E6%9E%B6%EF%BC%88IOC%EF%BC%89/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
+                        <a class="read-more" href="/2021/06/22/2021-6-22-%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
                     </span>
                 </footer>
             </div>
@@ -446,7 +452,7 @@ AOP：面向切面，不修改源代码进行功能增强
             <div class="kratos-entry-border-new clearfix">
                 
                 <div class="kratos-entry-thumb-new">
-                    <a href="/2021/04/18/JSON&Ajax&i18n/">
+                    <a href="/2021/06/09/202169-%E5%93%88%E5%B8%8C%E8%A1%A8/">
                         
                             <img class="kratos-entry-thumb-new-img">
                         
@@ -454,13 +460,13 @@ AOP：面向切面，不修改源代码进行功能增强
                 </div>
                 <div class="kratos-post-inner-new">
                     <header class="kratos-entry-header-new">
-                            <a class="label-link" href="/categories/Java-Web/">Java Web</a>
-                        <h2 class="kratos-entry-title-new"><a href="/2021/04/18/JSON&Ajax&i18n/">JSON&Ajax&i18n</a>
+                            <a class="label-link" href="/categories/Java/">Java</a>
+                        <h2 class="kratos-entry-title-new"><a href="/2021/06/09/202169-%E5%93%88%E5%B8%8C%E8%A1%A8/">哈希表</a>
                     </header>
                     <div class="kratos-entry-content-new">
                         <p>
                             
-                                JSON简介JSON (JavaScript Object Notation) 是一种轻量级的数据交换格式。易于人阅读和编写。同时也易于机器解析和生成。JSON 采用完全独立于语言的文本格式，而且很多语言都提供了对 json 的支持（...
+                                哈希表散列表（Hash table，也叫哈希表），是根据关键码值(Key value)而直接进行访问的数据结构。也就是说，它通过把关键码值映射到表中一个位置来访问记录，以加快查找的速度。这个映射函数叫做散列函数，存放记录的数组叫做散列...
                             
                         </p>
                     </div>
@@ -469,16 +475,19 @@ AOP：面向切面，不修改源代码进行功能增强
                     <span class="pull-left">
                         <a>
                             <i class="fa fa-calendar"></i>
-                            2021-04-18
+                            2021-06-09
                         </a>
                         <a>
+                            
+                                <i class="fa fa-tags"></i>
+                                <a class="tag-none-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a>, <a class="tag-none-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
                             
                         </a>
                         
                         
                     </span>
                     <span class="pull-right">
-                        <a class="read-more" href="/2021/04/18/JSON&Ajax&i18n/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
+                        <a class="read-more" href="/2021/06/09/202169-%E5%93%88%E5%B8%8C%E8%A1%A8/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
                     </span>
                 </footer>
             </div>
@@ -491,7 +500,7 @@ AOP：面向切面，不修改源代码进行功能增强
             <div class="kratos-entry-border-new clearfix">
                 
                 <div class="kratos-entry-thumb-new">
-                    <a href="/2021/04/13/Filter%E8%BF%87%E6%BB%A4%E5%99%A8/">
+                    <a href="/2021/06/09/202169-%E4%BA%8C%E5%8F%89%E6%A0%91/">
                         
                             <img class="kratos-entry-thumb-new-img">
                         
@@ -499,18 +508,15 @@ AOP：面向切面，不修改源代码进行功能增强
                 </div>
                 <div class="kratos-post-inner-new">
                     <header class="kratos-entry-header-new">
-                            <a class="label-link" href="/categories/Java-Web/">Java Web</a>
-                        <h2 class="kratos-entry-title-new"><a href="/2021/04/13/Filter%E8%BF%87%E6%BB%A4%E5%99%A8/">Filter过滤器</a>
+                            <a class="label-link" href="/categories/Java/">Java</a>
+                        <h2 class="kratos-entry-title-new"><a href="/2021/06/09/202169-%E4%BA%8C%E5%8F%89%E6%A0%91/">二叉树</a>
                     </header>
                     <div class="kratos-entry-content-new">
                         <p>
                             
-                                简介
-Filter过滤器是Java Web三大组件之一（Servlet程序、Listener监听器、Filter过滤器）
-Filter过滤器是JavaEE的规范，也就是接口
-Filter过滤器它的作用是：拦截请求，过滤响应
-
-拦截请求...
+                                二叉树数组存储方式优点：通过下标方式访问元素，速度快。对于有序数组，还可使用二分查找提高检索速度
+缺点：如果要检索具体某个值，或者插入值(按一定顺序)会整体移动，效率较低
+链式存储方式优点：在一定程度上对数组存储方式有优化(比如：插入...
                             
                         </p>
                     </div>
@@ -519,16 +525,19 @@ Filter过滤器它的作用是：拦截请求，过滤响应
                     <span class="pull-left">
                         <a>
                             <i class="fa fa-calendar"></i>
-                            2021-04-13
+                            2021-06-09
                         </a>
                         <a>
+                            
+                                <i class="fa fa-tags"></i>
+                                <a class="tag-none-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a>, <a class="tag-none-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
                             
                         </a>
                         
                         
                     </span>
                     <span class="pull-right">
-                        <a class="read-more" href="/2021/04/13/Filter%E8%BF%87%E6%BB%A4%E5%99%A8/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
+                        <a class="read-more" href="/2021/06/09/202169-%E4%BA%8C%E5%8F%89%E6%A0%91/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
                     </span>
                 </footer>
             </div>
@@ -541,7 +550,7 @@ Filter过滤器它的作用是：拦截请求，过滤响应
             <div class="kratos-entry-border-new clearfix">
                 
                 <div class="kratos-entry-thumb-new">
-                    <a href="/2021/04/08/Cookie&Session/">
+                    <a href="/2021/06/04/202164-%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95/">
                         
                             <img class="kratos-entry-thumb-new-img">
                         
@@ -549,20 +558,14 @@ Filter过滤器它的作用是：拦截请求，过滤响应
                 </div>
                 <div class="kratos-post-inner-new">
                     <header class="kratos-entry-header-new">
-                            <a class="label-link" href="/categories/Java-Web/">Java Web</a>
-                        <h2 class="kratos-entry-title-new"><a href="/2021/04/08/Cookie&Session/">Cookie&Session</a>
+                            <a class="label-link" href="/categories/Java/">Java</a>
+                        <h2 class="kratos-entry-title-new"><a href="/2021/06/04/202164-%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95/">查找算法</a>
                     </header>
                     <div class="kratos-entry-content-new">
                         <p>
                             
-                                Cookie
-Cookie 是服务器通知客户端保存键值对的一种技术
-客户端有了 Cookie 后，每次请求都发送给服务器
-每个 Cookie 的大小不能超过 4kb
-
-Cookie创建
-Servlet程序中
-1234567891011...
+                                线性查找算法从给定的数组中逐个查找，直到找到目标，返回该数值下标
+代码实现123456789101112131415161718192021public class SeqSearch &#123;    public static ...
                             
                         </p>
                     </div>
@@ -571,16 +574,19 @@ Servlet程序中
                     <span class="pull-left">
                         <a>
                             <i class="fa fa-calendar"></i>
-                            2021-04-08
+                            2021-06-04
                         </a>
                         <a>
+                            
+                                <i class="fa fa-tags"></i>
+                                <a class="tag-none-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a>, <a class="tag-none-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
                             
                         </a>
                         
                         
                     </span>
                     <span class="pull-right">
-                        <a class="read-more" href="/2021/04/08/Cookie&Session/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
+                        <a class="read-more" href="/2021/06/04/202164-%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
                     </span>
                 </footer>
             </div>
@@ -593,7 +599,7 @@ Servlet程序中
             <div class="kratos-entry-border-new clearfix">
                 
                 <div class="kratos-entry-thumb-new">
-                    <a href="/2021/04/03/EL%E8%A1%A8%E8%BE%BE%E5%BC%8F&JSTL%E6%A0%87%E7%AD%BE%E5%BA%93/">
+                    <a href="/2021/06/02/202162-%E9%80%92%E5%BD%92/">
                         
                             <img class="kratos-entry-thumb-new-img">
                         
@@ -601,17 +607,18 @@ Servlet程序中
                 </div>
                 <div class="kratos-post-inner-new">
                     <header class="kratos-entry-header-new">
-                            <a class="label-link" href="/categories/Java-Web/">Java Web</a>
-                        <h2 class="kratos-entry-title-new"><a href="/2021/04/03/EL%E8%A1%A8%E8%BE%BE%E5%BC%8F&JSTL%E6%A0%87%E7%AD%BE%E5%BA%93/">EL表达式&JSTL标签库</a>
+                            <a class="label-link" href="/categories/Java/">Java</a>
+                        <h2 class="kratos-entry-title-new"><a href="/2021/06/02/202162-%E9%80%92%E5%BD%92/">递归</a>
                     </header>
                     <div class="kratos-entry-content-new">
                         <p>
                             
-                                EL表达式简介
-EL表达式全称：Expression Language是表达式语言
-EL表达式主要是代替JSP页面中的表达式脚本在jsp页面中进行数据的输出。因为EL表达式在输出数据的时候，要比JSP的表达式脚本要简洁的多。
+                                递归概念简单地说，递归就是方法自己调用自己，每次调用时传入不同的变量。
+递归有助于解决复杂的问题，同时可以让代码变得简洁
+递归调用机制递归调用规则
 
-123...
+当程序执行到一个方法时，就会开辟一个独立的空间(栈)
+每个空间的数据(局部变量)，是...
                             
                         </p>
                     </div>
@@ -620,16 +627,19 @@ EL表达式主要是代替JSP页面中的表达式脚本在jsp页面中进行数
                     <span class="pull-left">
                         <a>
                             <i class="fa fa-calendar"></i>
-                            2021-04-03
+                            2021-06-02
                         </a>
                         <a>
+                            
+                                <i class="fa fa-tags"></i>
+                                <a class="tag-none-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a>, <a class="tag-none-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
                             
                         </a>
                         
                         
                     </span>
                     <span class="pull-right">
-                        <a class="read-more" href="/2021/04/03/EL%E8%A1%A8%E8%BE%BE%E5%BC%8F&JSTL%E6%A0%87%E7%AD%BE%E5%BA%93/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
+                        <a class="read-more" href="/2021/06/02/202162-%E9%80%92%E5%BD%92/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
                     </span>
                 </footer>
             </div>
@@ -639,7 +649,7 @@ EL表达式主要是代替JSP页面中的表达式脚本在jsp页面中进行数
 
 
     <div class='text-center pagination'>
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
     </div>
 
 
@@ -676,7 +686,7 @@ EL表达式主要是代替JSP页面中的表达式脚本在jsp页面中进行数
                 
   <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
     <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Error/">Error</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JDBC/">JDBC</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">29</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-Web/">Java Web</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SSM/">SSM</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/redis/">redis</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/springmvc/">springmvc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ssm/">ssm</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%91%E5%B9%B4%E3%81%AE%E6%97%A5%E5%B8%B8/">少年の日常</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Error/">Error</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JDBC/">JDBC</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JVM/">JVM</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">29</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-Web/">Java Web</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MyBatis/">MyBatis</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Nginx/">Nginx</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SSM/">SSM</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/redis/">redis</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/springmvc/">springmvc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ssm/">ssm</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%91%E5%B9%B4%E3%81%AE%E6%97%A5%E5%B8%B8/">少年の日常</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a><span class="category-list-count">1</span></li></ul>
   </aside>
 
 
@@ -685,7 +695,7 @@ EL表达式主要是代替JSP页面中的表达式脚本在jsp页面中进行数
   <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
     <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
       <div class="tag-clouds">
-        <a href="/tags/Callable/" style="font-size: 0.6em;">Callable</a> <a href="/tags/Date/" style="font-size: 0.6em;">Date</a> <a href="/tags/Java%E5%9F%BA%E7%A1%80/" style="font-size: 0.6em;">Java基础</a> <a href="/tags/Map/" style="font-size: 0.6em;">Map</a> <a href="/tags/NoSQL/" style="font-size: 0.6em;">NoSQL</a> <a href="/tags/OOP/" style="font-size: 0.6em;">OOP</a> <a href="/tags/Set/" style="font-size: 0.6em;">Set</a> <a href="/tags/Socket/" style="font-size: 0.6em;">Socket</a> <a href="/tags/String/" style="font-size: 0.6em;">String</a> <a href="/tags/TCP/" style="font-size: 0.6em;">TCP</a> <a href="/tags/UDP/" style="font-size: 0.6em;">UDP</a> <a href="/tags/lock/" style="font-size: 0.6em;">lock</a> <a href="/tags/redis/" style="font-size: 0.6em;">redis</a> <a href="/tags/springmvc/" style="font-size: 0.6em;">springmvc</a> <a href="/tags/synchronized/" style="font-size: 0.6em;">synchronized</a> <a href="/tags/%E5%8C%85%E8%A3%85%E7%B1%BB/" style="font-size: 0.6em;">包装类</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 0.6em;">并发编程</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 0.8em;">数据结构</a>
+        <a href="/tags/Callable/" style="font-size: 0.6em;">Callable</a> <a href="/tags/Date/" style="font-size: 0.6em;">Date</a> <a href="/tags/Java%E5%9F%BA%E7%A1%80/" style="font-size: 0.6em;">Java基础</a> <a href="/tags/Map/" style="font-size: 0.6em;">Map</a> <a href="/tags/NoSQL/" style="font-size: 0.6em;">NoSQL</a> <a href="/tags/OOP/" style="font-size: 0.6em;">OOP</a> <a href="/tags/Set/" style="font-size: 0.6em;">Set</a> <a href="/tags/Socket/" style="font-size: 0.6em;">Socket</a> <a href="/tags/String/" style="font-size: 0.6em;">String</a> <a href="/tags/TCP/" style="font-size: 0.6em;">TCP</a> <a href="/tags/UDP/" style="font-size: 0.6em;">UDP</a> <a href="/tags/lock/" style="font-size: 0.6em;">lock</a> <a href="/tags/mybatis/" style="font-size: 0.6em;">mybatis</a> <a href="/tags/redis/" style="font-size: 0.6em;">redis</a> <a href="/tags/springmvc/" style="font-size: 0.6em;">springmvc</a> <a href="/tags/ssm/" style="font-size: 0.6em;">ssm</a> <a href="/tags/synchronized/" style="font-size: 0.6em;">synchronized</a> <a href="/tags/%E5%8C%85%E8%A3%85%E7%B1%BB/" style="font-size: 0.6em;">包装类</a>
       </div>
   </aside>
 
@@ -699,34 +709,62 @@ EL表达式主要是代替JSP页面中的表达式脚本在jsp页面中进行数
         
           
           
-            <a class="list-group-item" href="/2021/09/25/2021925-ConcurrentHashMap/"><i class="fa  fa-book"></i> ConcurrentHashMap</a>
+            <a class="list-group-item" href="/2021/11/11/20211111-%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%8C%96%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E4%B8%8E%E8%AE%BF%E9%97%AE%E5%AE%9A%E4%BD%8D/"><i class="fa  fa-book"></i> 对象的实例化内存布局与访问定位</a>
             
           
         
           
           
-            <a class="list-group-item" href="/2021/09/25/2021925-SpringMVC%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B/"><i class="fa  fa-book"></i> SpringMVC执行过程</a>
+            <a class="list-group-item" href="/2021/11/11/20211111-%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E(%E6%9C%AA%E5%AE%8C)/"><i class="fa  fa-book"></i> 执行引擎</a>
             
           
         
           
           
-            <a class="list-group-item" href="/2021/09/19/2021919-Redis6/"><i class="fa  fa-book"></i> Redis6</a>
+            <a class="list-group-item" href="/2021/11/11/20211111-%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98/"><i class="fa  fa-book"></i> 直接内存</a>
             
           
         
           
           
-            <a class="list-group-item" href="/2021/07/30/2021730-%E5%B8%B8%E7%94%A8%E7%B1%BB/"><i class="fa  fa-book"></i> 常用类</a>
+            <a class="list-group-item" href="/2021/11/11/20211111-Java8%E6%96%B0%E7%89%B9%E6%80%A7/"><i class="fa  fa-book"></i> Java8新特性</a>
             
           
         
           
           
-            <a class="list-group-item" href="/2021/07/22/2021722-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B(OOP)/"><i class="fa  fa-book"></i> 面向对象编程(OOP)</a>
+            <a class="list-group-item" href="/2021/11/10/20211110-JVM%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/"><i class="fa  fa-book"></i> JVM常见面试题</a>
             
           
         
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
           
             
           
