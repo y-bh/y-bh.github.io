@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+  <!-- 元数据 -->
+  <meta charset="utf-8">
+  <link rel="icon" href="">
+  <title>StringTable(字符串常量池) | 青い栞</title>
+  <meta name="author" content="FunnyLs" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index,follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="format-detection" content="telphone=no, email=no" />
+  
+    <meta name="keywords" content="" />
+  
+  <meta name="description" content="String的基本特性 String：字符串，使用一对 “” 引起来表示 12String s1 &#x3D; &quot;atguigu&quot; ;               &#x2F;&#x2F; 字面量的定义方式String s2 &#x3D;  new String(&quot;hello&quot;);     &#x2F;&#x2F; new 对象的方式Copy to clipboardErrorCopied String被声明为fin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="StringTable(字符串常量池)">
+<meta property="og:url" content="http://example.com/2021/11/16/20211116-StringTable(%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%B8%B8%E9%87%8F%E6%B1%A0)/index.html">
+<meta property="og:site_name" content="青い栞">
+<meta property="og:description" content="String的基本特性 String：字符串，使用一对 “” 引起来表示 12String s1 &#x3D; &quot;atguigu&quot; ;               &#x2F;&#x2F; 字面量的定义方式String s2 &#x3D;  new String(&quot;hello&quot;);     &#x2F;&#x2F; new 对象的方式Copy to clipboardErrorCopied String被声明为fin">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/null">
+<meta property="article:published_time" content="2021-11-15T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-11-25T15:36:55.909Z">
+<meta property="article:author" content="FunnyLs">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/null">
+<meta name="twitter:site" content="@null">
+  
+  <!-- 站点验证相关 -->
+  
+    
+    
+    
+  
+  <!-- 样式表文件 -->
+  <link rel="stylesheet" id="kratos-css" href="/css/kratosr.min.css" type="text/css" media="all">
+  
+    <link rel="stylesheet" id="highlight-css" href="/css/highlight/night-blue.min.css" type="text/css" media="all">
+  
+  
+  <link rel="stylesheet" id="fontawe-css" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" type="text/css" media="all">
+  <link rel="stylesheet" id="nprogress-css" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" type="text/css" media="all">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+  
+  
+    <link rel="stylesheet" id="darkmode-css" href="/css/kr-dark.min.css" type="text/css" media="all">
+  
+  <!-- 不得不预先加载的一些JS文件 -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+    <body class="custom-background">
+        <div id="kratos-wrapper">
+    <div id="kratos-page">
+        <div id="kratos-header">
+            <header id="kratos-desktop-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="nav-header">
+                        <nav id="kratos-menu-wrap">
+                            <ul id="kratos-primary-menu" class="sf-menu">
+                                
+                                    
+                                        <li><a href="/"><i class="fa fa-home"></i>首页</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/archives/"><i class="fa fa-file"></i>档案馆</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/friends/"></a></li>
+                                    
+                                
+                                    
+                                        <li>
+                                            <a><i class="fa fa-link"></i>链接</a>
+                                            <ul class="sub-menu">
+                                                
+                                                    
+                                                
+                                                    
+                                                        <li><a target="_blank" rel="noopener" href="https://candinya.com">作者博客</a></li>
+                                                    
+                                                
+                                                    
+                                                        <li><a target="_blank" rel="noopener" href="https://github.com/Candinya/Kratos-Rebirth">项目链接</a></li>
+                                                    
+                                                
+                                            </ul>
+                                        </li>
+                                    
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <header id="kratos-mobile-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="color-logo"><a href="/">青い栞</a></div>
+                    <div class="nav-toggle">
+                        <a class="kratos-nav-toggle js-kratos-nav-toggle">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="kratos-start kratos-hero-2">
+            <!-- <div class="kratos-overlay"></div> -->
+            <div class="kratos-cover kratos-cover-2 text-center">
+                <div class="desc desc2 animate-box">
+                    <a href="/">
+                        <h2>青い栞</h2> <br />
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="kratos-blog-post">
+            <div class="container">
+                <div id="main" class="row">
+                    
+
+        
+
+            <section class="col-md-8">
+
+        
+
+            <article>
+    <div class="kratos-hentry kratos-post-inner clearfix">
+        <header class="kratos-entry-header">
+            
+                <h1 class="kratos-entry-title text-center">StringTable(字符串常量池)</h1>
+            
+            
+            <ul class="kratos-post-meta text-center">
+                <li><i class="fa fa-calendar"></i> 2021-11-16</li>
+                <li><i class="fa fa-user"></i> 作者 FunnyLs</li>
+                <li>
+                    <i class="fa fa-edit"></i> 
+                    
+                    
+                        ~11.49K
+                    
+                    字
+                </li>
+                
+            </ul>
+        </header>
+        <div class="kratos-post-content">
+            <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                本文最后编辑于 <time datetime="1637854615909"></time> 前，其中的内容可能需要更新。
+            </div>
+            
+                <div class="kratos-post-inner-toc">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#String%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%89%B9%E6%80%A7"><span class="toc-number">1.</span> <span class="toc-text">String的基本特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#JDK9%E6%94%B9%E5%8A%A8%E5%8E%9F%E5%9B%A0"><span class="toc-number">1.1.</span> <span class="toc-text">JDK9改动原因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#String%E7%9A%84%E5%BA%95%E5%B1%82%E7%BB%93%E6%9E%84"><span class="toc-number">1.2.</span> <span class="toc-text">String的底层结构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#String%E7%9A%84%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D"><span class="toc-number">2.</span> <span class="toc-text">String的内存分配</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#StringTable%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E8%B0%83%E6%95%B4"><span class="toc-number">2.1.</span> <span class="toc-text">StringTable为什么要调整</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#String%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="toc-number">3.</span> <span class="toc-text">String的基本操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8B%BC%E6%8E%A5%E6%93%8D%E4%BD%9C"><span class="toc-number">3.1.</span> <span class="toc-text">字符串拼接操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8B%BC%E6%8E%A5%E7%9A%84%E5%BA%95%E5%B1%82%E7%BB%86%E8%8A%82"><span class="toc-number">3.1.1.</span> <span class="toc-text">字符串拼接的底层细节</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#intern-%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">4.</span> <span class="toc-text">intern()的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#new-String-%E8%AF%B4%E6%98%8E"><span class="toc-number">4.1.</span> <span class="toc-text">new String()说明</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#new-String-ab-%E4%BC%9A%E5%88%9B%E5%BB%BA%E5%87%A0%E4%B8%AA%E5%AF%B9%E8%B1%A1"><span class="toc-number">4.1.1.</span> <span class="toc-text">new String(ab)会创建几个对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#new-String-a-new-String-b-%E4%BC%9A%E5%88%9B%E5%BB%BA%E5%87%A0%E4%B8%AA%E5%AF%B9%E8%B1%A1"><span class="toc-number">4.1.2.</span> <span class="toc-text">new String(a)+new String(b)会创建几个对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B"><span class="toc-number">4.1.3.</span> <span class="toc-text">实例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">4.2.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#G1%E4%B8%AD%E7%9A%84String%E5%8E%BB%E9%87%8D%E6%93%8D%E4%BD%9C"><span class="toc-number">5.</span> <span class="toc-text">G1中的String去重操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#String%E5%8E%BB%E9%87%8D%E6%93%8D%E4%BD%9C%E7%9A%84%E6%93%8D%E4%BD%9C%E8%83%8C%E6%99%AF"><span class="toc-number">5.1.</span> <span class="toc-text">String去重操作的操作背景</span></a></li></ol></li></ol>
+                </div>
+            
+            <hr />
+            <h2 id="String的基本特性"><a href="#String的基本特性" class="headerlink" title="String的基本特性"></a>String的基本特性</h2><ol>
+<li><p>String：字符串，使用一对 “” 引起来表示</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String s1 = <span class="string">&quot;atguigu&quot;</span> ;               <span class="comment">// 字面量的定义方式</span></span><br><span class="line">String s2 =  <span class="keyword">new</span> String(<span class="string">&quot;hello&quot;</span>);     <span class="comment">// new 对象的方式Copy to clipboardErrorCopied</span></span><br></pre></td></tr></table></figure></li>
+<li><p>String被声明为final的，不可被继承</p>
+<ul>
+<li>String：代表不可变的字符序列。简称：不可变性。</li>
+</ul>
+<ol>
+<li>当对字符串重新赋值时，需要重写指定内存区域赋值，不能使用原有的value进行赋值。</li>
+<li>当对现有的字符串进行连接操作时，也需要重新指定内存区域赋值，不能使用原有的value进行赋值。</li>
+<li>当调用String的replace()方法修改指定字符或字符串时，也需要重新指定内存区域赋值，不能使用原有的value进行赋值。</li>
+</ol>
+<ul>
+<li>通过字面量的方式（区别于new）给一个字符串赋值，此时的字符串值声明在字符串常量池中。<strong>当对字符串重新赋值时，需要重写指定内存区域赋值，不能使用原有的value进行赋值</strong></li>
+</ul>
+</li>
+<li><p>String实现了Serializable接口：表示字符串是支持序列化的。实现了Comparable接口：表示String可以比较大小</p>
+</li>
+<li><p>String在jdk8及以前内部定义了<code>final char value[]</code>用于存储字符串数据。JDK9时改为<code>byte[]</code></p>
+</li>
+</ol>
+<h3 id="JDK9改动原因"><a href="#JDK9改动原因" class="headerlink" title="JDK9改动原因"></a>JDK9改动原因</h3><ol>
+<li>String类的当前实现将字符存储在char数组中，每个字符使用两个字节(16位)。</li>
+<li>从许多不同的应用程序收集的数据表明，字符串是堆使用的主要组成部分，而且大多数字符串对象只包含拉丁字符（Latin-1）。这些字符只需要一个字节的存储空间，因此这些字符串对象的内部char数组中有一半的空间将不会使用，产生了大量浪费。</li>
+<li>之前 String 类使用 UTF-16 的 char[] 数组存储，现在改为 byte[] 数组 外加一个编码标识存储。该编码表示如果你的字符是ISO-8859-1或者Latin-1，那么只需要一个字节存。如果你是其它字符集，比如UTF-8，你仍然用两个字节存</li>
+<li>结论：String再也不用char[] 来存储了，改成了byte [] 加上编码标记，节约了一些空间</li>
+<li>同时基于String的数据结构，例如StringBuffer和StringBuilder也同样做了修改</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 之前</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">char</span> value[];</span><br><span class="line"><span class="comment">// 之后</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">byte</span>[] value</span><br></pre></td></tr></table></figure>
+
+<h3 id="String的底层结构"><a href="#String的底层结构" class="headerlink" title="String的底层结构"></a>String的底层结构</h3><p><strong>字符串常量池是不会存储相同内容的字符串的</strong></p>
+<ol>
+<li>String的String Pool（字符串常量池）是一个固定大小的Hashtable，默认值大小长度是1009。如果放进String Pool的String非常多，就会造成Hash冲突严重，从而导致链表会很长，而链表长了后直接会造成的影响就是当调用String.intern()方法时性能会大幅下降。</li>
+<li>使用-XX:StringTablesize可设置StringTable的长度</li>
+<li>在JDK6中StringTable是固定的，就是1009的长度，所以如果常量池中的字符串过多就会导致效率下降很快，StringTablesize设置没有要求</li>
+<li>在JDK7中，StringTable的长度默认值是60013，StringTablesize设置没有要求</li>
+<li>在JDK8中，StringTable的长度默认值是60013，StringTable可以设置的最小值为1009</li>
+</ol>
+<h2 id="String的内存分配"><a href="#String的内存分配" class="headerlink" title="String的内存分配"></a>String的内存分配</h2><ol>
+<li><p>在Java语言中有8种基本数据类型和一种比较特殊的类型String。这些类型为了使它们在运行过程中速度更快、更节省内存，都提供了一种常量池的概念。</p>
+</li>
+<li><p>常量池就类似一个Java系统级别提供的缓存。8种基本数据类型的常量池都是系统协调的，String类型的常量池比较特殊。它的主要使用方法有两种。</p>
+<ul>
+<li>直接使用双引号声明出来的String对象会直接存储在常量池中。比如：<code>String info=&quot;atguigu.com&quot;;</code></li>
+<li>如果不是用双引号声明的String对象，可以使用String提供的intern()方法。这个后面重点谈</li>
+</ul>
+</li>
+<li><p>Java 6及以前，字符串常量池存放在永久代</p>
+</li>
+<li><p>Java 7中 Oracle的工程师对字符串池的逻辑做了很大的改变，即将字符串常量池的位置调整到Java堆内</p>
+<ul>
+<li>所有的字符串都保存在堆（Heap）中，和其他普通对象一样，这样可以让你在进行调优应用时仅需要调整堆大小就可以了。</li>
+<li>字符串常量池概念原本使用得比较多，但是这个改动使得我们有足够的理由让我们重新考虑在Java 7中使用String.intern()。</li>
+</ul>
+</li>
+<li><p>Java8元空间，字符串常量在堆</p>
+</li>
+</ol>
+<h3 id="StringTable为什么要调整"><a href="#StringTable为什么要调整" class="headerlink" title="StringTable为什么要调整"></a>StringTable为什么要调整</h3><ol>
+<li>为什么要调整位置？<ul>
+<li>永久代的默认空间大小比较小</li>
+<li>永久代垃圾回收频率低，大量的字符串无法及时回收，容易进行Full GC产生STW或者容易产生OOM：PermGen Space</li>
+<li>堆中空间足够大，字符串可被及时回收</li>
+</ul>
+</li>
+<li>在JDK 7中，interned字符串不再在Java堆的永久代中分配，而是在Java堆的主要部分（称为年轻代和年老代）中分配，与应用程序创建的其他对象一起分配。</li>
+<li>此更改将导致驻留在主Java堆中的数据更多，驻留在永久生成中的数据更少，因此可能需要调整堆大小。</li>
+</ol>
+<h2 id="String的基本操作"><a href="#String的基本操作" class="headerlink" title="String的基本操作"></a>String的基本操作</h2><p>Java语言规范里要求完全相同的字符串字面量，应该包含同样的Unicode字符序列（包含同一份码点序列的常量），并且必须是指向同一个String类实例。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StringTest4</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        System.out.println();<span class="comment">//2293</span></span><br><span class="line">        System.out.println(<span class="string">&quot;1&quot;</span>);<span class="comment">//2294</span></span><br><span class="line">        System.out.println(<span class="string">&quot;2&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;3&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;4&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;5&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;6&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;7&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;8&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;9&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;10&quot;</span>);<span class="comment">//2303</span></span><br><span class="line">        <span class="comment">//如下的字符串&quot;1&quot; 到 &quot;10&quot;不会再次加载</span></span><br><span class="line">        System.out.println(<span class="string">&quot;1&quot;</span>);<span class="comment">//2304</span></span><br><span class="line">        System.out.println(<span class="string">&quot;2&quot;</span>);<span class="comment">//2304</span></span><br><span class="line">        System.out.println(<span class="string">&quot;3&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;4&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;5&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;6&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;7&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;8&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;9&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;10&quot;</span>);<span class="comment">//2304</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>程序启动时已经加载了 2293 个字符串常量，加载了字符串常量 “1”~“10”，之后的字符串”1” 到 “10”不会再次加载</p>
+<h3 id="字符串拼接操作"><a href="#字符串拼接操作" class="headerlink" title="字符串拼接操作"></a>字符串拼接操作</h3><ol>
+<li>常量与常量的拼接结果在常量池，原理是编译期优化</li>
+<li>常量池中不会存在相同内容的变量</li>
+<li>拼接前后，只要其中有一个是变量，结果就在堆中。变量拼接的原理是StringBuilder</li>
+<li>如果拼接的结果调用intern()方法，根据该字符串是否在常量池中存在，分为：<ul>
+<li>如果存在，则返回字符串在常量池中的地址</li>
+<li>如果字符串常量池中不存在该字符串，则在常量池中创建一份，并返回此对象的地址</li>
+</ul>
+</li>
+</ol>
+<h4 id="字符串拼接的底层细节"><a href="#字符串拼接的底层细节" class="headerlink" title="字符串拼接的底层细节"></a>字符串拼接的底层细节</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test3</span><span class="params">()</span></span>&#123;</span><br><span class="line">    String s1 = <span class="string">&quot;a&quot;</span>;</span><br><span class="line">    String s2 = <span class="string">&quot;b&quot;</span>;</span><br><span class="line">    String s3 = <span class="string">&quot;ab&quot;</span>;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    如下的s1 + s2 的执行细节：(变量s是我临时定义的）</span></span><br><span class="line"><span class="comment">    ① StringBuilder s = new StringBuilder();</span></span><br><span class="line"><span class="comment">    ② s.append(&quot;a&quot;)</span></span><br><span class="line"><span class="comment">    ③ s.append(&quot;b&quot;)</span></span><br><span class="line"><span class="comment">    ④ s.toString()  --&gt; 约等于 new String(&quot;ab&quot;)，但不等价</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    补充：在jdk5.0之后使用的是StringBuilder,在jdk5.0之前使用的是StringBuffer</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    String s4 = s1 + s2;<span class="comment">//</span></span><br><span class="line">    System.out.println(s3 == s4);<span class="comment">//false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>字节码指令</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">0 ldc #14 &lt;a&gt;</span><br><span class="line"><span class="number">2</span> astore_1</span><br><span class="line">3 ldc #15 &lt;b&gt;</span><br><span class="line"><span class="number">5</span> astore_2</span><br><span class="line">6 ldc #16 &lt;ab&gt;</span><br><span class="line"><span class="number">8</span> astore_3</span><br><span class="line">9 new #9 &lt;java/lang/StringBuilder&gt;</span><br><span class="line"><span class="number">12</span> dup</span><br><span class="line">13 invokespecial #10 &lt;java/lang/StringBuilder.&lt;init&gt;&gt;</span><br><span class="line"><span class="number">16</span> aload_1</span><br><span class="line">17 invokevirtual #11 &lt;java/lang/StringBuilder.append&gt;</span><br><span class="line"><span class="number">20</span> aload_2</span><br><span class="line">21 invokevirtual #11 &lt;java/lang/StringBuilder.append&gt;</span><br><span class="line">24 invokevirtual #12 &lt;java/lang/StringBuilder.toString&gt;</span><br><span class="line"><span class="number">27</span> astore <span class="number">4</span></span><br><span class="line">29 getstatic #3 &lt;java/lang/System.out&gt;</span><br><span class="line"><span class="number">32</span> aload_3</span><br><span class="line"><span class="number">33</span> aload <span class="number">4</span></span><br><span class="line"><span class="number">35</span> if_acmpne <span class="number">42</span> (+<span class="number">7</span>)</span><br><span class="line"><span class="number">38</span> iconst_1</span><br><span class="line"><span class="number">39</span> goto <span class="number">43</span> (+<span class="number">4</span>)</span><br><span class="line"><span class="number">42</span> iconst_0</span><br><span class="line">43 invokevirtual #4 &lt;java/io/PrintStream.println&gt;</span><br><span class="line"><span class="number">46</span> <span class="keyword">return</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    1. 字符串拼接操作不一定使用的是StringBuilder!</span></span><br><span class="line"><span class="comment">       如果拼接符号左右两边都是字符串常量或常量引用，则仍然使用编译期优化，即非StringBuilder的方式。</span></span><br><span class="line"><span class="comment">    2. 针对于final修饰类、方法、基本数据类型、引用数据类型的量的结构时，能使用上final的时候建议使用上。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test4</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">final</span> String s1 = <span class="string">&quot;a&quot;</span>;</span><br><span class="line">        <span class="keyword">final</span> String s2 = <span class="string">&quot;b&quot;</span>;</span><br><span class="line">        String s3 = <span class="string">&quot;ab&quot;</span>;</span><br><span class="line">        String s4 = s1 + s2;</span><br><span class="line">        System.out.println(s3 == s4);<span class="comment">//true</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>从字节码角度来看：为变量 s4 赋值时，直接使用 #16 符号引用，即字符串常量 “ab”</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">0 ldc #14 &lt;a&gt;</span><br><span class="line"><span class="number">2</span> astore_1</span><br><span class="line">3 ldc #15 &lt;b&gt;</span><br><span class="line"><span class="number">5</span> astore_2</span><br><span class="line">6 ldc #16 &lt;ab&gt;</span><br><span class="line"><span class="number">8</span> astore_3</span><br><span class="line">9 ldc #16 &lt;ab&gt;</span><br><span class="line"><span class="number">11</span> astore <span class="number">4</span></span><br><span class="line">13 getstatic #3 &lt;java/lang/System.out&gt;</span><br><span class="line"><span class="number">16</span> aload_3</span><br><span class="line"><span class="number">17</span> aload <span class="number">4</span></span><br><span class="line"><span class="number">19</span> if_acmpne <span class="number">26</span> (+<span class="number">7</span>)</span><br><span class="line"><span class="number">22</span> iconst_1</span><br><span class="line"><span class="number">23</span> goto <span class="number">27</span> (+<span class="number">4</span>)</span><br><span class="line"><span class="number">26</span> iconst_0</span><br><span class="line">27 invokevirtual #4 &lt;java/io/PrintStream.println&gt;</span><br><span class="line"><span class="number">30</span> <span class="keyword">return</span></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>体会执行效率：通过StringBuilder的append()的方式添加字符串的效率要远高于使用String的字符串拼接方式！</li>
+<li>原因：<ol>
+<li>StringBuilder的append()的方式：<ul>
+<li>自始至终中只创建过一个StringBuilder的对象</li>
+</ul>
+</li>
+<li>使用String的字符串拼接方式：<ul>
+<li>创建过多个StringBuilder和String（调的toString方法）的对象，内存占用更大；</li>
+<li>如果进行GC，需要花费额外的时间（在拼接的过程中产生的一些中间字符串可能永远也用不到，会产生大量垃圾字符串）。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>改进的空间：<ul>
+<li>在实际开发中，如果基本确定要前前后后添加的字符串长度不高于某个限定值highLevel的情况下，建议使用构造器实例化：</li>
+<li><code>StringBuilder s = new StringBuilder(highLevel); //new char[highLevel]</code></li>
+<li>这样可以避免频繁扩容</li>
+</ul>
+</li>
+</ol>
+<h2 id="intern-的使用"><a href="#intern-的使用" class="headerlink" title="intern()的使用"></a>intern()的使用</h2><p>说明</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">native</span> String <span class="title">intern</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>intern是一个native方法，调用的是底层C的方法</p>
+</li>
+<li><p>字符串常量池最初是空的，由String类私有地维护。在调用intern方法时，如果池中已经包含了由equals(object)方法确定的与该字符串内容相等的字符串，则返回池中的字符串地址。否则，该字符串对象将被添加到池中，并返回对该字符串对象的地址。（这是源码里的大概翻译）</p>
+</li>
+<li><p>如果不是用双引号声明的String对象，可以使用String提供的intern方法：intern方法会从字符串常量池中查询当前字符串是否存在，若不存在就会将当前字符串放入常量池中。比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String myInfo &#x3D; new string(&quot;I love atguigu&quot;).intern();Copy to clipboardErrorCopied</span><br></pre></td></tr></table></figure></li>
+<li><p>也就是说，如果在任意字符串上调用String.intern方法，那么其返回结果所指向的那个类实例，必须和直接以常量形式出现的字符串实例完全相同。因此，下列表达式的值必定是true</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(&quot;a&quot;+&quot;b&quot;+&quot;c&quot;).intern()&#x3D;&#x3D;&quot;abc&quot;Copy to clipboardErrorCopied</span><br></pre></td></tr></table></figure></li>
+<li><p>通俗点讲，Interned String就是确保字符串在内存里只有一份拷贝，这样可以节约内存空间，加快字符串操作任务的执行速度。注意，这个值会被存放在字符串内部池（String Intern Pool）</p>
+</li>
+</ol>
+<h3 id="new-String-说明"><a href="#new-String-说明" class="headerlink" title="new String()说明"></a>new String()说明</h3><h4 id="new-String-ab-会创建几个对象"><a href="#new-String-ab-会创建几个对象" class="headerlink" title="new String(ab)会创建几个对象"></a>new String(ab)会创建几个对象</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 题目：</span></span><br><span class="line"><span class="comment"> * new String(&quot;ab&quot;)会创建几个对象？看字节码，就知道是两个。</span></span><br><span class="line"><span class="comment"> *     一个对象是：new关键字在堆空间创建的</span></span><br><span class="line"><span class="comment"> *     另一个对象是：字符串常量池中的对象&quot;ab&quot;。 字节码指令：ldc</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StringNewTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        String str = <span class="keyword">new</span> String(<span class="string">&quot;ab&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>字节码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">0 new #2 &lt;java/lang/String&gt;</span><br><span class="line"><span class="number">3</span> dup</span><br><span class="line">4 ldc #3 &lt;ab&gt;</span><br><span class="line">6 invokespecial #4 &lt;java/lang/String.&lt;init&gt;&gt;</span><br><span class="line"><span class="number">9</span> astore_1</span><br><span class="line"><span class="number">10</span> <span class="keyword">return</span></span><br></pre></td></tr></table></figure>
+
+<p><code>0 new #2 &lt;java/lang/String&gt;</code>：在堆中创建了一个 String 对象</p>
+<p><code>4 ldc #3 &lt;ab&gt;</code> ：在字符串常量池中放入 “ab”（如果之前字符串常量池中没有 “ab” 的话）</p>
+<h4 id="new-String-a-new-String-b-会创建几个对象"><a href="#new-String-a-new-String-b-会创建几个对象" class="headerlink" title="new String(a)+new String(b)会创建几个对象"></a>new String(a)+new String(b)会创建几个对象</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 思考：</span></span><br><span class="line"><span class="comment"> * new String(&quot;a&quot;) + new String(&quot;b&quot;)呢？</span></span><br><span class="line"><span class="comment"> *  对象1：new StringBuilder()</span></span><br><span class="line"><span class="comment"> *  对象2： new String(&quot;a&quot;)</span></span><br><span class="line"><span class="comment"> *  对象3： 常量池中的&quot;a&quot;</span></span><br><span class="line"><span class="comment"> *  对象4： new String(&quot;b&quot;)</span></span><br><span class="line"><span class="comment"> *  对象5： 常量池中的&quot;b&quot;</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> *  深入剖析： StringBuilder的toString():</span></span><br><span class="line"><span class="comment"> *      对象6 ：new String(&quot;ab&quot;)</span></span><br><span class="line"><span class="comment"> *       强调一下，toString()的调用，在字符串常量池中，没有生成&quot;ab&quot;</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StringNewTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        String str = <span class="keyword">new</span> String(<span class="string">&quot;a&quot;</span>) + <span class="keyword">new</span> String(<span class="string">&quot;b&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>字节码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">0 new #2 &lt;java/lang/StringBuilder&gt;</span><br><span class="line"><span class="number">3</span> dup</span><br><span class="line">4 invokespecial #3 &lt;java/lang/StringBuilder.&lt;init&gt;&gt;</span><br><span class="line">7 new #4 &lt;java/lang/String&gt;</span><br><span class="line"><span class="number">10</span> dup</span><br><span class="line">11 ldc #5 &lt;a&gt;</span><br><span class="line">13 invokespecial #6 &lt;java/lang/String.&lt;init&gt;&gt;</span><br><span class="line">16 invokevirtual #7 &lt;java/lang/StringBuilder.append&gt;</span><br><span class="line">19 new #4 &lt;java/lang/String&gt;</span><br><span class="line"><span class="number">22</span> dup</span><br><span class="line">23 ldc #8 &lt;b&gt;</span><br><span class="line">25 invokespecial #6 &lt;java/lang/String.&lt;init&gt;&gt;</span><br><span class="line">28 invokevirtual #7 &lt;java/lang/StringBuilder.append&gt;</span><br><span class="line">31 invokevirtual #9 &lt;java/lang/StringBuilder.toString&gt;</span><br><span class="line"><span class="number">34</span> astore_1</span><br><span class="line"><span class="number">35</span> <span class="keyword">return</span></span><br></pre></td></tr></table></figure>
+
+<p>字节码指令分析：</p>
+<ol>
+<li><code>0 new #2 &lt;java/lang/StringBuilder&gt;</code> ：拼接字符串会创建一个 StringBuilder 对象</li>
+<li><code>7 new #4 &lt;java/lang/String&gt;</code> ：创建 String 对象，对应于 new String(“a”)</li>
+<li><code>11 ldc #5 &lt;a&gt;</code> ：在字符串常量池中放入 “a”（如果之前字符串常量池中没有 “a” 的话）</li>
+<li><code>19 new #4 &lt;java/lang/String&gt;</code> ：创建 String 对象，对应于 new String(“b”)</li>
+<li><code>23 ldc #8 &lt;b&gt;</code> ：在字符串常量池中放入 “b”（如果之前字符串常量池中没有 “b” 的话）</li>
+<li><code>31 invokevirtual #9 &lt;java/lang/StringBuilder.toString&gt;</code> ：调用 StringBuilder 的 toString() 方法，会生成一个 String 对象</li>
+</ol>
+<h4 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">**</span><br><span class="line"> * 如何保证变量s指向的是字符串常量池中的数据呢？</span><br><span class="line"> * 有两种方式：</span><br><span class="line"> * 方式一： String s = <span class="string">&quot;shkstart&quot;</span>;<span class="comment">//字面量定义的方式</span></span><br><span class="line"> * 方式二： 调用intern()</span><br><span class="line"> *         String s = <span class="keyword">new</span> String(<span class="string">&quot;shkstart&quot;</span>).intern();</span><br><span class="line"> *         String s = <span class="keyword">new</span> StringBuilder(<span class="string">&quot;shkstart&quot;</span>).toString().intern();</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span>     <span class="title">StringIntern</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        String s = <span class="keyword">new</span> String(<span class="string">&quot;1&quot;</span>);</span><br><span class="line">        s.intern();<span class="comment">//调用此方法之前，字符串常量池中已经存在了&quot;1&quot;</span></span><br><span class="line">        String s2 = <span class="string">&quot;1&quot;</span>;</span><br><span class="line">        System.out.println(s == s2);<span class="comment">//jdk6：false   jdk7/8：false</span></span><br><span class="line">        <span class="comment">//s返回的是堆空间的对象，s2返回的是字符串常量池中的对象</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         1、s3变量记录的地址为：new String(&quot;11&quot;)</span></span><br><span class="line"><span class="comment">         2、经过上面的分析，我们已经知道执行完pos_1的代码，在堆中有了一个new String(&quot;11&quot;)</span></span><br><span class="line"><span class="comment">         这样的String对象。但是在字符串常量池中没有&quot;11&quot;</span></span><br><span class="line"><span class="comment">         3、接着执行s3.intern()，在字符串常量池中生成&quot;11&quot;</span></span><br><span class="line"><span class="comment">           3-1、在JDK6的版本中，字符串常量池还在永久代，所以直接在永久代生成&quot;11&quot;,也就有了新的地址</span></span><br><span class="line"><span class="comment">           3-2、而在JDK7的后续版本中，字符串常量池被移动到了堆中，此时堆里已经有new String（&quot;11&quot;）了</span></span><br><span class="line"><span class="comment">           出于节省空间的目的，直接将堆中的那个字符串的引用地址储存在字符串常量池中。没错，字符串常量池</span></span><br><span class="line"><span class="comment">           中存的是new String（&quot;11&quot;）在堆中的地址</span></span><br><span class="line"><span class="comment">         4、所以在JDK7后续版本中，s3和s4指向的完全是同一个地址。</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        String s3 = <span class="keyword">new</span> String(<span class="string">&quot;1&quot;</span>) + <span class="keyword">new</span> String(<span class="string">&quot;1&quot;</span>);<span class="comment">//pos_1</span></span><br><span class="line">        s3.intern();</span><br><span class="line">        </span><br><span class="line">        String s4 = <span class="string">&quot;11&quot;</span>;<span class="comment">//s4变量记录的地址：使用的是上一行代码代码执行时，在常量池中生成的&quot;11&quot;的地址</span></span><br><span class="line">        System.out.println(s3 == s4);<span class="comment">//jdk6：false  jdk7/8：true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><strong>String的intern()使用</strong></p>
+<p>JDK6中：</p>
+<ul>
+<li><p>如果字符串常量池有值，则不会放入。返回已有的串池中的对象的地址</p>
+</li>
+<li><p>如果没有，会把<strong>此对象复制一份</strong>，放入串池，并返回串池中的对象地址</p>
+</li>
+</ul>
+<p>JDK7及以后：</p>
+<ul>
+<li><p>如果字符串常量池有值，则不会放入。返回已有的串池中的对象的地址</p>
+</li>
+<li><p>如果没有，则会把<strong>对象的引用地址复制一份</strong>，放入串池，并返回串池中的引用地址。</p>
+</li>
+</ul>
+<h2 id="G1中的String去重操作"><a href="#G1中的String去重操作" class="headerlink" title="G1中的String去重操作"></a>G1中的String去重操作</h2><h3 id="String去重操作的操作背景"><a href="#String去重操作的操作背景" class="headerlink" title="String去重操作的操作背景"></a>String去重操作的操作背景</h3><blockquote>
+<p>注意不是字符串常量池的去重操作，字符串常量池本身就没有重复的</p>
+</blockquote>
+<ol>
+<li>背景：对许多Java应用（有大的也有小的）做的测试得出以下结果：<ul>
+<li>堆存活数据集合里面String对象占了25%</li>
+<li>堆存活数据集合里面重复的String对象有13.5%</li>
+<li>String对象的平均长度是45</li>
+</ul>
+</li>
+<li>许多大规模的Java应用的瓶颈在于内存，测试表明，在这些类型的应用里面，Java堆中存活的数据集合差不多25%是String对象。更进一步，这里面差不多一半String对象是重复的，重复的意思是说：<code>str1.equals(str2)= true</code>。堆上存在重复的String对象必然是一种内存的浪费。这个项目将在G1垃圾收集器中实现自动持续对重复的String对象进行去重，这样就能避免浪费内存。</li>
+</ol>
+<p><strong>String 去重的的实现</strong></p>
+<ol>
+<li>当垃圾收集器工作的时候，会访问堆上存活的对象。对每一个访问的对象都会检查是否是候选的要去重的String对象。</li>
+<li>如果是，把这个对象的一个引用插入到队列中等待后续的处理。一个去重的线程在后台运行，处理这个队列。处理队列的一个元素意味着从队列删除这个元素，然后尝试去重它引用的String对象。</li>
+<li>使用一个Hashtable来记录所有的被String对象使用的不重复的char数组。当去重的时候，会查这个Hashtable，来看堆上是否已经存在一个一模一样的char数组。</li>
+<li>如果存在，String对象会被调整引用那个数组，释放对原来的数组的引用，最终会被垃圾收集器回收掉。</li>
+<li>如果查找失败，char数组会被插入到Hashtable，这样以后的时候就可以共享这个数组了。</li>
+</ol>
+<p><strong>命令行选项</strong></p>
+<ol>
+<li>UseStringDeduplication(bool) ：开启String去重，默认是不开启的，需要手动开启。</li>
+<li>PrintStringDeduplicationStatistics(bool) ：打印详细的去重统计信息</li>
+<li>stringDeduplicationAgeThreshold(uintx) ：达到这个年龄的String对象被认为是去重的候选对象</li>
+</ol>
+
+        </div>
+        
+            <div class="kratos-copyright text-center clearfix">
+                <h5>本作品采用 <a rel="license nofollow" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可</h5>
+            </div>
+        
+        <footer class="kratos-entry-footer clearfix">
+            
+                <div class="post-like-donate text-center clearfix" id="post-like-donate">
+                
+                
+                    <a class="share" href="javascript:;"><i class="fa fa-share-alt"></i> 分享</a>
+                    <div class="share-wrap" style="display: none;">
+    <div class="share-group">
+        <a href="javascript:;" class="share-plain qq" onclick="share('qq');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-qq"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain qzone" onclick="share('qzone');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-star"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weixin pop style-plain" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weixin"></i>
+            </div>
+            <div class="share-int">
+                <div class="qrcode" id="wechat-qr"></div>
+                <p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weibo" onclick="share('weibo');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weibo"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain facebook style-plain" onclick="share('facebook');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-facebook"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain twitter style-plain" onclick="share('twitter');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-twitter"></i>
+            </div>
+        </a>
+    </div>
+    <script type="text/javascript">
+        $(()=>{
+            new QRCode("wechat-qr", {
+                text: "http://example.com/2021/11/16/20211116-StringTable(%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%B8%B8%E9%87%8F%E6%B1%A0)/",
+                width: 150,
+                height: 150,
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+        function share(dest) {
+            const qqBase        = "https://connect.qq.com/widget/shareqq/index.html?";
+            const weiboBase     = "https://service.weibo.com/share/share.php?";
+            const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+            const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
+            const twitterBase   = "https://twitter.com/intent/tweet?";
+            const hostUrl       = "http://example.com/2021/11/16/20211116-StringTable(%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%B8%B8%E9%87%8F%E6%B1%A0)/";
+            const title         = "「StringTable(字符串常量池)」";
+            const excerpt       = `String的基本特性
+String：字符串，使用一对 “” 引起来表示
+12String s1 = &quot;atguigu&quot; ;               // 字面量的定义方式String s2 =  new St...`;
+            let _URL;
+            switch (dest) {
+                case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
+                case "weibo"    : _URL = weiboBase+"url="+hostUrl+"&title="+title+excerpt;                                 break;
+                case "qzone"    : _URL = qzoneBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";  break;
+                case "facebook" : _URL = facebookBase+"u="+hostUrl;                                                        break;
+                case "twitter"  : _URL = twitterBase+"text="+title+excerpt+"&url="+hostUrl;                                break;
+            }
+            window.open(_URL);
+        };
+    </script>
+</div>
+                
+                </div>
+            
+            <div class="footer-tag clearfix">
+                <div class="pull-left">
+                <i class="fa fa-tags"></i>
+                    
+                </div>
+                <div class="pull-date">
+                <span>最后编辑：2021-11-25</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+        <nav class="navigation post-navigation clearfix" role="navigation">
+            
+            <div class="nav-previous clearfix">
+                <a title=" 对象的实例化内存布局与访问定位" href="/2021/11/11/20211111-对象的实例化内存布局与访问定位/">&lt; 上一篇</a>
+            </div>
+            
+            
+            <div class="nav-next clearfix">
+                <a title=" 垃圾回收概述和相关算法" href="/2021/11/17/20211117-垃圾回收概述和相关算法/">下一篇 &gt;</a>
+            </div>
+            
+        </nav>
+    
+    
+</article>
+
+        
+
+            </section>
+
+        
+
+                
+            
+
+<section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
+    <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
+    
+    
+                <aside id="krw-about" class="widget widget-kratos-about clearfix">
+    <div class="photo-background"></div>
+    <div class="photo-wrapper clearfix">
+        <div class="photo-wrapper-tip text-center">
+            <img class="about-photo" src="/images/avatar.webp" />
+        </div>
+    </div>
+    <div class="textwidget">
+        <p class="text-center">不要走进那个温和的良宵。</p>
+    </div>
+</aside>
+            
+                    <div class="sticky-area">
+                
+                    <aside id="krw-toc" class="widget widget-kratos-toc clearfix">
+    <div class="photo-background"></div>
+    <h4 class="widget-title no-after">
+        <i class="fa fa-compass"></i>
+        文章目录
+        <span class="toc-progress-bar"></span>
+    </h4>
+    <div class="textwidget">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#String%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%89%B9%E6%80%A7"><span class="toc-text">String的基本特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#JDK9%E6%94%B9%E5%8A%A8%E5%8E%9F%E5%9B%A0"><span class="toc-text">JDK9改动原因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#String%E7%9A%84%E5%BA%95%E5%B1%82%E7%BB%93%E6%9E%84"><span class="toc-text">String的底层结构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#String%E7%9A%84%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D"><span class="toc-text">String的内存分配</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#StringTable%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E8%B0%83%E6%95%B4"><span class="toc-text">StringTable为什么要调整</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#String%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="toc-text">String的基本操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8B%BC%E6%8E%A5%E6%93%8D%E4%BD%9C"><span class="toc-text">字符串拼接操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8B%BC%E6%8E%A5%E7%9A%84%E5%BA%95%E5%B1%82%E7%BB%86%E8%8A%82"><span class="toc-text">字符串拼接的底层细节</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#intern-%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-text">intern()的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#new-String-%E8%AF%B4%E6%98%8E"><span class="toc-text">new String()说明</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#new-String-ab-%E4%BC%9A%E5%88%9B%E5%BB%BA%E5%87%A0%E4%B8%AA%E5%AF%B9%E8%B1%A1"><span class="toc-text">new String(ab)会创建几个对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#new-String-a-new-String-b-%E4%BC%9A%E5%88%9B%E5%BB%BA%E5%87%A0%E4%B8%AA%E5%AF%B9%E8%B1%A1"><span class="toc-text">new String(a)+new String(b)会创建几个对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B"><span class="toc-text">实例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#G1%E4%B8%AD%E7%9A%84String%E5%8E%BB%E9%87%8D%E6%93%8D%E4%BD%9C"><span class="toc-text">G1中的String去重操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#String%E5%8E%BB%E9%87%8D%E6%93%8D%E4%BD%9C%E7%9A%84%E6%93%8D%E4%BD%9C%E8%83%8C%E6%99%AF"><span class="toc-text">String去重操作的操作背景</span></a></li></ol></li></ol>
+    </div>
+</aside>
+                
+                
+  <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
+    <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Error/">Error</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JDBC/">JDBC</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JVM/">JVM</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JVM-%E5%AD%97%E8%8A%82%E7%A0%81%E4%B8%8E%E7%B1%BB%E7%9A%84%E5%8A%A0%E8%BD%BD/">JVM-字节码与类的加载</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-Web/">Java Web</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MyBatis/">MyBatis</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Nginx/">Nginx</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SSM/">SSM</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/redis/">redis</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/springmvc/">springmvc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ssm/">ssm</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%91%E5%B9%B4%E3%81%AE%E6%97%A5%E5%B8%B8/">少年の日常</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a><span class="category-list-count">1</span></li></ul>
+  </aside>
+
+
+            
+                
+  <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
+    <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
+      <div class="tag-clouds">
+        <a href="/tags/Callable/" style="font-size: 0.6em;">Callable</a> <a href="/tags/Date/" style="font-size: 0.6em;">Date</a> <a href="/tags/Java%E5%9F%BA%E7%A1%80/" style="font-size: 0.6em;">Java基础</a> <a href="/tags/Map/" style="font-size: 0.6em;">Map</a> <a href="/tags/NoSQL/" style="font-size: 0.6em;">NoSQL</a> <a href="/tags/OOP/" style="font-size: 0.6em;">OOP</a> <a href="/tags/Set/" style="font-size: 0.6em;">Set</a> <a href="/tags/Socket/" style="font-size: 0.6em;">Socket</a> <a href="/tags/String/" style="font-size: 0.6em;">String</a> <a href="/tags/TCP/" style="font-size: 0.6em;">TCP</a> <a href="/tags/UDP/" style="font-size: 0.6em;">UDP</a> <a href="/tags/lock/" style="font-size: 0.6em;">lock</a> <a href="/tags/mybatis/" style="font-size: 0.6em;">mybatis</a> <a href="/tags/redis/" style="font-size: 0.6em;">redis</a> <a href="/tags/springmvc/" style="font-size: 0.6em;">springmvc</a> <a href="/tags/ssm/" style="font-size: 0.6em;">ssm</a> <a href="/tags/synchronized/" style="font-size: 0.6em;">synchronized</a> <a href="/tags/%E5%8C%85%E8%A3%85%E7%B1%BB/" style="font-size: 0.6em;">包装类</a>
+      </div>
+  </aside>
+
+            
+                
+  <aside id="krw-posts" class="widget widget-kratos-posts">
+  <h4 class="widget-title"><i class="fa fa-file"></i>最新文章</h4>
+  <div class="tab-content">
+      <ul class="list-group">
+        
+        
+          
+          
+            <a class="list-group-item" href="/2021/11/23/20211123-Class%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/"><i class="fa  fa-book"></i> Class文件结构</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/11/22/20211122-MyBatis-Plus%E9%A3%9F%E7%94%A8%E8%AF%B4%E6%98%8E/"><i class="fa  fa-book"></i> MyBatis-Plus食用说明(持续更新)</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/11/22/20211122-%E6%AF%8F%E6%97%A5%E7%9F%A5%E8%AF%86%E7%82%B9/"><i class="fa  fa-book"></i> 反正算是知识点但因为不知道怎么分类就随便起个名字吧</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/11/19/20211119-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8/"><i class="fa  fa-book"></i> 垃圾回收器</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/11/18/20211118-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/"><i class="fa  fa-book"></i> 垃圾回收相关概念</a>
+            
+          
+        
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+      </ul>
+  </div>
+  </aside>
+
+            
+    </div>
+</section>
+        
+        </div>
+    </div>
+</div>
+<footer>
+    <div id="footer"  class="ap-lrc"  >
+        <div class="kr-tool text-center">
+            <div class="tool">
+                
+                    <div class="box search-box">
+                        <a href="/search/">
+                            <span class="fa fa-search"></span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="box theme-box" id="darkmode-switch">
+                        <span class="fa fa-adjust"></span>
+                    </div>
+                
+                
+            </div>
+            <div class="box gotop-box">
+                <span class="fa fa-chevron-up"></span>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 footer-list text-center">
+                    <ul class="kratos-social-icons">
+                        
+                        <li><a href="mailto:1922856021@qq.com"><i class="fa fa-envelope"></i></a></li>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    </ul>
+                    <ul class="kratos-copyright">
+                        <div>
+                            <li>&copy; 2021 青い栞 版权所有.</li>
+                            <li>本站已运行<span id="span_dt">Loading...</span></li>
+                        </div>
+                        <div>
+                            <li>Theme <a href="https://github.com/Candinya/Kratos-Rebirth" target="_blank">Kratos:Rebirth</a></li>
+                            <li>Site built with&nbsp;<i class="fa fa-heart throb" style="color:#d43f57"></i>&nbsp;by FunnyLs.</li>
+                        </div>
+                        <div>
+                            <li>Powered by <a href="https://hexo.io" target="_blank" rel="nofollow">Hexo</a></li>
+                            <li>Hosted on <a href="https://github.io" target="_blank">Github Pages</a></li>
+                        </div>
+                        <div>
+                            
+                            
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+
+        <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.4/dist/js/bootstrap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+<script>const notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));</script>
+
+    <div>
+        <canvas id="snow"></canvas>
+        <script async type="text/javascript" src="/js/snow.min.js"></script>
+    </div>
+
+<script async src="/js/candy.min.js"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+    <meting-js
+        server="netease"
+        type="playlist"
+        id="3204190542"
+        order="random"
+        fixed="true"
+    >
+    </meting-js>
+
+
+
+    <script defer src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script defer src="/js/kratosr.min.js"></script>
+<script defer src="/js/pjax.min.js"></script>
+
+
+    <script defer src="/js/kr-dark.min.js"></script>
+
+
+
+<!-- Extra support for third-party plguins  -->
+
+
+    </body>
+</html>
