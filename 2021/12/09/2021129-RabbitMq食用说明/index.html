@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+  <!-- 元数据 -->
+  <meta charset="utf-8">
+  <link rel="icon" href="">
+  <title>RabbitMq食用说明 | 青い栞</title>
+  <meta name="author" content="FunnyLs" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index,follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="format-detection" content="telphone=no, email=no" />
+  
+    <meta name="keywords" content="" />
+  
+  <meta name="description" content="消息队列MQ（Message Queue）字面意义上讲，其本质是个队列，FIFO(先入先出)，只不过队列中存放的内容是 message 而已，还是一种跨进程的通信机制，用于上下游传递消息。在互联网架构中，MQ 是一种非常常见的上下游逻辑解耦+物理解耦的消息通信服务。使用了 MQ 之后，消息发送上游只需要依赖 MQ，不用依赖其他服务。 MQ可以解决：  流量消峰 当一个订单系统一秒内最多能处理1万次">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RabbitMq食用说明">
+<meta property="og:url" content="http://example.com/2021/12/09/2021129-RabbitMq%E9%A3%9F%E7%94%A8%E8%AF%B4%E6%98%8E/index.html">
+<meta property="og:site_name" content="青い栞">
+<meta property="og:description" content="消息队列MQ（Message Queue）字面意义上讲，其本质是个队列，FIFO(先入先出)，只不过队列中存放的内容是 message 而已，还是一种跨进程的通信机制，用于上下游传递消息。在互联网架构中，MQ 是一种非常常见的上下游逻辑解耦+物理解耦的消息通信服务。使用了 MQ 之后，消息发送上游只需要依赖 MQ，不用依赖其他服务。 MQ可以解决：  流量消峰 当一个订单系统一秒内最多能处理1万次">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/null">
+<meta property="article:published_time" content="2021-12-08T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-12-12T14:20:27.358Z">
+<meta property="article:author" content="FunnyLs">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/null">
+<meta name="twitter:site" content="@null">
+  
+  <!-- 站点验证相关 -->
+  
+    
+    
+    
+  
+  <!-- 样式表文件 -->
+  <link rel="stylesheet" id="kratos-css" href="/css/kratosr.min.css" type="text/css" media="all">
+  
+    <link rel="stylesheet" id="highlight-css" href="/css/highlight/night-blue.min.css" type="text/css" media="all">
+  
+  
+  <link rel="stylesheet" id="fontawe-css" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" type="text/css" media="all">
+  <link rel="stylesheet" id="nprogress-css" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" type="text/css" media="all">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+  
+  
+    <link rel="stylesheet" id="darkmode-css" href="/css/kr-dark.min.css" type="text/css" media="all">
+  
+  <!-- 不得不预先加载的一些JS文件 -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+    <body class="custom-background">
+        <div id="kratos-wrapper">
+    <div id="kratos-page">
+        <div id="kratos-header">
+            <header id="kratos-desktop-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="nav-header">
+                        <nav id="kratos-menu-wrap">
+                            <ul id="kratos-primary-menu" class="sf-menu">
+                                
+                                    
+                                        <li><a href="/"><i class="fa fa-home"></i>首页</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/archives/"><i class="fa fa-file"></i>档案馆</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/friends/"></a></li>
+                                    
+                                
+                                    
+                                        <li>
+                                            <a><i class="fa fa-link"></i>链接</a>
+                                            <ul class="sub-menu">
+                                                
+                                                    
+                                                
+                                                    
+                                                        <li><a target="_blank" rel="noopener" href="https://candinya.com">作者博客</a></li>
+                                                    
+                                                
+                                                    
+                                                        <li><a target="_blank" rel="noopener" href="https://github.com/Candinya/Kratos-Rebirth">项目链接</a></li>
+                                                    
+                                                
+                                            </ul>
+                                        </li>
+                                    
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <header id="kratos-mobile-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="color-logo"><a href="/">青い栞</a></div>
+                    <div class="nav-toggle">
+                        <a class="kratos-nav-toggle js-kratos-nav-toggle">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="kratos-start kratos-hero-2">
+            <!-- <div class="kratos-overlay"></div> -->
+            <div class="kratos-cover kratos-cover-2 text-center">
+                <div class="desc desc2 animate-box">
+                    <a href="/">
+                        <h2>青い栞</h2> <br />
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="kratos-blog-post">
+            <div class="container">
+                <div id="main" class="row">
+                    
+
+        
+
+            <section class="col-md-8">
+
+        
+
+            <article>
+    <div class="kratos-hentry kratos-post-inner clearfix">
+        <header class="kratos-entry-header">
+            
+                <h1 class="kratos-entry-title text-center">RabbitMq食用说明</h1>
+            
+            
+            <ul class="kratos-post-meta text-center">
+                <li><i class="fa fa-calendar"></i> 2021-12-09</li>
+                <li><i class="fa fa-user"></i> 作者 FunnyLs</li>
+                <li>
+                    <i class="fa fa-edit"></i> 
+                    
+                    
+                        ~7.35K
+                    
+                    字
+                </li>
+                
+            </ul>
+        </header>
+        <div class="kratos-post-content">
+            <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                本文最后编辑于 <time datetime="1639318827358"></time> 前，其中的内容可能需要更新。
+            </div>
+            
+                <div class="kratos-post-inner-toc">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97"><span class="toc-number">1.</span> <span class="toc-text">消息队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RabbitMQ%E6%A6%82%E8%BF%B0"><span class="toc-number">2.</span> <span class="toc-text">RabbitMQ概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="toc-number">3.</span> <span class="toc-text">核心概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85"><span class="toc-number">3.1.</span> <span class="toc-text">生产者</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="toc-number">3.2.</span> <span class="toc-text">交换机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%9F%E5%88%97"><span class="toc-number">3.3.</span> <span class="toc-text">队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85"><span class="toc-number">3.4.</span> <span class="toc-text">消费者</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">4.</span> <span class="toc-text">工作原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%BC%8F"><span class="toc-number">5.</span> <span class="toc-text">核心模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%A8%A1%E5%BC%8F-Hello-World"><span class="toc-number">5.1.</span> <span class="toc-text">简单模式(Hello World)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85%E4%BB%A3%E7%A0%81"><span class="toc-number">5.1.1.</span> <span class="toc-text">生产者代码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85%E4%BB%A3%E7%A0%81"><span class="toc-number">5.1.2.</span> <span class="toc-text">消费者代码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F-Work-queues"><span class="toc-number">5.2.</span> <span class="toc-text">工作模式(Work queues)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E7%BA%BF%E7%A8%8B%E4%BB%A3%E7%A0%81"><span class="toc-number">5.2.1.</span> <span class="toc-text">工作线程代码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85%E4%BB%A3%E7%A0%81-1"><span class="toc-number">5.2.2.</span> <span class="toc-text">消费者代码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E5%BA%94%E7%AD%94"><span class="toc-number">5.2.3.</span> <span class="toc-text">消息应答</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E5%BA%94%E7%AD%94"><span class="toc-number">5.2.3.1.</span> <span class="toc-text">自动应答</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%89%8B%E5%8A%A8%E5%BA%94%E7%AD%94"><span class="toc-number">5.2.3.2.</span> <span class="toc-text">手动应答</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E8%87%AA%E5%8A%A8%E9%87%8D%E6%96%B0%E5%85%A5%E9%98%9F"><span class="toc-number">5.2.3.3.</span> <span class="toc-text">消息自动重新入队</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%91%E5%B8%83-%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F-Publish-Subscribe"><span class="toc-number">5.3.</span> <span class="toc-text">发布&#x2F;订阅模式(Publish&#x2F;Subscribe)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F-Routing"><span class="toc-number">5.4.</span> <span class="toc-text">路由模式(Routing)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E9%A2%98%E6%A8%A1%E5%BC%8F-Topics"><span class="toc-number">5.5.</span> <span class="toc-text">主题模式(Topics)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%91%E5%B8%83%E7%A1%AE%E8%AE%A4%E6%A8%A1%E5%BC%8F-Publisher-Confirms"><span class="toc-number">5.6.</span> <span class="toc-text">发布确认模式(Publisher Confirms)</span></a></li></ol></li></ol>
+                </div>
+            
+            <hr />
+            <h2 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h2><p>MQ（Message Queue）字面意义上讲，其本质是个队列，FIFO(先入先出)，只不过队列中存放的内容是 message 而已，还是一种跨进程的通信机制，用于上下游传递消息。在互联网架构中，MQ 是一种非常常见的上下游<strong>逻辑解耦+物理解耦</strong>的消息通信服务。使用了 MQ 之后，消息发送上游只需要依赖 MQ，不用依赖其他服务。</p>
+<p>MQ可以解决：</p>
+<ol>
+<li><p>流量消峰</p>
+<p>当一个订单系统一秒内最多能处理1万次订单，正常时段下单一秒后即可返回结果。但在高峰期，超过1万次操作系统是处理不了的，只能限制订单超过1万后不允许用户下单。</p>
+<p><strong>使用消息队列做缓冲</strong>，可以取消这个限制，将一秒内下的订单分散成一段时间来处理，这时有些用户可能会在下单十几秒后才收到下单成功的操作，但和不能下单比，体验要好得多。</p>
+</li>
+<li><p>应用解耦</p>
+<p>如果电商应用中，有订单系统、库存系统、支付系统。当用户创建订单后，调用这些系统时，任何一个子系统出故障，都会导致下单出现异常。</p>
+<p><strong>使用消息队列做缓冲</strong>，系统间的调用问题会减少很多。如，当物流系统出现故障，需要几分钟时间修复时，物流系统要处理的内存被缓存在消息队列中，用户的下单操作可以正常完成。当物流系统恢复后，继续处理订单即可。下单用户感受不到系统的故障，提升系统可用性。</p>
+</li>
+<li><p>异步处理</p>
+<p>有些服务间调用是异步的，例如 A 调用 B，B 需要花费很长时间执行，但是 A 需要知道 B 什么时候可以执行完。</p>
+<p>常规有两种方式：</p>
+<ul>
+<li><p>A 过一段时间去调用 B 的查询 api 查询。</p>
+</li>
+<li><p>A 提供一个 callback api， B 执行完之后调用 api 通知 A 服务</p>
+</li>
+</ul>
+<p>使用消息队列：</p>
+<ul>
+<li>A 调用 B 服务后，只需要监听 B 处理完成的消息，当 B 处理完成后，会发送一条消息给 MQ，MQ 会将此消息转发给 A 服务。</li>
+</ul>
+<p>这样 A 服务既不用循环调用 B 的查询 api，也不用提供 callback api。同样B 服务也不用做这些操作。A 服务还能及时的得到异步处理成功的消息。</p>
+<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/ohARo9"><img src="https://s1.ax1x.com/2021/12/09/ohARo9.md.png" alt="ohARo9.md.png"></a></p>
+</li>
+</ol>
+<h2 id="RabbitMQ概述"><a href="#RabbitMQ概述" class="headerlink" title="RabbitMQ概述"></a>RabbitMQ概述</h2><p>2007年发布，是一个在AMQP(高级消息队列协议)基础上完成的，可复用的企业消息系统。</p>
+<blockquote>
+<p>RabbitMQ 是一个消息中间件：它接受并转发消息。</p>
+</blockquote>
+<p>优点：由于 erlang 语言的高并发特性，性能较好；吞吐量到万级，MQ 功能比较完备,健壮、稳定、易用、跨平台、支持多种语言 如：Python、Ruby、.NET、Java、JMS、C、PHP、ActionScript、XMPP、STOMP 等，支持 AJAX 文档齐全；开源提供的管理界面非常棒，用起来很好用,社区活跃度高；更新频率相当高。</p>
+<h2 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h2><h3 id="生产者"><a href="#生产者" class="headerlink" title="生产者"></a>生产者</h3><p>产生数据发送消息的程序是生产者</p>
+<h3 id="交换机"><a href="#交换机" class="headerlink" title="交换机"></a>交换机</h3><p>交换机是 RabbitMQ 非常重要的一个部件，一方面它接收来自生产者的消息，另一方面它将消息推送到队列中。交换机必须确切知道如何处理它接收到的消息，是将这些消息推送到特定队列还是推送到多个队列，亦或者是把消息丢弃，这个得由交换机类型决定</p>
+<h3 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h3><p>队列是 RabbitMQ 内部使用的一种数据结构，尽管消息流经 RabbitMQ 和应用程序，但它们只能存储在队列中。队列仅受主机的内存和磁盘限制的约束，本质上是一个大的消息缓冲区。许多生产者可以将消息发送到一个队列，许多消费者可以尝试从一个队列接收数据。</p>
+<h3 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a>消费者</h3><p>消费与接收具有相似的含义。消费者大多时候是一个等待接收消息的程序。生产者、消费者和消息中间件很多时候并不在同一机器上。同一个应用程序既可以是生产者又是可以是消费者。</p>
+<h2 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h2><p><a target="_blank" rel="noopener" href="https://imgtu.com/i/ohKkut"><img src="https://s1.ax1x.com/2021/12/09/ohKkut.md.png" alt="ohKkut.md.png"></a></p>
+<p><strong>Broker</strong>：接受和分发消息的应用，RabbitMQ Server就是Message Broker</p>
+<p><strong>Virtual host</strong>：处于多租户和安全因素设计，把AMQP的基本组件划分到一个虚拟的分组中，类似于网络中的namespace概念。当多个不同的用户使用同一个RabbitMQ Server提供的服务时，可以划分出多个vhost，每个用户在自己的vhost创建exchange/queue等。</p>
+<p><strong>Connection</strong>：publisher/consumer 和 broker 之间的 TCP 连接</p>
+<p><strong>Channel</strong>：如果每一次访问 RabbitMQ 都建立一个 Connection，在消息量大的时候建立 TCP Connection 的开销将是巨大的，效率也较低。Channel 是在 connection 内部建立的逻辑连接，如果应用程序支持多线程，通常每个 thread 创建单独的 channel 进行通讯，AMQP method 包含了 channel id 帮助客户端和 message broker 识别 channel，所以 channel 之间是完全隔离的。Channel 作为轻量级的 Connection 极大减少了操作系统建立 TCP connection 的开销 </p>
+<p><strong>Exchange</strong>：message 到达 broker 的第一站，根据分发规则，匹配查询表中的 routing key，分发消息到 queue 中去。常用的类型有：direct (point-to-point), topic (publish-subscribe) and fanout (multicast)</p>
+<p><strong>Queue</strong>：消息最终被送到这里等待 consumer 取走</p>
+<p><strong>Binding</strong>：exchange 和 queue 之间的虚拟连接，binding 中可以包含 routing key，Binding 信息被保存到 exchange 中的查询表中，用于 message 的分发依据</p>
+<h2 id="核心模式"><a href="#核心模式" class="headerlink" title="核心模式"></a>核心模式</h2><h3 id="简单模式-Hello-World"><a href="#简单模式-Hello-World" class="headerlink" title="简单模式(Hello World)"></a>简单模式(Hello World)</h3><p><a target="_blank" rel="noopener" href="https://imgtu.com/i/o5ggYV"><img src="https://s1.ax1x.com/2021/12/10/o5ggYV.md.png" alt="o5ggYV.md.png"></a></p>
+<h4 id="生产者代码"><a href="#生产者代码" class="headerlink" title="生产者代码"></a>生产者代码</h4><p>创建队列名称</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String QUEUE_NAME=<span class="string">&quot;hello&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>main()方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//发消息</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException, TimeoutException </span>&#123;</span><br><span class="line">        <span class="comment">//创建连接工厂</span></span><br><span class="line">        ConnectionFactory connectionFactory = <span class="keyword">new</span> ConnectionFactory();</span><br><span class="line">        <span class="comment">//工厂IP 链接Rabbitmq的队列</span></span><br><span class="line">        connectionFactory.setHost(<span class="string">&quot;192.168.12.129&quot;</span>);</span><br><span class="line">        <span class="comment">//用户名</span></span><br><span class="line">        connectionFactory.setUsername(<span class="string">&quot;admin&quot;</span>);</span><br><span class="line">        <span class="comment">//密码</span></span><br><span class="line">        connectionFactory.setPassword(<span class="string">&quot;123&quot;</span>);</span><br><span class="line">        <span class="comment">//创建链接</span></span><br><span class="line">        Connection connection = connectionFactory.newConnection();</span><br><span class="line">        <span class="comment">//获取信道</span></span><br><span class="line">        Channel channel=connection.createChannel();</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@Description</span>:生成一个队列</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@Author</span>: za-yubohan</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@params</span>:</span></span><br><span class="line"><span class="comment">         * 1.队列名称</span></span><br><span class="line"><span class="comment">         * 2.队列里面的消息是否持久化(磁盘)默认情况消息存储在内存中</span></span><br><span class="line"><span class="comment">         * 3.该队列是否只供一个消费者进行消费，是否进行消息共享，true可以多个消费者消费，false只能一个消费者进行消费</span></span><br><span class="line"><span class="comment">         * 4.是否自动删除，最后一个消费者断开连接后，该队列是否进行自动删除。true自动删除，反之false</span></span><br><span class="line"><span class="comment">         * 5.其他参数</span></span><br><span class="line"><span class="comment">         **/</span></span><br><span class="line">        channel.queueDeclare(QUEUE_NAME,<span class="keyword">false</span>,<span class="keyword">false</span>,<span class="keyword">false</span>,<span class="keyword">null</span>);</span><br><span class="line">        <span class="comment">//发送消息</span></span><br><span class="line">        String message=<span class="string">&quot;hello world!&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@Description</span>:发送一个消费者</span></span><br><span class="line"><span class="comment">         * 1.发送到哪个交换机</span></span><br><span class="line"><span class="comment">         * 2.路由的key值</span></span><br><span class="line"><span class="comment">         * 3.其他参数信息</span></span><br><span class="line"><span class="comment">         * 4.发送消息的消息体</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@Author</span>: za-yubohan</span></span><br><span class="line"><span class="comment">         **/</span></span><br><span class="line">        channel.basicPublish(<span class="string">&quot;&quot;</span>,QUEUE_NAME,<span class="keyword">null</span>,message.getBytes());</span><br><span class="line">        System.out.println(<span class="string">&quot;消息发送完毕&quot;</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="消费者代码"><a href="#消费者代码" class="headerlink" title="消费者代码"></a>消费者代码</h4><p>创建队列名称</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String QUEUE_NAME=<span class="string">&quot;hello&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>mian()方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    ConnectionFactory connectionFactory = <span class="keyword">new</span> ConnectionFactory();</span><br><span class="line">    connectionFactory.setHost(<span class="string">&quot;192.168.12.129&quot;</span>);</span><br><span class="line">    connectionFactory.setUsername(<span class="string">&quot;admin&quot;</span>);</span><br><span class="line">    connectionFactory.setPassword(<span class="string">&quot;123&quot;</span>);</span><br><span class="line">    Connection connection = connectionFactory.newConnection();</span><br><span class="line">    Channel channel = connection.createChannel();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//接收消息</span></span><br><span class="line">    DeliverCallback deliverCallback=(consumerTag,message)-&gt;&#123;</span><br><span class="line">      System.out.println(<span class="keyword">new</span> String(message.getBody()));</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//取消消息的回调</span></span><br><span class="line">    CancelCallback cancelCallback=consumerTag-&gt;&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;消息消费被中断&quot;</span>);</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Description</span>:消费者消费信息</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Author</span>: za-yubohan</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@params</span>:</span></span><br><span class="line"><span class="comment">     * 1.消费哪个队列</span></span><br><span class="line"><span class="comment">     * 2.消费成功之后是否要自动应答 true/false</span></span><br><span class="line"><span class="comment">     * 3.消费者未成功消费的回调</span></span><br><span class="line"><span class="comment">     * 4.消费者取消消费的回调</span></span><br><span class="line"><span class="comment">     **/</span></span><br><span class="line">    channel.basicConsume(QUEUE_NAME,<span class="keyword">true</span>,deliverCallback,cancelCallback);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当生产者运行后，会在队列中存放名为hello的信息。消费者启动后，信息被接受，队列中消息为空。</p>
+<h3 id="工作模式-Work-queues"><a href="#工作模式-Work-queues" class="headerlink" title="工作模式(Work queues)"></a>工作模式(Work queues)</h3><p>工作队列(又称任务队列)的主要思想是避免立即执行资源密集型任务，而不得不等待它完成。 相反，我们安排任务在之后执行。我们把任务封装为消息并将其发送到队列。在后台运行的工作进程将弹出任务并最终执行作业。当有多个工作线程时，这些工作线程将一起处理这些任务。</p>
+<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/o5HyTO"><img src="https://s1.ax1x.com/2021/12/10/o5HyTO.md.png" alt="o5HyTO.md.png"></a></p>
+<h4 id="工作线程代码"><a href="#工作线程代码" class="headerlink" title="工作线程代码"></a>工作线程代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Work01</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String QUEUE_NAME=<span class="string">&quot;hello&quot;</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        Channel channel = RabbitMqUtils.getChannel();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//消息接收</span></span><br><span class="line">        DeliverCallback deliverCallback=(consumerTag,message)-&gt;&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;接收到的消息：&quot;</span>+<span class="keyword">new</span> String(message.getBody()));</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//消息接收被取消时，执行下面内容</span></span><br><span class="line">        CancelCallback cancelCallback=(consumerTag)-&gt;&#123;</span><br><span class="line">            System.out.println(consumerTag+<span class="string">&quot;消息者取消消费接口回调逻辑&quot;</span>);</span><br><span class="line">        &#125;;</span><br><span class="line">        System.out.println(<span class="string">&quot;work2等待接收消息&quot;</span>);</span><br><span class="line">        channel.basicConsume(QUEUE_NAME,<span class="keyword">true</span>,deliverCallback,cancelCallback);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在IDEA中的Edit Configurations选项中，勾选Allow parallel run选项，可以创建一个工作线程类，模拟多个工作线程环境</p>
+<h4 id="消费者代码-1"><a href="#消费者代码-1" class="headerlink" title="消费者代码"></a>消费者代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Task</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String QUEUE_NAME=<span class="string">&quot;hello&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        Channel channel = RabbitMqUtils.getChannel();</span><br><span class="line">        channel.queueDeclare(QUEUE_NAME,<span class="keyword">false</span>,<span class="keyword">false</span>,<span class="keyword">false</span>,<span class="keyword">null</span>);</span><br><span class="line">        <span class="comment">//从控制台中接收消息</span></span><br><span class="line">        Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">        <span class="keyword">while</span>(scanner.hasNext())&#123;</span><br><span class="line">            String message=scanner.next();</span><br><span class="line">            channel.basicPublish(<span class="string">&quot;&quot;</span>,QUEUE_NAME,<span class="keyword">null</span>,message.getBytes());</span><br><span class="line">            System.out.println(<span class="string">&quot;发送完成&quot;</span>+message);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当在控制台分别输入AA BB CC DD时，两个工作线程分别<strong>轮流接收消息</strong>。</p>
+<h4 id="消息应答"><a href="#消息应答" class="headerlink" title="消息应答"></a>消息应答</h4><p>RabbitMQ一旦向消费者传递了一条信息，便立即将该消息标记为删除。当消费者处理该任务时仅完成了部分后死亡，就会丢失正在处理的信息，以及后续发送给该消费者的信息，因为它无法接收到。</p>
+<p>为了保证消息在发送过程中不丢失，RabbitMQ引入消息应答机制：<strong>消费者在接收到消息并且处理该消息后，会发送一个ACK(消息)通知RabbitMQ，此时RabbitMQ可以把该消息删除。</strong></p>
+<h5 id="自动应答"><a href="#自动应答" class="headerlink" title="自动应答"></a>自动应答</h5><p>消息发送后立即被认为传送成功。</p>
+<p>该模式下，如果消息在接收到之前，消费者那边出现连接或channel关闭，那么消息就会丢失。</p>
+<p>然而，这种模式没有对传递的消息数量进行限制，允许传递过载的信息。但是可能会导致消费者接收了太多消息来不及处理，导致消息积压，内存耗尽，使得消费者线程被操作系统杀死。因此，该模式仅适用<strong>在消费者可以高效并以某种速率能够处理这些消息的情况下使用</strong>。</p>
+<h5 id="手动应答"><a href="#手动应答" class="headerlink" title="手动应答"></a>手动应答</h5><p>消费者处理完业务逻辑，手动返回ACK(通知)告诉队列处理完毕，队列进而删除消息。可以进行批量应答，并减少网络堵塞。</p>
+<p>方法：</p>
+<ol>
+<li>Channel.basicAck(用于肯定确认)</li>
+<li>Channel.basicNack(用于否定确认)</li>
+<li>Channel.basicReject(用于否定确认，与basicNack()相比少了Mutiple参数)</li>
+</ol>
+<p><strong>肯定确认</strong>：RabbitMQ已经知道该消息并且成功处理，可以将其丢弃</p>
+<p><strong>否定确认</strong>：不处理该消息，直接拒绝，可以将其丢弃</p>
+<p><strong>Mutiple</strong>：</p>
+<ul>
+<li>true：代表批量应答 channel 上未应答的消息</li>
+<li>false：只会应答信道最近的一个消息</li>
+</ul>
+<h5 id="消息自动重新入队"><a href="#消息自动重新入队" class="headerlink" title="消息自动重新入队"></a>消息自动重新入队</h5><p>如果消费者由于某些原因失去连接(通道关闭，连接关闭或TCP连接丢失)，导致消息未发送ACK确认，RabbitMQ将了解到消息未完全处理，并将对其重新排队。如果此时其他消费者可以处理，它将很快将其重新分发给另一个消费者。这样，即使某个消费者偶尔死亡，也可以确保不会丢失任何消息。</p>
+<h3 id="发布-订阅模式-Publish-Subscribe"><a href="#发布-订阅模式-Publish-Subscribe" class="headerlink" title="发布/订阅模式(Publish/Subscribe)"></a>发布/订阅模式(Publish/Subscribe)</h3><h3 id="路由模式-Routing"><a href="#路由模式-Routing" class="headerlink" title="路由模式(Routing)"></a>路由模式(Routing)</h3><h3 id="主题模式-Topics"><a href="#主题模式-Topics" class="headerlink" title="主题模式(Topics)"></a>主题模式(Topics)</h3><h3 id="发布确认模式-Publisher-Confirms"><a href="#发布确认模式-Publisher-Confirms" class="headerlink" title="发布确认模式(Publisher Confirms)"></a>发布确认模式(Publisher Confirms)</h3>
+        </div>
+        
+            <div class="kratos-copyright text-center clearfix">
+                <h5>本作品采用 <a rel="license nofollow" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可</h5>
+            </div>
+        
+        <footer class="kratos-entry-footer clearfix">
+            
+                <div class="post-like-donate text-center clearfix" id="post-like-donate">
+                
+                
+                    <a class="share" href="javascript:;"><i class="fa fa-share-alt"></i> 分享</a>
+                    <div class="share-wrap" style="display: none;">
+    <div class="share-group">
+        <a href="javascript:;" class="share-plain qq" onclick="share('qq');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-qq"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain qzone" onclick="share('qzone');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-star"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weixin pop style-plain" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weixin"></i>
+            </div>
+            <div class="share-int">
+                <div class="qrcode" id="wechat-qr"></div>
+                <p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weibo" onclick="share('weibo');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weibo"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain facebook style-plain" onclick="share('facebook');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-facebook"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain twitter style-plain" onclick="share('twitter');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-twitter"></i>
+            </div>
+        </a>
+    </div>
+    <script type="text/javascript">
+        $(()=>{
+            new QRCode("wechat-qr", {
+                text: "http://example.com/2021/12/09/2021129-RabbitMq%E9%A3%9F%E7%94%A8%E8%AF%B4%E6%98%8E/",
+                width: 150,
+                height: 150,
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+        function share(dest) {
+            const qqBase        = "https://connect.qq.com/widget/shareqq/index.html?";
+            const weiboBase     = "https://service.weibo.com/share/share.php?";
+            const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+            const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
+            const twitterBase   = "https://twitter.com/intent/tweet?";
+            const hostUrl       = "http://example.com/2021/12/09/2021129-RabbitMq%E9%A3%9F%E7%94%A8%E8%AF%B4%E6%98%8E/";
+            const title         = "「RabbitMq食用说明」";
+            const excerpt       = `消息队列MQ（Message Queue）字面意义上讲，其本质是个队列，FIFO(先入先出)，只不过队列中存放的内容是 message 而已，还是一种跨进程的通信机制，用于上下游传递消息。在互联网架构中，MQ 是一种非常常见的上下游逻...`;
+            let _URL;
+            switch (dest) {
+                case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
+                case "weibo"    : _URL = weiboBase+"url="+hostUrl+"&title="+title+excerpt;                                 break;
+                case "qzone"    : _URL = qzoneBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";  break;
+                case "facebook" : _URL = facebookBase+"u="+hostUrl;                                                        break;
+                case "twitter"  : _URL = twitterBase+"text="+title+excerpt+"&url="+hostUrl;                                break;
+            }
+            window.open(_URL);
+        };
+    </script>
+</div>
+                
+                </div>
+            
+            <div class="footer-tag clearfix">
+                <div class="pull-left">
+                <i class="fa fa-tags"></i>
+                    
+                </div>
+                <div class="pull-date">
+                <span>最后编辑：2021-12-12</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+        <nav class="navigation post-navigation clearfix" role="navigation">
+            
+            <div class="nav-previous clearfix">
+                <a title=" 类的加载过程" href="/2021/11/30/20211130-类的加载过程/">&lt; 上一篇</a>
+            </div>
+            
+            
+        </nav>
+    
+    
+</article>
+
+        
+
+            </section>
+
+        
+
+                
+            
+
+<section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
+    <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
+    
+    
+                <aside id="krw-about" class="widget widget-kratos-about clearfix">
+    <div class="photo-background"></div>
+    <div class="photo-wrapper clearfix">
+        <div class="photo-wrapper-tip text-center">
+            <img class="about-photo" src="/images/avatar.webp" />
+        </div>
+    </div>
+    <div class="textwidget">
+        <p class="text-center">不要走进那个温和的良宵。</p>
+    </div>
+</aside>
+            
+                    <div class="sticky-area">
+                
+                    <aside id="krw-toc" class="widget widget-kratos-toc clearfix">
+    <div class="photo-background"></div>
+    <h4 class="widget-title no-after">
+        <i class="fa fa-compass"></i>
+        文章目录
+        <span class="toc-progress-bar"></span>
+    </h4>
+    <div class="textwidget">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97"><span class="toc-text">消息队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RabbitMQ%E6%A6%82%E8%BF%B0"><span class="toc-text">RabbitMQ概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="toc-text">核心概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85"><span class="toc-text">生产者</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="toc-text">交换机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%9F%E5%88%97"><span class="toc-text">队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85"><span class="toc-text">消费者</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-text">工作原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%BC%8F"><span class="toc-text">核心模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%A8%A1%E5%BC%8F-Hello-World"><span class="toc-text">简单模式(Hello World)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85%E4%BB%A3%E7%A0%81"><span class="toc-text">生产者代码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85%E4%BB%A3%E7%A0%81"><span class="toc-text">消费者代码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F-Work-queues"><span class="toc-text">工作模式(Work queues)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E7%BA%BF%E7%A8%8B%E4%BB%A3%E7%A0%81"><span class="toc-text">工作线程代码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85%E4%BB%A3%E7%A0%81-1"><span class="toc-text">消费者代码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E5%BA%94%E7%AD%94"><span class="toc-text">消息应答</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E5%BA%94%E7%AD%94"><span class="toc-text">自动应答</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%89%8B%E5%8A%A8%E5%BA%94%E7%AD%94"><span class="toc-text">手动应答</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E8%87%AA%E5%8A%A8%E9%87%8D%E6%96%B0%E5%85%A5%E9%98%9F"><span class="toc-text">消息自动重新入队</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%91%E5%B8%83-%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F-Publish-Subscribe"><span class="toc-text">发布&#x2F;订阅模式(Publish&#x2F;Subscribe)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F-Routing"><span class="toc-text">路由模式(Routing)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E9%A2%98%E6%A8%A1%E5%BC%8F-Topics"><span class="toc-text">主题模式(Topics)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%91%E5%B8%83%E7%A1%AE%E8%AE%A4%E6%A8%A1%E5%BC%8F-Publisher-Confirms"><span class="toc-text">发布确认模式(Publisher Confirms)</span></a></li></ol></li></ol>
+    </div>
+</aside>
+                
+                
+  <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
+    <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Error/">Error</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JDBC/">JDBC</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JVM/">JVM</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JVM-%E5%AD%97%E8%8A%82%E7%A0%81%E4%B8%8E%E7%B1%BB%E7%9A%84%E5%8A%A0%E8%BD%BD/">JVM-字节码与类的加载</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JVM-%E5%AD%97%E8%8A%82%E7%A0%81%E4%B8%8E%E7%B1%BB%E7%9A%84%E5%8A%A0%E8%BD%BD%E7%AF%87/">JVM-字节码与类的加载篇</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-Web/">Java Web</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MyBatis/">MyBatis</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Nginx/">Nginx</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SSM/">SSM</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/redis/">redis</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/springmvc/">springmvc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ssm/">ssm</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%91%E5%B9%B4%E3%81%AE%E6%97%A5%E5%B8%B8/">少年の日常</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a><span class="category-list-count">1</span></li></ul>
+  </aside>
+
+
+            
+                
+  <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
+    <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
+      <div class="tag-clouds">
+        <a href="/tags/Callable/" style="font-size: 0.6em;">Callable</a> <a href="/tags/Date/" style="font-size: 0.6em;">Date</a> <a href="/tags/Java%E5%9F%BA%E7%A1%80/" style="font-size: 0.6em;">Java基础</a> <a href="/tags/Map/" style="font-size: 0.6em;">Map</a> <a href="/tags/NoSQL/" style="font-size: 0.6em;">NoSQL</a> <a href="/tags/OOP/" style="font-size: 0.6em;">OOP</a> <a href="/tags/Set/" style="font-size: 0.6em;">Set</a> <a href="/tags/Socket/" style="font-size: 0.6em;">Socket</a> <a href="/tags/String/" style="font-size: 0.6em;">String</a> <a href="/tags/TCP/" style="font-size: 0.6em;">TCP</a> <a href="/tags/UDP/" style="font-size: 0.6em;">UDP</a> <a href="/tags/lock/" style="font-size: 0.6em;">lock</a> <a href="/tags/mybatis/" style="font-size: 0.6em;">mybatis</a> <a href="/tags/redis/" style="font-size: 0.6em;">redis</a> <a href="/tags/springmvc/" style="font-size: 0.6em;">springmvc</a> <a href="/tags/ssm/" style="font-size: 0.6em;">ssm</a> <a href="/tags/synchronized/" style="font-size: 0.6em;">synchronized</a> <a href="/tags/%E5%8C%85%E8%A3%85%E7%B1%BB/" style="font-size: 0.6em;">包装类</a>
+      </div>
+  </aside>
+
+            
+                
+  <aside id="krw-posts" class="widget widget-kratos-posts">
+  <h4 class="widget-title"><i class="fa fa-file"></i>最新文章</h4>
+  <div class="tab-content">
+      <ul class="list-group">
+        
+        
+          
+          
+            <a class="list-group-item" href="/2021/12/09/2021129-RabbitMq%E9%A3%9F%E7%94%A8%E8%AF%B4%E6%98%8E/"><i class="fa  fa-book"></i> RabbitMq食用说明</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/11/30/20211130-%E7%B1%BB%E7%9A%84%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B/"><i class="fa  fa-book"></i> 类的加载过程</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/11/23/20211123-Class%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/"><i class="fa  fa-book"></i> Class文件结构</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/11/22/20211122-MyBatis-Plus%E9%A3%9F%E7%94%A8%E8%AF%B4%E6%98%8E/"><i class="fa  fa-book"></i> MyBatis-Plus食用说明(持续更新)</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/11/22/20211122-%E6%AF%8F%E6%97%A5%E7%9F%A5%E8%AF%86%E7%82%B9/"><i class="fa  fa-book"></i> 反正算是知识点但因为不知道怎么分类就随便起个名字吧</a>
+            
+          
+        
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+      </ul>
+  </div>
+  </aside>
+
+            
+    </div>
+</section>
+        
+        </div>
+    </div>
+</div>
+<footer>
+    <div id="footer"  class="ap-lrc"  >
+        <div class="kr-tool text-center">
+            <div class="tool">
+                
+                    <div class="box search-box">
+                        <a href="/search/">
+                            <span class="fa fa-search"></span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="box theme-box" id="darkmode-switch">
+                        <span class="fa fa-adjust"></span>
+                    </div>
+                
+                
+            </div>
+            <div class="box gotop-box">
+                <span class="fa fa-chevron-up"></span>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 footer-list text-center">
+                    <ul class="kratos-social-icons">
+                        
+                        <li><a href="mailto:1922856021@qq.com"><i class="fa fa-envelope"></i></a></li>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    </ul>
+                    <ul class="kratos-copyright">
+                        <div>
+                            <li>&copy; 2021 青い栞 版权所有.</li>
+                            <li>本站已运行<span id="span_dt">Loading...</span></li>
+                        </div>
+                        <div>
+                            <li>Theme <a href="https://github.com/Candinya/Kratos-Rebirth" target="_blank">Kratos:Rebirth</a></li>
+                            <li>Site built with&nbsp;<i class="fa fa-heart throb" style="color:#d43f57"></i>&nbsp;by FunnyLs.</li>
+                        </div>
+                        <div>
+                            <li>Powered by <a href="https://hexo.io" target="_blank" rel="nofollow">Hexo</a></li>
+                            <li>Hosted on <a href="https://github.io" target="_blank">Github Pages</a></li>
+                        </div>
+                        <div>
+                            
+                            
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+
+        <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.4/dist/js/bootstrap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+<script>const notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));</script>
+
+    <div>
+        <canvas id="snow"></canvas>
+        <script async type="text/javascript" src="/js/snow.min.js"></script>
+    </div>
+
+<script async src="/js/candy.min.js"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+    <meting-js
+        server="netease"
+        type="playlist"
+        id="3204190542"
+        order="random"
+        fixed="true"
+    >
+    </meting-js>
+
+
+
+    <script defer src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script defer src="/js/kratosr.min.js"></script>
+<script defer src="/js/pjax.min.js"></script>
+
+
+    <script defer src="/js/kr-dark.min.js"></script>
+
+
+
+<!-- Extra support for third-party plguins  -->
+
+
+    </body>
+</html>
