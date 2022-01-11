@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+  <!-- 元数据 -->
+  <meta charset="utf-8">
+  <link rel="icon" href="">
+  <title>SpringCloud组件-服务注册中心 | 青い栞</title>
+  <meta name="author" content="FunnyLs" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index,follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="format-detection" content="telphone=no, email=no" />
+  
+    <meta name="keywords" content="Consul, Eureka, Zookeeper" />
+  
+  <meta name="description" content="Eureka服务治理SpringCloud封装了Netflix公司开发的Eureka模块来实现服务治理。 在传统的rpc远程调用框架中，管理每个服务与服务之间依赖关系比较复杂，管理比较复杂。所以需要使用服务治理，管理服务与服务之间依赖关系，可以实现服务调用、负载均衡、容错等，实现服务发现与注册。 服务发现与注册Eureka采用了CS的设计架构，Eureka Server 作为服务注册功能的服务器，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringCloud组件-服务注册中心">
+<meta property="og:url" content="http://example.com/2021/12/20/20211220-%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%8E%E5%8F%91%E7%8E%B0/index.html">
+<meta property="og:site_name" content="青い栞">
+<meta property="og:description" content="Eureka服务治理SpringCloud封装了Netflix公司开发的Eureka模块来实现服务治理。 在传统的rpc远程调用框架中，管理每个服务与服务之间依赖关系比较复杂，管理比较复杂。所以需要使用服务治理，管理服务与服务之间依赖关系，可以实现服务调用、负载均衡、容错等，实现服务发现与注册。 服务发现与注册Eureka采用了CS的设计架构，Eureka Server 作为服务注册功能的服务器，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/null">
+<meta property="article:published_time" content="2021-12-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-01-11T14:34:48.675Z">
+<meta property="article:author" content="FunnyLs">
+<meta property="article:tag" content="Eureka">
+<meta property="article:tag" content="Zookeeper">
+<meta property="article:tag" content="Consul">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/null">
+<meta name="twitter:site" content="@null">
+  
+  <!-- 站点验证相关 -->
+  
+    
+    
+    
+  
+  <!-- 样式表文件 -->
+  <link rel="stylesheet" id="kratos-css" href="/css/kratosr.min.css" type="text/css" media="all">
+  
+    <link rel="stylesheet" id="highlight-css" href="/css/highlight/night-blue.min.css" type="text/css" media="all">
+  
+  
+  <link rel="stylesheet" id="fontawe-css" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" type="text/css" media="all">
+  <link rel="stylesheet" id="nprogress-css" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css" type="text/css" media="all">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+  
+  
+    <link rel="stylesheet" id="darkmode-css" href="/css/kr-dark.min.css" type="text/css" media="all">
+  
+  <!-- 不得不预先加载的一些JS文件 -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
+  
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+    <body class="custom-background">
+        <div id="kratos-wrapper">
+    <div id="kratos-page">
+        <div id="kratos-header">
+            <header id="kratos-desktop-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="nav-header">
+                        <nav id="kratos-menu-wrap">
+                            <ul id="kratos-primary-menu" class="sf-menu">
+                                
+                                    
+                                        <li><a href="/"><i class="fa fa-home"></i>首页</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/archives/"><i class="fa fa-file"></i>档案馆</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/friends/"></a></li>
+                                    
+                                
+                                    
+                                        <li>
+                                            <a><i class="fa fa-link"></i>链接</a>
+                                            <ul class="sub-menu">
+                                                
+                                                    
+                                                
+                                                    
+                                                        <li><a target="_blank" rel="noopener" href="https://candinya.com">作者博客</a></li>
+                                                    
+                                                
+                                                    
+                                                        <li><a target="_blank" rel="noopener" href="https://github.com/Candinya/Kratos-Rebirth">项目链接</a></li>
+                                                    
+                                                
+                                            </ul>
+                                        </li>
+                                    
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <header id="kratos-mobile-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="color-logo"><a href="/">青い栞</a></div>
+                    <div class="nav-toggle">
+                        <a class="kratos-nav-toggle js-kratos-nav-toggle">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="kratos-start kratos-hero-2">
+            <!-- <div class="kratos-overlay"></div> -->
+            <div class="kratos-cover kratos-cover-2 text-center">
+                <div class="desc desc2 animate-box">
+                    <a href="/">
+                        <h2>青い栞</h2> <br />
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="kratos-blog-post">
+            <div class="container">
+                <div id="main" class="row">
+                    
+
+        
+
+            <section class="col-md-8">
+
+        
+
+            <article>
+    <div class="kratos-hentry kratos-post-inner clearfix">
+        <header class="kratos-entry-header">
+            
+                <h1 class="kratos-entry-title text-center">SpringCloud组件-服务注册中心</h1>
+            
+            
+            <ul class="kratos-post-meta text-center">
+                <li><i class="fa fa-calendar"></i> 2021-12-20</li>
+                <li><i class="fa fa-user"></i> 作者 FunnyLs</li>
+                <li>
+                    <i class="fa fa-edit"></i> 
+                    
+                    
+                        ~21.41K
+                    
+                    字
+                </li>
+                
+            </ul>
+        </header>
+        <div class="kratos-post-content">
+            <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                本文最后编辑于 <time datetime="1641911688675"></time> 前，其中的内容可能需要更新。
+            </div>
+            
+                <div class="kratos-post-inner-toc">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Eureka"><span class="toc-number">1.</span> <span class="toc-text">Eureka</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86"><span class="toc-number">1.1.</span> <span class="toc-text">服务治理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E4%B8%8E%E6%B3%A8%E5%86%8C"><span class="toc-number">1.2.</span> <span class="toc-text">服务发现与注册</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Eureka%E7%BB%84%E4%BB%B6"><span class="toc-number">1.3.</span> <span class="toc-text">Eureka组件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Eureka-Server"><span class="toc-number">1.3.1.</span> <span class="toc-text">Eureka Server</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Eureka-Client"><span class="toc-number">1.3.2.</span> <span class="toc-text">Eureka Client</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Eureka%E6%9E%B6%E6%9E%84"><span class="toc-number">1.3.3.</span> <span class="toc-text">Eureka架构</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EurekaServer%E7%AB%AF%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83-%E5%8D%95%E6%9C%BA"><span class="toc-number">1.4.</span> <span class="toc-text">EurekaServer端服务注册中心(单机)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E6%8F%90%E4%BE%9B%E8%80%85-provider"><span class="toc-number">1.5.</span> <span class="toc-text">服务提供者(provider)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85"><span class="toc-number">1.6.</span> <span class="toc-text">服务消费者</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Eureka%E9%9B%86%E7%BE%A4"><span class="toc-number">1.7.</span> <span class="toc-text">Eureka集群</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#EurekaServer%E9%9B%86%E7%BE%A4%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-number">1.7.1.</span> <span class="toc-text">EurekaServer集群环境搭建</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Provider%E9%9B%86%E7%BE%A4%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-number">1.7.2.</span> <span class="toc-text">Provider集群环境搭建</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%BF%A1%E6%81%AF%E5%AE%8C%E5%96%84"><span class="toc-number">1.7.3.</span> <span class="toc-text">微服务信息完善</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0Discovery"><span class="toc-number">1.8.</span> <span class="toc-text">服务发现Discovery</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Eureka%E8%87%AA%E6%88%91%E4%BF%9D%E6%8A%A4"><span class="toc-number">1.9.</span> <span class="toc-text">Eureka自我保护</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E9%97%AD%E4%BF%9D%E6%8A%A4%E6%9C%BA%E5%88%B6"><span class="toc-number">1.9.1.</span> <span class="toc-text">关闭保护机制</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Zookeeper"><span class="toc-number">2.</span> <span class="toc-text">Zookeeper</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Consul"><span class="toc-number">3.</span> <span class="toc-text">Consul</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E7%82%B9"><span class="toc-number">3.1.</span> <span class="toc-text">特点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0"><span class="toc-number">3.1.1.</span> <span class="toc-text">服务发现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%81%A5%E5%BA%B7%E7%9B%91%E6%B5%8B"><span class="toc-number">3.1.2.</span> <span class="toc-text">健康监测</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#KV%E5%AD%98%E5%82%A8"><span class="toc-number">3.1.3.</span> <span class="toc-text">KV存储</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%BF%83"><span class="toc-number">3.1.4.</span> <span class="toc-text">多数据中心</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%AF%E8%A7%86%E5%8C%96web%E7%95%8C%E9%9D%A2"><span class="toc-number">3.1.5.</span> <span class="toc-text">可视化web界面</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">3.2.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%90%AD%E5%BB%BA"><span class="toc-number">3.3.</span> <span class="toc-text">搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%8F%90%E4%BE%9B%E8%80%85"><span class="toc-number">3.3.1.</span> <span class="toc-text">创建提供者</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%B6%88%E8%B4%B9%E8%80%85"><span class="toc-number">3.3.2.</span> <span class="toc-text">创建消费者</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%82%E5%90%8C%E7%82%B9"><span class="toc-number">4.</span> <span class="toc-text">异同点</span></a></li></ol>
+                </div>
+            
+            <hr />
+            <h2 id="Eureka"><a href="#Eureka" class="headerlink" title="Eureka"></a>Eureka</h2><h3 id="服务治理"><a href="#服务治理" class="headerlink" title="服务治理"></a>服务治理</h3><p>SpringCloud封装了Netflix公司开发的Eureka模块来实现服务治理。</p>
+<p>在传统的rpc远程调用框架中，管理每个服务与服务之间依赖关系比较复杂，管理比较复杂。所以需要使用服务治理，管理服务与服务之间依赖关系，可以实现服务调用、负载均衡、容错等，<strong>实现服务发现与注册</strong>。</p>
+<h3 id="服务发现与注册"><a href="#服务发现与注册" class="headerlink" title="服务发现与注册"></a>服务发现与注册</h3><p>Eureka采用了CS的设计架构，<strong>Eureka Server 作为服务注册功能的服务器，它是服务注册中心</strong>。而系统中的其他微服务，使用 Eureka的客户端连接到 Eureka Server并维持心跳连接。这样系统的维护人员就可以通过 Eureka Server 来监控系统中各个微服务是否正常运行。</p>
+<p><strong>服务注册</strong>：将服务信息注册进注册中心。</p>
+<p><strong>服务发现</strong>：从注册中心上获取服务信息。</p>
+<p><strong>实质为key-value</strong>：key中存放服务名，value存放调用地址。</p>
+<p>在服务注册与发现中，有一个注册中心。当服务器启动的时候，会把当前自己服务器的信息 比如 服务地址通讯地址等以别名方式注册到注册中心上。另一方（消费者|服务提供者），以该别名的方式去注册中心上获取到实际的服务通讯地址，然后再实现本地RPC调用</p>
+<p><strong>RPC远程调用框架核心设计思想</strong>：在于注册中心，因为使用注册中心管理每个服务与服务之间的一个依赖关系(服务治理概念)。在任何rpc远程框架中，都会有一个注册中心(存放服务地址相关信息(接口地址))</p>
+<h3 id="Eureka组件"><a href="#Eureka组件" class="headerlink" title="Eureka组件"></a>Eureka组件</h3><p>Eureka包含两个组件：<strong>Eureka Server和Eureka Client</strong></p>
+<h4 id="Eureka-Server"><a href="#Eureka-Server" class="headerlink" title="Eureka Server"></a>Eureka Server</h4><p>提供服务注册的服务。</p>
+<p>各个服务节点通过配置启动后，会在EurekaServer中进行注册，这样EurekaServer中的服务注册表中会存储所有可用服务节点的信息，服务节点的信息可以在界面中直观看到。</p>
+<h4 id="Eureka-Client"><a href="#Eureka-Client" class="headerlink" title="Eureka Client"></a>Eureka Client</h4><p>通过注册中心进行访问</p>
+<p>是一个java客户端，用于简化Eureka Server的交互，<strong>客户端同时也具备一个内置的、使用轮询(round-robin)负载算法的负载均衡器</strong>。在应用启动后，将**会向Eureka Server发送心跳(默认周期为30秒)**。如果Eureka Server在多个心跳周期内没有接收到某个节点的心跳，EurekaServer将会从服务注册表中把这个服务节点移除（默认90秒）</p>
+<h4 id="Eureka架构"><a href="#Eureka架构" class="headerlink" title="Eureka架构"></a>Eureka架构</h4><p><a target="_blank" rel="noopener" href="https://imgtu.com/i/TmyJV1"><img src="https://s4.ax1x.com/2021/12/20/TmyJV1.png" alt="TmyJV1.png"></a></p>
+<ol>
+<li>先启动Eureka注册中心</li>
+<li>启动服务提供者payment(支付服务)</li>
+<li>支付服务启动后会将自身信息(如服务地址等)以别名的方式注册进Eureka</li>
+<li>消费者order服务在需要调用接口时，使用服务别名去注册中心获取实际的RPC远程调用地址，底层实际是利用HttpClient技术实现远程调用。</li>
+<li>消费者获得地址后会缓存在本地jvm内存中，默认每30S更新一次服务地址</li>
+</ol>
+<h3 id="EurekaServer端服务注册中心-单机"><a href="#EurekaServer端服务注册中心-单机" class="headerlink" title="EurekaServer端服务注册中心(单机)"></a>EurekaServer端服务注册中心(单机)</h3><ol>
+<li>新建moudle：cloud-eureka-server7001,端口号为7001</li>
+<li>在pom.xml添加依赖</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>cloud2021<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.ybh.springcloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>cloud-eureka-server7001<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--eureka-server--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 引入自己定义的api通用包，可以使用Payment支付Entity --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.ybh.springcloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>cloud-api-commons<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;project.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--boot web actuator--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-actuator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--一般通用配置--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-devtools<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>runtime<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">optional</span>&gt;</span>true<span class="tag">&lt;/<span class="name">optional</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>在application.yml写配置</li>
+</ol>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">7001</span></span><br><span class="line"></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line">  <span class="attr">instance:</span></span><br><span class="line">    <span class="attr">hostname:</span> <span class="string">localhost</span> <span class="comment">#eureka服务端的实例名称</span></span><br><span class="line">  <span class="attr">client:</span></span><br><span class="line">    <span class="comment">#false表示不向注册中心注册自己。</span></span><br><span class="line">    <span class="attr">register-with-eureka:</span> <span class="literal">false</span></span><br><span class="line">    <span class="comment">#false表示自己端就是注册中心，我的职责就是维护服务实例，并不需要去检索服务</span></span><br><span class="line">    <span class="attr">fetch-registry:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">service-url:</span></span><br><span class="line">    <span class="comment">#设置与Eureka Server交互的地址查询服务和注册服务都需要依赖这个地址。</span></span><br><span class="line">      <span class="attr">defaultZone:</span> <span class="string">http://$&#123;eureka.instance.hostname&#125;:$&#123;server.port&#125;/eureka/</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><p>在主启动类中加入注解<code>@EnableEurekaServer</code></p>
+</li>
+<li><p>启动moudle</p>
+</li>
+<li><p>当输入<a target="_blank" rel="noopener" href="http://localhost:7001/%E5%90%8E%EF%BC%8C%E4%BC%9A%E6%98%BE%E7%A4%BASpring">http://localhost:7001/后，会显示Spring</a> Eureka界面，在DS Replicas标题的Instances currently registered with Eureka下，可以看到注册的服务。</p>
+</li>
+</ol>
+<h3 id="服务提供者-provider"><a href="#服务提供者-provider" class="headerlink" title="服务提供者(provider)"></a>服务提供者(provider)</h3><p>将payment支付模块注册进EurekaServer成为服务提供者provider。</p>
+<ol>
+<li>pom.xml中新添加依赖</li>
+</ol>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--eureka-client--&gt;</span><br><span class="line">       &lt;dependency&gt;</span><br><span class="line">           &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">           &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;</span><br><span class="line">       &lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>在application.yml中加入Eureka配置</li>
+</ol>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">eureka:</span></span><br><span class="line">  <span class="attr">client:</span></span><br><span class="line">    <span class="comment">#表示是否将自己注册进EurekaServer默认为true。</span></span><br><span class="line">    <span class="attr">register-with-eureka:</span> <span class="literal">true</span></span><br><span class="line">    <span class="comment">#是否从EurekaServer抓取已有的注册信息，默认为true。单节点无所谓，集群必须设置为true才能配合ribbon使用负载均衡</span></span><br><span class="line">    <span class="attr">fetchRegistry:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">service-url:</span></span><br><span class="line">      <span class="attr">defaultZone:</span> <span class="string">http://localhost:7001/eureka</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>在主启动类中加上<code>@EnableEurekaClient</code></li>
+<li><strong>先启动EurekaServer端</strong>，当输入<a target="_blank" rel="noopener" href="http://localhost:7001/%E5%90%8E%EF%BC%8C%E4%BC%9A%E6%98%BE%E7%A4%BASpring">http://localhost:7001/后，会显示Spring</a> Eureka界面，在DS Replicas标题的Instances currently registered with Eureka下，可以看到注册的服务。</li>
+</ol>
+<h3 id="服务消费者"><a href="#服务消费者" class="headerlink" title="服务消费者"></a>服务消费者</h3><p>将order订单模块注册进EurekaServer成为服务消费者Consumer</p>
+<ol>
+<li>pom.xml中添加依赖</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>application.yml中加入配置</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">eureka:</span><br><span class="line">  client:</span><br><span class="line">    #表示是否将自己注册进EurekaServer默认为true。</span><br><span class="line">    register-with-eureka: true</span><br><span class="line">    #是否从EurekaServer抓取已有的注册信息，默认为true。单节点无所谓，集群必须设置为true才能配合ribbon使用负载均衡</span><br><span class="line">    fetchRegistry: true</span><br><span class="line">    service-url:</span><br><span class="line">      defaultZone: http:&#x2F;&#x2F;localhost:7001&#x2F;eureka</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>在主启动类上加<code>@EnableEurekaClient</code></li>
+<li>先启动EurekaServer，再启动provider，进入Eureka界面时，可以看到服务</li>
+</ol>
+<h3 id="Eureka集群"><a href="#Eureka集群" class="headerlink" title="Eureka集群"></a>Eureka集群</h3><p>RPC远程服务调用的核心功能为<strong>高可用</strong>，若注册中心只有一个且出了故障，会导致整个微服务环境不可用。所以，通过搭建Eureka注册中心集群，实现<strong>负载均衡+故障容错</strong>。</p>
+<h4 id="EurekaServer集群环境搭建"><a href="#EurekaServer集群环境搭建" class="headerlink" title="EurekaServer集群环境搭建"></a>EurekaServer集群环境搭建</h4><ol>
+<li><p>搭建新的注册中心：cloud-eureka-server7002，端口号为7002.</p>
+</li>
+<li><p>在hosts文件中添加地址</p>
+<p><code>127.0.0.1 Eureka7001.com</code></p>
+<p><code>127.0.0.1 Eureka7002.com</code></p>
+</li>
+<li><p>修改两个注册中心的application.yml文件，使其相互关联。</p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">  port: <span class="number">7001</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">eureka:</span><br><span class="line">  instance:</span><br><span class="line">    hostname: eureka7001.com #eureka服务端的实例名称</span><br><span class="line">  client:</span><br><span class="line">    register-with-eureka: false     #false表示不向注册中心注册自己。</span><br><span class="line">    fetch-registry: false     #false表示自己端就是注册中心，我的职责就是维护服务实例，并不需要去检索服务</span><br><span class="line">    service-url:</span><br><span class="line">      defaultZone: http:<span class="comment">//eureka7002.com:7002/eureka/</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">  port: <span class="number">7002</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">eureka:</span><br><span class="line">  instance:</span><br><span class="line">    hostname: eureka7002.com #eureka服务端的实例名称</span><br><span class="line">  client:</span><br><span class="line">    register-with-eureka: false     #false表示不向注册中心注册自己。</span><br><span class="line">    fetch-registry: false     #false表示自己端就是注册中心，我的职责就是维护服务实例，并不需要去检索服务</span><br><span class="line">    service-url:</span><br><span class="line">      defaultZone: http:<span class="comment">//eureka7001.com:7001/eureka/</span></span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>将支付服务配置到两个注册中心：在8001的application.yml中加入</li>
+</ol>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">eureka:</span></span><br><span class="line">  <span class="attr">client:</span></span><br><span class="line">    <span class="comment">#表示是否将自己注册进EurekaServer默认为true。</span></span><br><span class="line">    <span class="attr">register-with-eureka:</span> <span class="literal">true</span></span><br><span class="line">    <span class="comment">#是否从EurekaServer抓取已有的注册信息，默认为true。单节点无所谓，集群必须设置为true才能配合ribbon使用负载均衡</span></span><br><span class="line">    <span class="attr">fetchRegistry:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">service-url:</span></span><br><span class="line">      <span class="comment">#defaultZone: http://localhost:7001/eureka</span></span><br><span class="line">      <span class="attr">defaultZone:</span> <span class="string">http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka</span>  <span class="comment"># 集群版</span></span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>将消费订单服务配置到两个注册中心：在80的application.yml中加入</li>
+</ol>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">eureka:</span></span><br><span class="line">  <span class="attr">client:</span></span><br><span class="line">    <span class="comment">#表示是否将自己注册进EurekaServer默认为true。</span></span><br><span class="line">    <span class="attr">register-with-eureka:</span> <span class="literal">true</span></span><br><span class="line">    <span class="comment">#是否从EurekaServer抓取已有的注册信息，默认为true。单节点无所谓，集群必须设置为true才能配合ribbon使用负载均衡</span></span><br><span class="line">    <span class="attr">fetchRegistry:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">service-url:</span></span><br><span class="line">      <span class="comment">#defaultZone: http://localhost:7001/eureka</span></span><br><span class="line">      <span class="attr">defaultZone:</span> <span class="string">http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka</span>  <span class="comment"># 集群版</span></span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>先启动两个注册中心，再启动支付服务(provider)，再启动消费者80,输入地址<a target="_blank" rel="noopener" href="http://localhost/consumer/payment/get/4%EF%BC%8C%E6%B5%8B%E8%AF%95%E6%9F%A5%E8%AF%A2%E6%95%B0%E6%8D%AE">http://localhost/consumer/payment/get/4，测试查询数据</a></li>
+</ol>
+<h4 id="Provider集群环境搭建"><a href="#Provider集群环境搭建" class="headerlink" title="Provider集群环境搭建"></a>Provider集群环境搭建</h4><ol>
+<li>参考8001，新建cloud-provider-payment8002</li>
+<li>配置application.yml</li>
+</ol>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">8002</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">application:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">cloud-payment-service</span></span><br><span class="line">  <span class="attr">datasource:</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">com.alibaba.druid.pool.DruidDataSource</span></span><br><span class="line">    <span class="attr">driver-class-name:</span> <span class="string">com.mysql.cj.jdbc.Driver</span></span><br><span class="line">    <span class="attr">url:</span> <span class="string">jdbc:mysql://localhost:3306/db2021?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&amp;serverTimezone=GMT%2B8</span></span><br><span class="line">    <span class="attr">username:</span> <span class="string">root</span></span><br><span class="line">    <span class="attr">password:</span> <span class="string">root</span></span><br><span class="line"></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line">  <span class="attr">client:</span></span><br><span class="line">    <span class="comment">#表示是否将自己注册进EurekaServer默认为true。</span></span><br><span class="line">    <span class="attr">register-with-eureka:</span> <span class="literal">true</span></span><br><span class="line">    <span class="comment">#是否从EurekaServer抓取已有的注册信息，默认为true。单节点无所谓，集群必须设置为true才能配合ribbon使用负载均衡</span></span><br><span class="line">    <span class="attr">fetchRegistry:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">service-url:</span></span><br><span class="line">      <span class="comment">#defaultZone: http://localhost:7001/eureka</span></span><br><span class="line">      <span class="attr">defaultZone:</span> <span class="string">http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka</span>  <span class="comment"># 集群版</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="attr">mybatis:</span></span><br><span class="line">  <span class="attr">mapperLocations:</span> <span class="string">classpath:mapper/*.xml</span></span><br><span class="line">  <span class="attr">type-aliases-package:</span> <span class="string">com.ybh.springcloud.entities</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="attr">ases-package:</span> <span class="string">com.ybh.springcloud.entities</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>在8001和8002中的controller加入端口号信息</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PaymentController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Value(&quot;$&#123;server.port&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> String serverPort;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    <span class="keyword">private</span> PaymentService paymentService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping(value = &quot;/payment/create&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> CommonResult <span class="title">create</span><span class="params">(<span class="meta">@RequestBody</span> Payment payment)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> result = paymentService.create(payment);</span><br><span class="line">        log.info(<span class="string">&quot;*****插入操作返回结果:&quot;</span> + result);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(result &gt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> CommonResult(<span class="number">200</span>,<span class="string">&quot;插入成功,返回结果&quot;</span>+result+<span class="string">&quot;\t 服务端口：&quot;</span>+serverPort,payment);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> CommonResult(<span class="number">444</span>,<span class="string">&quot;插入失败&quot;</span>,<span class="keyword">null</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(value = &quot;/payment/get/&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> CommonResult&lt;Payment&gt; <span class="title">getPaymentById</span><span class="params">(<span class="meta">@PathVariable(&quot;id&quot;)</span> Long id)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Payment payment = paymentService.getPaymentById(id);</span><br><span class="line">        log.info(<span class="string">&quot;*****查询结果:&#123;&#125;&quot;</span>,payment);</span><br><span class="line">        <span class="keyword">if</span> (payment != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> CommonResult(<span class="number">200</span>,<span class="string">&quot;查询成功&quot;</span>+<span class="string">&quot;\t 服务端口：&quot;</span>+serverPort,payment);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> CommonResult(<span class="number">444</span>,<span class="string">&quot;没有对应记录,查询ID: &quot;</span>+id,<span class="keyword">null</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PaymentController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Value(&quot;$&#123;server.port&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> String serverPort;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    <span class="keyword">private</span> PaymentService paymentService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping(value = &quot;/payment/create&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> CommonResult <span class="title">create</span><span class="params">(<span class="meta">@RequestBody</span> Payment payment)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> result = paymentService.create(payment);</span><br><span class="line">        log.info(<span class="string">&quot;*****新增结果:&quot;</span> + result);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(result &gt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> CommonResult(<span class="number">200</span>,<span class="string">&quot;插入成功,返回结果&quot;</span>+result+<span class="string">&quot;\t 服务端口：&quot;</span>+serverPort,payment);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> CommonResult(<span class="number">444</span>,<span class="string">&quot;插入失败&quot;</span>,<span class="keyword">null</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(value = &quot;/payment/get/&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> CommonResult&lt;Payment&gt; <span class="title">getPaymentById</span><span class="params">(<span class="meta">@PathVariable(&quot;id&quot;)</span> Long id)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Payment payment = paymentService.getPaymentById(id);</span><br><span class="line">        log.info(<span class="string">&quot;*****查询结果:&#123;&#125;&quot;</span>,payment);</span><br><span class="line">        <span class="keyword">if</span> (payment != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> CommonResult(<span class="number">200</span>,<span class="string">&quot;查询成功&quot;</span>+<span class="string">&quot;\t 服务端口：&quot;</span>+serverPort,payment);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> CommonResult(<span class="number">444</span>,<span class="string">&quot;没有对应记录,查询ID: &quot;</span>+id,<span class="keyword">null</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>此时启动工程，当消费者服务根据Eureka访问提供者服务时，因为在消费者代码中将访问地址写死为8001，所以只能访问到8001服务。因此，将地址修改为在Eureka中注册的服务名称。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OrderController</span> </span>&#123;</span><br><span class="line">    <span class="comment">//    public static final String PAYMENT_URL = &quot;http://localhost:8001&quot;;</span></span><br><span class="line"><span class="comment">// 通过在eureka上注册过的微服务名称调用</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String PAYMENT_URL = <span class="string">&quot;http://CLOUD-PAYMENT-SERVICE&quot;</span>;</span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    <span class="keyword">private</span> RestTemplate restTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/consumer/payment/create&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> CommonResult&lt;Payment&gt; <span class="title">create</span><span class="params">(Payment payment)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> restTemplate.postForObject(PAYMENT_URL + <span class="string">&quot;/payment/create&quot;</span>, payment, CommonResult.class);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/consumer/payment/get/&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> CommonResult&lt;Payment&gt; <span class="title">getPayment</span><span class="params">(<span class="meta">@PathVariable(&quot;id&quot;)</span> Long id)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> restTemplate.getForObject(PAYMENT_URL + <span class="string">&quot;/payment/get/&quot;</span> + id, CommonResult.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>此时，因为两台提供者名称相同，访问时Eureka不知道该使用哪个服务。因此使用@LoadBalanced注解赋予RestTemplate负载均衡能力(默认以轮询方式进行访问)。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ApplicationContextConfig</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@LoadBalanced</span><span class="comment">//加入注解，使用负载均衡</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RestTemplate <span class="title">RestTemplate</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> RestTemplate();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>启动两个注册中心，再启动两个提供者，输入<a target="_blank" rel="noopener" href="http://localhost/consumer/payment/get/1%E3%80%82%E6%9F%A5%E8%AF%A2%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%ADid%E4%B8%BA1%E7%9A%84%E6%95%B0%E6%8D%AE%E3%80%82">http://localhost/consumer/payment/get/1。查询数据库中id为1的数据。</a></li>
+</ol>
+<h4 id="微服务信息完善"><a href="#微服务信息完善" class="headerlink" title="微服务信息完善"></a>微服务信息完善</h4><ol>
+<li>修改服务名称：在8001和8002的yml文件下的Eureka配置中加入</li>
+</ol>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">Eureka:</span></span><br><span class="line"> <span class="attr">instance:</span></span><br><span class="line">    <span class="attr">instance-id:</span> <span class="string">payment8001</span> <span class="comment"># 服务名称</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>修改后在Eureka界面的服务名称的status可看到修改后名称</p>
+<ol start="2">
+<li>访问信息有IP信息提示，在8001，8002的yml中加入</li>
+</ol>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">Eureka:</span></span><br><span class="line"> <span class="attr">instance:</span></span><br><span class="line">    <span class="attr">instance-id:</span> <span class="string">payment8001</span></span><br><span class="line">	<span class="attr">prefer-ip-address:</span> <span class="literal">true</span>     <span class="comment"># 访问路径可以显示IP地址</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="服务发现Discovery"><a href="#服务发现Discovery" class="headerlink" title="服务发现Discovery"></a>服务发现Discovery</h3><p>对于注册进Eureka里面的微服务，可以通过服务发现来获得该服务的信息。</p>
+<ol>
+<li>在8001服务的controller中注入</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Resource</span></span><br><span class="line">   <span class="keyword">private</span> DiscoveryClient discoveryClient;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>同时创建discovery方法</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(value=&quot;payment/discovery&quot;)</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> Object <span class="title">discovery</span><span class="params">()</span></span>&#123;</span><br><span class="line">       List&lt;String&gt; services = discoveryClient.getServices();</span><br><span class="line">       <span class="keyword">for</span> (String element:services)&#123;</span><br><span class="line">           log.info(<span class="string">&quot;element:&quot;</span>+element);</span><br><span class="line">       &#125;</span><br><span class="line">       List&lt;ServiceInstance&gt; instances = discoveryClient.getInstances(<span class="string">&quot;CLOUD-PAYMENT-SERVICE&quot;</span>);</span><br><span class="line">       <span class="keyword">for</span> (ServiceInstance instance:instances)&#123;</span><br><span class="line">           log.info(instance.getServiceId()+<span class="string">&quot;\t&quot;</span>+instance.getHost()+<span class="string">&quot;\t&quot;</span>+instance.getPort()+<span class="string">&quot;\t&quot;</span>+instance.getUri());</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> <span class="keyword">this</span>.discoveryClient;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><p>在主启动类加上服务发现注解<code>@EnableDiscoveryClient</code></p>
+</li>
+<li><p>启动注册中心，再启动8001服务，输入<a target="_blank" rel="noopener" href="http://localhost:8001/payment/discovery%E5%8F%AF%E5%9C%A8%E6%8E%A7%E5%88%B6%E5%8F%B0%E8%8E%B7%E5%8F%96%E6%9C%8D%E5%8A%A1%E4%BF%A1%E6%81%AF">http://localhost:8001/payment/discovery可在控制台获取服务信息</a></p>
+</li>
+</ol>
+<h3 id="Eureka自我保护"><a href="#Eureka自我保护" class="headerlink" title="Eureka自我保护"></a>Eureka自我保护</h3><p>保护模式主要用于一组客户端和Eureka Server之间存在网络分区场景下的保护。</p>
+<p>保护模式：Eureka Server将会尝试保护其服务注册表中的信息，不再删除服务注册表中的数据，也就是不会注销任何微服务。</p>
+<p>默认情况下，如果EurekaServer在一定时间内没有接收到某个微服务实例的心跳，<strong>EurekaServer将会注销该实例（默认90秒）</strong>。但是当网络分区故障发生(延时、卡顿、拥挤)时，微服务与EurekaServer之间无法正常通信，以上行为可能变得非常危险了——因为微服务本身其实是健康的，此时本不应该注销这个微服务。Eureka通过“自我保护模式”来解决这个问题——当EurekaServer节点在短时间内丢失过多客户端时（可能发生了网络分区故障），那么这个节点就会进入自我保护模式。</p>
+<p>进入保护模式后，在Eureka首页会看到</p>
+<blockquote>
+<p>EMERGENCY! EUREKA MAY BE INCORRECTLY CLAIMING INSTANCES ARE UP WHEN THEY’RE NOT.<br>RENEWALS ARE LESSER THAN THRESHOLD AND HENCE THE INSTANCES ARE NOT BEING EXPIRED JUST TO BE SAFE </p>
+</blockquote>
+<p>的提示</p>
+<h4 id="关闭保护机制"><a href="#关闭保护机制" class="headerlink" title="关闭保护机制"></a>关闭保护机制</h4><ol>
+<li>默认自我保护机制是开启的，可以通过配置yml文件来关闭</li>
+</ol>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">Eureka:</span></span><br><span class="line">	<span class="attr">server:</span></span><br><span class="line">       <span class="comment">#关闭自我保护机制，保证不可用服务被及时踢除</span></span><br><span class="line">       <span class="attr">enable-self-preservation:</span> <span class="literal">false</span></span><br><span class="line">       <span class="comment">#设置2S过期</span></span><br><span class="line">       <span class="attr">eviction-interval-timer-in-ms:</span> <span class="number">2000</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>配置8001的yml文件</li>
+</ol>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">instance:</span></span><br><span class="line">    <span class="comment">#Eureka客户端向服务端发送心跳的时间间隔，单位为秒(默认是30秒)</span></span><br><span class="line">    <span class="attr">lease-renewal-interval-in-seconds:</span> <span class="number">1</span></span><br><span class="line">    <span class="comment">#Eureka服务端在收到最后一次心跳后等待时间上限，单位为秒(默认是90秒)，超时将剔除服务</span></span><br><span class="line">    <span class="attr">lease-expiration-duration-in-seconds:</span> <span class="number">2</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>先启动7001，再启动8001，进入页面可看到8001服务，关闭8001，2S后刷新页面，发现服务被删除。</li>
+</ol>
+<h2 id="Zookeeper"><a href="#Zookeeper" class="headerlink" title="Zookeeper"></a>Zookeeper</h2><h2 id="Consul"><a href="#Consul" class="headerlink" title="Consul"></a>Consul</h2><p>Consul是一种服务网格解决方案，提供具有服务发现、配置和分段功能，这些功能既可以根据需要单独使用，也可以同时使用所有功能。</p>
+<p>与其他服务注册方案相比，更加一站式。内置了多种功能，不再依赖其他工具。其本身使用go语言开发，具有跨平台和高效的特点。</p>
+<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><h4 id="服务发现"><a href="#服务发现" class="headerlink" title="服务发现"></a>服务发现</h4><p>客户端可以做为一个服务注册到 Consul，也可以通过 Consul 来查找特定的服务提供者，并且根据提供的信息进行调用。</p>
+<p>提供HTTP和DNS两种发现方式。</p>
+<h4 id="健康监测"><a href="#健康监测" class="headerlink" title="健康监测"></a>健康监测</h4><p>客户端会定期发送一些健康检查数据和服务端进行通讯，判断客户端的状态、内存使用情况是否正常，用来监控整个集群的状态，防止服务转发到故障的服务上面。</p>
+<p>支持HTTP、TCP、Docker、Shell脚本定制化监控等</p>
+<h4 id="KV存储"><a href="#KV存储" class="headerlink" title="KV存储"></a>KV存储</h4><p>Consul提供了一个容易使用的键值存储。可以用来保持动态配置，协助服务协调、建立 Leader 选举，以及开发者想构造的其它一些事务。</p>
+<h4 id="多数据中心"><a href="#多数据中心" class="headerlink" title="多数据中心"></a>多数据中心</h4><p>Consul 支持开箱即用的多数据中心，这意味着用户不需要担心需要建立额外的抽象层让业务扩展到多个区域。</p>
+<h4 id="可视化web界面"><a href="#可视化web界面" class="headerlink" title="可视化web界面"></a>可视化web界面</h4><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>下载zip文件，解压缩后得到一个.exe文件。</p>
+<p>双击运行，打开文件路径下cmd，在文件存放目录输入consul -version来查看版本。</p>
+<p>输入consul agent -dev进入开发模式，访问<a href="http://localhost:8500进入Consul首页。">http://localhost:8500进入Consul首页。</a></p>
+<p>关闭consul开发模式控制台后，服务也会关闭。</p>
+<h3 id="搭建"><a href="#搭建" class="headerlink" title="搭建"></a>搭建</h3><h4 id="创建提供者"><a href="#创建提供者" class="headerlink" title="创建提供者"></a>创建提供者</h4><ol>
+<li>新建moudle支付服务provider8006</li>
+<li>pom.xml文件</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">       <span class="comment">&lt;!--SpringCloud consul-server --&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-consul-discovery<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">       <span class="comment">&lt;!-- SpringBoot整合Web组件 --&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-actuator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">       <span class="comment">&lt;!--日常通用jar包配置--&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-devtools<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">scope</span>&gt;</span>runtime<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">optional</span>&gt;</span>true<span class="tag">&lt;/<span class="name">optional</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">optional</span>&gt;</span>true<span class="tag">&lt;/<span class="name">optional</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-autoconfigure<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-autoconfigure<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>配置application.yml文件</li>
+</ol>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">###consul服务端口号</span></span><br><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">8006</span></span><br><span class="line"></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">application:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">consul-provider-payment</span></span><br><span class="line">  <span class="comment">####consul注册中心地址</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">consul:</span></span><br><span class="line">      <span class="attr">host:</span> <span class="string">localhost</span></span><br><span class="line">      <span class="attr">port:</span> <span class="number">8500</span></span><br><span class="line">      <span class="attr">discovery:</span></span><br><span class="line">        <span class="comment">#hostname: 127.0.0.1</span></span><br><span class="line">        <span class="attr">service-name:</span> <span class="string">$&#123;spring.application.name&#125;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>设置主启动类</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableDiscoveryClient</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PaymentMain8006</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(PaymentMain8006.class,args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>创建Controller</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PaymentContoller</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Value(&quot;$&#123;server.port&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> String serverPort;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;payment/consul&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">paymentInfo</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;springcloud with consul:&quot;</span>+serverPort+<span class="string">&quot;\t\t&quot;</span>+ UUID.randomUUID().toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>启动Consul，再启动8006，在Consul首页可以看到Service中有名为<code>consul-provider-payment</code>的服务输入<a target="_blank" rel="noopener" href="http://localhost:8006/payment/consul%E9%A1%B5%E9%9D%A2%E4%BC%9A%E6%98%BE%E7%A4%BA%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BF%A1%E6%81%AF">http://localhost:8006/payment/consul页面会显示服务的信息</a></li>
+</ol>
+<h4 id="创建消费者"><a href="#创建消费者" class="headerlink" title="创建消费者"></a>创建消费者</h4><ol>
+<li>新建moudle消费服务cloud-consumerconsul-order80</li>
+<li>添加pom.xml文件</li>
+</ol>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">        &lt;!--SpringCloud consul-server --&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-cloud-starter-consul-discovery&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;!-- SpringBoot整合Web组件 --&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-actuator&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;!--日常通用jar包配置--&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-devtools&lt;/artifactId&gt;</span><br><span class="line">            &lt;scope&gt;runtime&lt;/scope&gt;</span><br><span class="line">            &lt;optional&gt;true&lt;/optional&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;lombok&lt;/artifactId&gt;</span><br><span class="line">            &lt;optional&gt;true&lt;/optional&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;</span><br><span class="line">            &lt;scope&gt;test&lt;/scope&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">    &lt;/dependencies&gt;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>配置application.yml</li>
+</ol>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">###consul服务端口号</span></span><br><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">80</span></span><br><span class="line"></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">application:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">cloud-consumer-order</span></span><br><span class="line">  <span class="comment">####consul注册中心地址</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">consul:</span></span><br><span class="line">      <span class="attr">host:</span> <span class="string">localhost</span></span><br><span class="line">      <span class="attr">port:</span> <span class="number">8500</span></span><br><span class="line">      <span class="attr">discovery:</span></span><br><span class="line">        <span class="comment">#hostname: 127.0.0.1</span></span><br><span class="line">        <span class="attr">service-name:</span> <span class="string">$&#123;spring.application.name&#125;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>设置主启动类</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableDiscoveryClient</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OrderConsulMain80</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(OrderConsulMain80.class,args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>添加配置类</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ApplicationContextConfig</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@LoadBalanced</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RestTemplate <span class="title">getRestTemplate</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> RestTemplate();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>新建controller</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OrderConsulController</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String INVOKE_URL = <span class="string">&quot;http://consul-provider-payment&quot;</span>; <span class="comment">//consul-provider-payment</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RestTemplate restTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(value = &quot;/consumer/payment/consul&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">paymentInfo</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        String result = restTemplate.getForObject(INVOKE_URL+<span class="string">&quot;/payment/consul&quot;</span>, String.class);</span><br><span class="line">        System.out.println(<span class="string">&quot;消费者调用支付服务(consule)---&gt;result:&quot;</span> + result);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="7">
+<li>启动工程，在Consul页面的Service显示<code>cloud-consumer-order</code>服务，输入<a target="_blank" rel="noopener" href="http://localhost/consumer/payment/consul%E6%98%BE%E7%A4%BA8006%E6%9C%8D%E5%8A%A1%E4%BF%A1%E6%81%AF%E3%80%82">http://localhost/consumer/payment/consul显示8006服务信息。</a></li>
+</ol>
+<h2 id="异同点"><a href="#异同点" class="headerlink" title="异同点"></a>异同点</h2><table>
+<thead>
+<tr>
+<th>组件名</th>
+<th>语言</th>
+<th>CAP</th>
+<th>服务健康检查</th>
+<th>对外暴露接口</th>
+<th>Springcloud集成</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Eureka</td>
+<td>Java</td>
+<td>AP</td>
+<td>可配支持</td>
+<td>HTTP</td>
+<td>已集成</td>
+</tr>
+<tr>
+<td>Consul</td>
+<td>Go</td>
+<td>CP</td>
+<td>支持</td>
+<td>HTTP/DNS</td>
+<td>已集成</td>
+</tr>
+<tr>
+<td>Zookeeper</td>
+<td>Java</td>
+<td>CP</td>
+<td>支持</td>
+<td>客户端</td>
+<td>已集成</td>
+</tr>
+</tbody></table>
+
+        </div>
+        
+            <div class="kratos-copyright text-center clearfix">
+                <h5>本作品采用 <a rel="license nofollow" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可</h5>
+            </div>
+        
+        <footer class="kratos-entry-footer clearfix">
+            
+                <div class="post-like-donate text-center clearfix" id="post-like-donate">
+                
+                
+                    <a class="share" href="javascript:;"><i class="fa fa-share-alt"></i> 分享</a>
+                    <div class="share-wrap" style="display: none;">
+    <div class="share-group">
+        <a href="javascript:;" class="share-plain qq" onclick="share('qq');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-qq"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain qzone" onclick="share('qzone');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-star"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weixin pop style-plain" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weixin"></i>
+            </div>
+            <div class="share-int">
+                <div class="qrcode" id="wechat-qr"></div>
+                <p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weibo" onclick="share('weibo');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weibo"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain facebook style-plain" onclick="share('facebook');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-facebook"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain twitter style-plain" onclick="share('twitter');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-twitter"></i>
+            </div>
+        </a>
+    </div>
+    <script type="text/javascript">
+        $(()=>{
+            new QRCode("wechat-qr", {
+                text: "http://example.com/2021/12/20/20211220-%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%8E%E5%8F%91%E7%8E%B0/",
+                width: 150,
+                height: 150,
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+        function share(dest) {
+            const qqBase        = "https://connect.qq.com/widget/shareqq/index.html?";
+            const weiboBase     = "https://service.weibo.com/share/share.php?";
+            const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+            const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
+            const twitterBase   = "https://twitter.com/intent/tweet?";
+            const hostUrl       = "http://example.com/2021/12/20/20211220-%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%8E%E5%8F%91%E7%8E%B0/";
+            const title         = "「SpringCloud组件-服务注册中心」";
+            const excerpt       = `Eureka服务治理SpringCloud封装了Netflix公司开发的Eureka模块来实现服务治理。
+在传统的rpc远程调用框架中，管理每个服务与服务之间依赖关系比较复杂，管理比较复杂。所以需要使用服务治理，管理服务与服务之间依赖...`;
+            let _URL;
+            switch (dest) {
+                case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
+                case "weibo"    : _URL = weiboBase+"url="+hostUrl+"&title="+title+excerpt;                                 break;
+                case "qzone"    : _URL = qzoneBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";  break;
+                case "facebook" : _URL = facebookBase+"u="+hostUrl;                                                        break;
+                case "twitter"  : _URL = twitterBase+"text="+title+excerpt+"&url="+hostUrl;                                break;
+            }
+            window.open(_URL);
+        };
+    </script>
+</div>
+                
+                </div>
+            
+            <div class="footer-tag clearfix">
+                <div class="pull-left">
+                <i class="fa fa-tags"></i>
+                    <a class="tag-none-link" href="/tags/Consul/" rel="tag">Consul</a>, <a class="tag-none-link" href="/tags/Eureka/" rel="tag">Eureka</a>, <a class="tag-none-link" href="/tags/Zookeeper/" rel="tag">Zookeeper</a>
+                </div>
+                <div class="pull-date">
+                <span>最后编辑：2022-01-11</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+        <nav class="navigation post-navigation clearfix" role="navigation">
+            
+            <div class="nav-previous clearfix">
+                <a title=" RabbitMq食用说明" href="/2021/12/09/2021129-RabbitMq食用说明/">&lt; 上一篇</a>
+            </div>
+            
+            
+            <div class="nav-next clearfix">
+                <a title=" SpringCloud工程搭建" href="/2021/12/20/20211220-SpringCloud工程搭建/">下一篇 &gt;</a>
+            </div>
+            
+        </nav>
+    
+    
+</article>
+
+        
+
+            </section>
+
+        
+
+                
+            
+
+<section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
+    <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
+    
+    
+                <aside id="krw-about" class="widget widget-kratos-about clearfix">
+    <div class="photo-background"></div>
+    <div class="photo-wrapper clearfix">
+        <div class="photo-wrapper-tip text-center">
+            <img class="about-photo" src="/images/avatar.webp" />
+        </div>
+    </div>
+    <div class="textwidget">
+        <p class="text-center">天道酬勤</p>
+    </div>
+</aside>
+            
+                    <div class="sticky-area">
+                
+                    <aside id="krw-toc" class="widget widget-kratos-toc clearfix">
+    <div class="photo-background"></div>
+    <h4 class="widget-title no-after">
+        <i class="fa fa-compass"></i>
+        文章目录
+        <span class="toc-progress-bar"></span>
+    </h4>
+    <div class="textwidget">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Eureka"><span class="toc-text">Eureka</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86"><span class="toc-text">服务治理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E4%B8%8E%E6%B3%A8%E5%86%8C"><span class="toc-text">服务发现与注册</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Eureka%E7%BB%84%E4%BB%B6"><span class="toc-text">Eureka组件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Eureka-Server"><span class="toc-text">Eureka Server</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Eureka-Client"><span class="toc-text">Eureka Client</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Eureka%E6%9E%B6%E6%9E%84"><span class="toc-text">Eureka架构</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EurekaServer%E7%AB%AF%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83-%E5%8D%95%E6%9C%BA"><span class="toc-text">EurekaServer端服务注册中心(单机)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E6%8F%90%E4%BE%9B%E8%80%85-provider"><span class="toc-text">服务提供者(provider)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85"><span class="toc-text">服务消费者</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Eureka%E9%9B%86%E7%BE%A4"><span class="toc-text">Eureka集群</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#EurekaServer%E9%9B%86%E7%BE%A4%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-text">EurekaServer集群环境搭建</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Provider%E9%9B%86%E7%BE%A4%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-text">Provider集群环境搭建</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%BF%A1%E6%81%AF%E5%AE%8C%E5%96%84"><span class="toc-text">微服务信息完善</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0Discovery"><span class="toc-text">服务发现Discovery</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Eureka%E8%87%AA%E6%88%91%E4%BF%9D%E6%8A%A4"><span class="toc-text">Eureka自我保护</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E9%97%AD%E4%BF%9D%E6%8A%A4%E6%9C%BA%E5%88%B6"><span class="toc-text">关闭保护机制</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Zookeeper"><span class="toc-text">Zookeeper</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Consul"><span class="toc-text">Consul</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E7%82%B9"><span class="toc-text">特点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0"><span class="toc-text">服务发现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%81%A5%E5%BA%B7%E7%9B%91%E6%B5%8B"><span class="toc-text">健康监测</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#KV%E5%AD%98%E5%82%A8"><span class="toc-text">KV存储</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%BF%83"><span class="toc-text">多数据中心</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%AF%E8%A7%86%E5%8C%96web%E7%95%8C%E9%9D%A2"><span class="toc-text">可视化web界面</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%90%AD%E5%BB%BA"><span class="toc-text">搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%8F%90%E4%BE%9B%E8%80%85"><span class="toc-text">创建提供者</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%B6%88%E8%B4%B9%E8%80%85"><span class="toc-text">创建消费者</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%82%E5%90%8C%E7%82%B9"><span class="toc-text">异同点</span></a></li></ol>
+    </div>
+</aside>
+                
+                
+  <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
+    <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Error/">Error</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JDBC/">JDBC</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JVM/">JVM</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JVM-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/">JVM-垃圾回收</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JVM-%E5%AD%97%E8%8A%82%E7%A0%81%E4%B8%8E%E7%B1%BB%E7%9A%84%E5%8A%A0%E8%BD%BD/">JVM-字节码与类的加载</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">29</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-Web/">Java Web</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MyBatis/">MyBatis</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Nginx/">Nginx</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SSM/">SSM</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/redis/">redis</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/springcloud/">springcloud</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%91%E5%B9%B4%E3%81%AE%E6%97%A5%E5%B8%B8/">少年の日常</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a><span class="category-list-count">1</span></li></ul>
+  </aside>
+
+
+            
+                
+  <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
+    <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
+      <div class="tag-clouds">
+        <a href="/tags/Callable/" style="font-size: 0.6em;">Callable</a> <a href="/tags/Consul/" style="font-size: 0.6em;">Consul</a> <a href="/tags/Date/" style="font-size: 0.6em;">Date</a> <a href="/tags/Eureka/" style="font-size: 0.6em;">Eureka</a> <a href="/tags/GateWay/" style="font-size: 0.6em;">GateWay</a> <a href="/tags/Java%E5%9F%BA%E7%A1%80/" style="font-size: 0.6em;">Java基础</a> <a href="/tags/Map/" style="font-size: 0.6em;">Map</a> <a href="/tags/NoSQL/" style="font-size: 0.6em;">NoSQL</a> <a href="/tags/OOP/" style="font-size: 0.6em;">OOP</a> <a href="/tags/OpenFeign/" style="font-size: 0.6em;">OpenFeign</a> <a href="/tags/Ribbin/" style="font-size: 0.6em;">Ribbin</a> <a href="/tags/Set/" style="font-size: 0.6em;">Set</a> <a href="/tags/Socket/" style="font-size: 0.6em;">Socket</a> <a href="/tags/String/" style="font-size: 0.6em;">String</a> <a href="/tags/TCP/" style="font-size: 0.6em;">TCP</a> <a href="/tags/UDP/" style="font-size: 0.6em;">UDP</a> <a href="/tags/Zookeeper/" style="font-size: 0.6em;">Zookeeper</a> <a href="/tags/lock/" style="font-size: 0.6em;">lock</a>
+      </div>
+  </aside>
+
+            
+                
+  <aside id="krw-posts" class="widget widget-kratos-posts">
+  <h4 class="widget-title"><i class="fa fa-file"></i>最新文章</h4>
+  <div class="tab-content">
+      <ul class="list-group">
+        
+        
+          
+          
+            <a class="list-group-item" href="/2022/01/11/2022111-%E5%88%86%E5%B8%83%E5%BC%8F%E8%AF%B7%E6%B1%82%E9%93%BE%E8%B7%AF%E8%B7%9F%E8%B8%AA(Sleuth)/"><i class="fa  fa-book"></i> 分布式请求链路跟踪(Sleuth)</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2022/01/10/2022110-%E6%B6%88%E6%81%AF%E9%A9%B1%E5%8A%A8(Stream)/"><i class="fa  fa-book"></i> 消息驱动</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2022/01/06/202216-%E5%88%86%E5%B8%83%E5%BC%8F%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83&%E6%B6%88%E6%81%AF%E6%80%BB%E7%BA%BF/"><i class="fa  fa-book"></i> 分布式配置中心&消息总线</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2022/01/04/202214-%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3/"><i class="fa  fa-book"></i> 服务网关</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/12/30/20211230-%E6%96%AD%E8%B7%AF%E5%99%A8/"><i class="fa  fa-book"></i> 断路器</a>
+            
+          
+        
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+      </ul>
+  </div>
+  </aside>
+
+            
+    </div>
+</section>
+        
+        </div>
+    </div>
+</div>
+<footer>
+    <div id="footer"  class="ap-lrc"  >
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 footer-list text-center">
+                    <ul class="kratos-social-icons">
+                        
+                        <li><a href="mailto:1922856021@qq.com"><i class="fa fa-envelope"></i></a></li>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    </ul>
+                    <ul class="kratos-copyright">
+                        <div>
+                            <li>&copy; 2022 青い栞 版权所有.</li>
+                            <li>本站已运行<span id="span_dt">Loading...</span></li>
+                        </div>
+                        <div>
+                            <li>Theme <a href="https://github.com/Candinya/Kratos-Rebirth" target="_blank">Kratos:Rebirth</a></li>
+                            <li>Site built with&nbsp;<i class="fa fa-heart throb" style="color:#d43f57"></i>&nbsp;by FunnyLs.</li>
+                        </div>
+                        <div>
+                            <li>Powered by <a href="https://hexo.io" target="_blank" rel="nofollow">Hexo</a></li>
+                            <li>Hosted on <a href="https://github.io" target="_blank">Github Pages</a></li>
+                        </div>
+                        <div>
+                            
+                            
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="kr-tool text-center">
+            <div class="tool">
+                
+                    <div class="box search-box">
+                        <a href="/search/">
+                            <span class="fa fa-search"></span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="box theme-box" id="darkmode-switch">
+                        <span class="fa fa-adjust"></span>
+                    </div>
+                
+                
+            </div>
+            <div class="box gotop-box">
+                <span class="fa fa-chevron-up"></span>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+
+        <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.4/dist/js/bootstrap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+<script>
+    if (!window.kr) {
+        window.kr = {};
+    }
+    window.kr.notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));
+    window.kr.siteRoot = "/";
+</script>
+
+    <div>
+        <canvas id="snow"></canvas>
+        <script async type="text/javascript" src="/js/snow.min.js"></script>
+    </div>
+
+
+
+
+    <script defer src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+    <meting-js
+        server="netease"
+        type="playlist"
+        id="3204190542"
+        order="random"
+        fixed="true"
+    >
+    </meting-js>
+
+
+
+    <script defer src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script defer src="/js/kratosr.min.js"></script>
+<script defer src="/js/pjax.min.js"></script>
+
+
+    <script defer src="/js/kr-dark.min.js"></script>
+
+
+
+<!-- Extra support for third-party plguins  -->
+
+
+    </body>
+</html>

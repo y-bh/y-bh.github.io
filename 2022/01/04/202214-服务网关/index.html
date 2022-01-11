@@ -24,7 +24,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/null">
 <meta property="article:published_time" content="2022-01-03T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-01-10T14:04:06.366Z">
+<meta property="article:modified_time" content="2022-01-11T14:34:04.707Z">
 <meta property="article:author" content="FunnyLs">
 <meta property="article:tag" content="GateWay">
 <meta name="twitter:card" content="summary">
@@ -158,7 +158,7 @@
                     <i class="fa fa-edit"></i> 
                     
                     
-                        ~5.51K
+                        ~10.09K
                     
                     字
                 </li>
@@ -167,12 +167,8 @@
         </header>
         <div class="kratos-post-content">
             <div id="expire-alert" class="alert alert-warning hidden" role="alert">
-                本文最后编辑于 <time datetime="1641823446366"></time> 前，其中的内容可能需要更新。
+                本文最后编辑于 <time datetime="1641911644707"></time> 前，其中的内容可能需要更新。
             </div>
-            
-                <div class="kratos-post-inner-toc">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#GateWay"><span class="toc-number">1.</span> <span class="toc-text">GateWay</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%80%A7"><span class="toc-number">1.2.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GateWay%E4%B8%8EZuul%E5%8C%BA%E5%88%AB"><span class="toc-number">1.3.</span> <span class="toc-text">GateWay与Zuul区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Zuul1-X%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.4.</span> <span class="toc-text">Zuul1.X模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GateWay%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.5.</span> <span class="toc-text">GateWay模型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#WebFlux"><span class="toc-number">1.5.1.</span> <span class="toc-text">WebFlux</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%89%E5%A4%A7%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="toc-number">1.5.2.</span> <span class="toc-text">三大核心概念</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Route-%E8%B7%AF%E7%94%B1"><span class="toc-number">1.5.2.1.</span> <span class="toc-text">Route(路由)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Predicate-%E6%96%AD%E8%A8%80"><span class="toc-number">1.5.2.2.</span> <span class="toc-text">Predicate(断言)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Filter-%E8%BF%87%E6%BB%A4"><span class="toc-number">1.5.2.3.</span> <span class="toc-text">Filter(过滤)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%80%BB%E4%BD%93"><span class="toc-number">1.5.2.4.</span> <span class="toc-text">总体</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-number">1.6.</span> <span class="toc-text">工作流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-number">1.7.</span> <span class="toc-text">配置</span></a></li></ol></li></ol>
-                </div>
             
             <hr />
             <h2 id="GateWay"><a href="#GateWay" class="headerlink" title="GateWay"></a>GateWay</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>Gateway是在Spring生态系统之上构建的API网关服务，基于Spring 5，Spring Boot 2和 基于WebFlux框架实现的，而WebFlux框架底层则使用了高性能的Reactor模式通信框架Netty。<br>Spring Cloud Gateway为目标提供统一的路由方式且基于 Filter 链的方式提供了网关基本的功能，例如：安全，监控/指标，和限流。</p>
@@ -210,7 +206,7 @@
 <p>Handler再通过指定的过滤器链来将请求发送到实际的服务执行业务逻辑，然后返回。过滤器之间用虚线分开是因为过滤器可能会在发送代理请求之前(pre)或之后(post)执行业务逻辑。</p>
 <p>Filter在“pre”类型的过滤器可以做参数校验、权限校验、流量监控、日志输出、协议转换等，<br>在“post”类型的过滤器中可以做响应内容、响应头的修改，日志的输出，流量监控等有着非常重要的作用。</p>
 <p><strong>核心逻辑</strong>：路由转发+过滤器执行链</p>
-<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><ol>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><h4 id="yml配置路由"><a href="#yml配置路由" class="headerlink" title="yml配置路由"></a>yml配置路由</h4><ol>
 <li>新建moudle:cloud-gateway-gateway0527</li>
 <li>添加依赖</li>
 </ol>
@@ -234,6 +230,58 @@
 <ol start="6">
 <li>启动7001，8001，9527.访问地址<a target="_blank" rel="noopener" href="http://localhost:9527/payment/get/1%E4%B9%9F%E5%8F%AF%E6%9F%A5%E8%AF%A2%E4%BF%A1%E6%81%AF%E3%80%82">http://localhost:9527/payment/get/1也可查询信息。</a></li>
 </ol>
+<h4 id="配置类配置路由"><a href="#配置类配置路由" class="headerlink" title="配置类配置路由"></a>配置类配置路由</h4><p>除了在yml文件中配置路由，还可以编写配置类来进行路由</p>
+<p>写配置类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GateWayConfig</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RouteLocator <span class="title">customRouteLocator</span><span class="params">(RouteLocatorBuilder builder)</span></span>&#123;</span><br><span class="line">        RouteLocatorBuilder.Builder routes = builder.routes();</span><br><span class="line"></span><br><span class="line">        routes.route(<span class="string">&quot;path_route_ybh&quot;</span>, r -&gt; r.path(<span class="string">&quot;/guonei&quot;</span>).uri(<span class="string">&quot;http://news.baidu.com/guonei&quot;</span>)).build();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> routes.build();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RouteLocator <span class="title">customRouteLocator2</span><span class="params">(RouteLocatorBuilder builder)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        RouteLocatorBuilder.Builder routes = builder.routes();</span><br><span class="line">        routes.route(<span class="string">&quot;path_route_ybh1&quot;</span>, r -&gt; r.path(<span class="string">&quot;/guoji&quot;</span>).uri(<span class="string">&quot;http://news.baidu.com/guoji&quot;</span>)).build();</span><br><span class="line">        <span class="keyword">return</span> routes.build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="通过微服务名实现动态路由"><a href="#通过微服务名实现动态路由" class="headerlink" title="通过微服务名实现动态路由"></a>通过微服务名实现动态路由</h4><p>Gateway会根据注册中心注册的服务列表，以注册中心上微服务名为路径创建<strong>动态路由进行转发，从而实现动态路由功能</strong></p>
+<p>配置yml文件，开启从注册中心动态创建路由的功能，配置uri属性</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">9527</span></span><br><span class="line"></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">application:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">cloud-gateway</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">gateway:</span></span><br><span class="line">      <span class="attr">discovery:</span></span><br><span class="line">        <span class="attr">locator:</span></span><br><span class="line">          <span class="attr">enabled:</span> <span class="literal">true</span> <span class="comment">#开启从注册中心动态创建路由的功能，利用微服务名进行路由</span></span><br><span class="line">      <span class="attr">routes:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">payment_routh</span> <span class="comment">#payment_route    #路由的ID，没有固定规则但要求唯一，建议配合服务名</span></span><br><span class="line">          <span class="comment"># uri: http://localhost:8001          #匹配后提供服务的路由地址</span></span><br><span class="line">          <span class="attr">uri:</span> <span class="string">lb://cloud-payment-service</span> <span class="comment">#匹配后提供服务的路由地址</span></span><br><span class="line">          <span class="attr">predicates:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">Path=/payment/get/**</span>         <span class="comment"># 断言，路径相匹配的进行路由</span></span><br><span class="line"></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">payment_routh2</span> <span class="comment">#payment_route    #路由的ID，没有固定规则但要求唯一，建议配合服务名</span></span><br><span class="line">          <span class="comment"># uri: http://localhost:8001          #匹配后提供服务的路由地址</span></span><br><span class="line">          <span class="attr">uri:</span> <span class="string">lb://cloud-payment-service</span> <span class="comment">#匹配后提供服务的路由地址</span></span><br><span class="line">          <span class="attr">predicates:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">Path=/payment/lb/**</span>         <span class="comment"># 断言，路径相匹配的进行路由</span></span><br><span class="line"></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line">  <span class="attr">instance:</span></span><br><span class="line">    <span class="attr">hostname:</span> <span class="string">cloud-gateway-service</span></span><br><span class="line">  <span class="attr">client:</span> <span class="comment">#服务提供者provider注册进eureka服务列表内</span></span><br><span class="line">    <span class="attr">service-url:</span></span><br><span class="line">      <span class="attr">register-with-eureka:</span> <span class="literal">true</span></span><br><span class="line">      <span class="attr">fetch-registry:</span> <span class="literal">true</span></span><br><span class="line">      <span class="attr">defaultZone:</span> <span class="string">http://eureka7001.com:7001/eureka</span></span><br></pre></td></tr></table></figure>
+
+<p>lb://serviceName是创建的负载均衡uri</p>
+<p>访问<a target="_blank" rel="noopener" href="http://localhost:9527/payment/lb%EF%BC%8C%E6%AF%8F%E6%AC%A1%E8%AE%BF%E9%97%AE%E9%83%BD%E4%BC%9A%E5%88%87%E6%8D%A2%E7%AB%AF%E5%8F%A3%EF%BC%8C%E5%AE%9E%E7%8E%B0%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E3%80%82">http://localhost:9527/payment/lb，每次访问都会切换端口，实现负载均衡。</a></p>
+<h3 id="Predicate"><a href="#Predicate" class="headerlink" title="Predicate"></a>Predicate</h3><p>Spring Cloud Gateway将路由匹配作为Spring WebFlux HandlerMapping基础架构的一部分。<br>Spring Cloud Gateway包括许多内置的Route Predicate工厂。所有这些Predicate都与HTTP请求的不同属性匹配。多个Route Predicate工厂可以进行组合</p>
+<p>Spring Cloud Gateway 创建 Route 对象时， 使用 RoutePredicateFactory 创建 Predicate 对象，Predicate 对象可以赋值给 Route。 Spring Cloud Gateway 包含许多内置的Route Predicate Factories。</p>
+<p>所有这些谓词(predicate)都匹配HTTP请求的不同属性。多种谓词工厂可以组合，并通过逻辑and。</p>
+<h4 id="After-Route-Predicate"><a href="#After-Route-Predicate" class="headerlink" title="After Route Predicate"></a>After Route Predicate</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">predicates:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">Path=/payment/get/**</span>         <span class="comment"># 断言，路径相匹配的进行路由</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">After=2022-01-06T11:14:13.125+08:00[Asia/Shanghai]</span> <span class="comment"># 断言，路径相匹配的进行路由</span></span><br></pre></td></tr></table></figure>
+
+<p>表示在这个时间之后才可访问</p>
+<h4 id="Before-Route-Predicate"><a href="#Before-Route-Predicate" class="headerlink" title="Before Route Predicate"></a>Before Route Predicate</h4><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="string">Before=2020-02-05T15:10:03.685+08:00[Asia/Shanghai]</span>         <span class="comment"># 断言，路径相匹配的进行路由</span></span><br></pre></td></tr></table></figure>
+
+<p>表示在这个时间之前才可访问</p>
+<h4 id="Between-Route-Predicate"><a href="#Between-Route-Predicate" class="headerlink" title="Between Route Predicate"></a>Between Route Predicate</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="string">Between=2020-02-02T17:45:06.206+08:00[Asia/Shanghai],2020-03-25T18:59:06.206+08:00[Asia/Shanghai]</span></span><br></pre></td></tr></table></figure>
+
+<p>在这个时间段可以访问</p>
+<h4 id="Cookie-Route-Predicate"><a href="#Cookie-Route-Predicate" class="headerlink" title="Cookie Route Predicate"></a>Cookie Route Predicate</h4><p>Cookie Route Predicate需要两个参数，一个是 Cookie name ,一个是正则表达式。<br>路由规则会通过获取对应的 Cookie name 值和正则表达式去匹配，如果匹配上就会执行路由，如果没有匹配上则不执行</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="string">Cookie=username,zzyy</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Header-Route-Predicate"><a href="#Header-Route-Predicate" class="headerlink" title="Header Route Predicate"></a>Header Route Predicate</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="string">Header=X-Request-Id,</span> <span class="string">\d+</span>  <span class="comment"># 请求头要有X-Request-Id属性并且值为整数的正则表达式</span></span><br></pre></td></tr></table></figure>
+
+<p>和cookie Route Predicate同理</p>
+<h4 id="Host-Route-Predicate"><a href="#Host-Route-Predicate" class="headerlink" title="Host Route Predicate"></a>Host Route Predicate</h4><p>Host Route Predicate 接收一组参数，一组匹配的域名列表，这个模板是一个 ant 分隔的模板，用.号作为分隔符。<br>它通过参数中的主机地址作为匹配规则。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="string">Host=**.atguigu.com</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Method-Route-Predicate"><a href="#Method-Route-Predicate" class="headerlink" title="Method Route Predicate"></a>Method Route Predicate</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="string">Method=GET</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Path-Route-Predicate"><a href="#Path-Route-Predicate" class="headerlink" title="Path Route Predicate"></a>Path Route Predicate</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="string">Path=/payment/lb/**</span>         <span class="comment"># 断言，路径相匹配的进行路由</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Query-Route-Predicate"><a href="#Query-Route-Predicate" class="headerlink" title="Query Route Predicate"></a>Query Route Predicate</h4><p>支持传入两个参数，一个是属性名，一个为属性值，属性值可以是正则表达式。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="string">Query=username,</span> <span class="string">\d+</span>  <span class="comment"># 要有参数名username并且值还要是整数才能路由</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>Predicate是为了实现一组匹配规则，让请求过来找到对应的Route进行处理。</p>
+<h3 id="Filter"><a href="#Filter" class="headerlink" title="Filter"></a>Filter</h3><p>路由过滤器可用于修改进入的HTTP请求和返回的HTTP响应，路由过滤器只能指定路由进行使用。</p>
+<p>Spring Cloud Gateway 内置了多种路由过滤器，他们都由GatewayFilter的工厂类来产生</p>
+<p>SpringCloud Gateway的Filter</p>
+<ul>
+<li>生命周期为pre、post</li>
+<li>种类有GatewayFilter、GlobalFilter</li>
+</ul>
+<h4 id="自定义过滤器"><a href="#自定义过滤器" class="headerlink" title="自定义过滤器"></a>自定义过滤器</h4><p>可进行全局日志记录、统一网关鉴权等</p>
+<p>编写过滤器，实现GlobalFilter, Ordered接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span> <span class="comment">//必须加，必须加，必须加</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyLogGatewayFilter</span> <span class="keyword">implements</span> <span class="title">GlobalFilter</span>, <span class="title">Ordered</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Mono&lt;Void&gt; <span class="title">filter</span><span class="params">(ServerWebExchange exchange, GatewayFilterChain chain)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;time:&quot;</span>+<span class="keyword">new</span> Date()+<span class="string">&quot;\t 执行了自定义的全局过滤器: &quot;</span>+<span class="string">&quot;MyLogGateWayFilter&quot;</span>+<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"></span><br><span class="line">        String uname = exchange.getRequest().getQueryParams().getFirst(<span class="string">&quot;uname&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (uname == <span class="keyword">null</span>) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;****用户名为null，无法登录&quot;</span>);</span><br><span class="line">            exchange.getResponse().setStatusCode(HttpStatus.NOT_ACCEPTABLE);</span><br><span class="line">            <span class="keyword">return</span> exchange.getResponse().setComplete();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> chain.filter(exchange);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getOrder</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当输入<a target="_blank" rel="noopener" href="http://localhost:9527/payment/lb?uname=ybh%E6%97%B6%EF%BC%8C%E5%8F%AF%E4%BB%A5%E6%98%BE%E7%A4%BA%E7%AB%AF%E5%8F%A3%E5%8F%B7%E3%80%82">http://localhost:9527/payment/lb?uname=ybh时，可以显示端口号。</a></p>
+<p>当不加uname参数时，无法正常转发。</p>
 
         </div>
         
@@ -323,7 +371,7 @@
                     <a class="tag-none-link" href="/tags/GateWay/" rel="tag">GateWay</a>
                 </div>
                 <div class="pull-date">
-                <span>最后编辑：2022-01-10</span>
+                <span>最后编辑：2022-01-11</span>
                 </div>
             </div>
         </footer>
@@ -366,28 +414,16 @@
         </div>
     </div>
     <div class="textwidget">
-        <p class="text-center">可以畏惧，但绝不停滞不前</p>
+        <p class="text-center">天道酬勤</p>
     </div>
 </aside>
             
                     <div class="sticky-area">
                 
-                    <aside id="krw-toc" class="widget widget-kratos-toc clearfix">
-    <div class="photo-background"></div>
-    <h4 class="widget-title no-after">
-        <i class="fa fa-compass"></i>
-        文章目录
-        <span class="toc-progress-bar"></span>
-    </h4>
-    <div class="textwidget">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#GateWay"><span class="toc-text">GateWay</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-text">概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%80%A7"><span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GateWay%E4%B8%8EZuul%E5%8C%BA%E5%88%AB"><span class="toc-text">GateWay与Zuul区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Zuul1-X%E6%A8%A1%E5%9E%8B"><span class="toc-text">Zuul1.X模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GateWay%E6%A8%A1%E5%9E%8B"><span class="toc-text">GateWay模型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#WebFlux"><span class="toc-text">WebFlux</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%89%E5%A4%A7%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="toc-text">三大核心概念</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Route-%E8%B7%AF%E7%94%B1"><span class="toc-text">Route(路由)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Predicate-%E6%96%AD%E8%A8%80"><span class="toc-text">Predicate(断言)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Filter-%E8%BF%87%E6%BB%A4"><span class="toc-text">Filter(过滤)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%80%BB%E4%BD%93"><span class="toc-text">总体</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-text">工作流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-text">配置</span></a></li></ol></li></ol>
-    </div>
-</aside>
-                
                 
   <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
     <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Error/">Error</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JDBC/">JDBC</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JVM/">JVM</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JVM-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/">JVM-垃圾回收</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JVM-%E5%AD%97%E8%8A%82%E7%A0%81%E4%B8%8E%E7%B1%BB%E7%9A%84%E5%8A%A0%E8%BD%BD/">JVM-字节码与类的加载</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">29</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-Web/">Java Web</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MyBatis/">MyBatis</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Nginx/">Nginx</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SSM/">SSM</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringCloud/">SpringCloud</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/redis/">redis</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/springcloud/">springcloud</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%91%E5%B9%B4%E3%81%AE%E6%97%A5%E5%B8%B8/">少年の日常</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Error/">Error</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JDBC/">JDBC</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JVM/">JVM</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JVM-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/">JVM-垃圾回收</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JVM-%E5%AD%97%E8%8A%82%E7%A0%81%E4%B8%8E%E7%B1%BB%E7%9A%84%E5%8A%A0%E8%BD%BD/">JVM-字节码与类的加载</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">29</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-Web/">Java Web</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MyBatis/">MyBatis</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Nginx/">Nginx</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SSM/">SSM</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/redis/">redis</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/springcloud/">springcloud</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%91%E5%B9%B4%E3%81%AE%E6%97%A5%E5%B8%B8/">少年の日常</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a><span class="category-list-count">1</span></li></ul>
   </aside>
 
 
@@ -396,7 +432,7 @@
   <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
     <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
       <div class="tag-clouds">
-        <a href="/tags/Callable/" style="font-size: 0.6em;">Callable</a> <a href="/tags/Date/" style="font-size: 0.6em;">Date</a> <a href="/tags/GateWay/" style="font-size: 0.6em;">GateWay</a> <a href="/tags/Java%E5%9F%BA%E7%A1%80/" style="font-size: 0.6em;">Java基础</a> <a href="/tags/Map/" style="font-size: 0.6em;">Map</a> <a href="/tags/NoSQL/" style="font-size: 0.6em;">NoSQL</a> <a href="/tags/OOP/" style="font-size: 0.6em;">OOP</a> <a href="/tags/Ribbin/" style="font-size: 0.6em;">Ribbin</a> <a href="/tags/Set/" style="font-size: 0.6em;">Set</a> <a href="/tags/Socket/" style="font-size: 0.6em;">Socket</a> <a href="/tags/String/" style="font-size: 0.6em;">String</a> <a href="/tags/TCP/" style="font-size: 0.6em;">TCP</a> <a href="/tags/UDP/" style="font-size: 0.6em;">UDP</a> <a href="/tags/lock/" style="font-size: 0.6em;">lock</a> <a href="/tags/mybatis/" style="font-size: 0.6em;">mybatis</a> <a href="/tags/redis/" style="font-size: 0.6em;">redis</a> <a href="/tags/springmvc/" style="font-size: 0.6em;">springmvc</a> <a href="/tags/ssm/" style="font-size: 0.6em;">ssm</a>
+        <a href="/tags/Callable/" style="font-size: 0.6em;">Callable</a> <a href="/tags/Consul/" style="font-size: 0.6em;">Consul</a> <a href="/tags/Date/" style="font-size: 0.6em;">Date</a> <a href="/tags/Eureka/" style="font-size: 0.6em;">Eureka</a> <a href="/tags/GateWay/" style="font-size: 0.6em;">GateWay</a> <a href="/tags/Java%E5%9F%BA%E7%A1%80/" style="font-size: 0.6em;">Java基础</a> <a href="/tags/Map/" style="font-size: 0.6em;">Map</a> <a href="/tags/NoSQL/" style="font-size: 0.6em;">NoSQL</a> <a href="/tags/OOP/" style="font-size: 0.6em;">OOP</a> <a href="/tags/OpenFeign/" style="font-size: 0.6em;">OpenFeign</a> <a href="/tags/Ribbin/" style="font-size: 0.6em;">Ribbin</a> <a href="/tags/Set/" style="font-size: 0.6em;">Set</a> <a href="/tags/Socket/" style="font-size: 0.6em;">Socket</a> <a href="/tags/String/" style="font-size: 0.6em;">String</a> <a href="/tags/TCP/" style="font-size: 0.6em;">TCP</a> <a href="/tags/UDP/" style="font-size: 0.6em;">UDP</a> <a href="/tags/Zookeeper/" style="font-size: 0.6em;">Zookeeper</a> <a href="/tags/lock/" style="font-size: 0.6em;">lock</a>
       </div>
   </aside>
 
@@ -407,6 +443,12 @@
   <div class="tab-content">
       <ul class="list-group">
         
+        
+          
+          
+            <a class="list-group-item" href="/2022/01/11/2022111-%E5%88%86%E5%B8%83%E5%BC%8F%E8%AF%B7%E6%B1%82%E9%93%BE%E8%B7%AF%E8%B7%9F%E8%B8%AA(Sleuth)/"><i class="fa  fa-book"></i> 分布式请求链路跟踪(Sleuth)</a>
+            
+          
         
           
           
@@ -433,11 +475,9 @@
           
         
           
-          
-            <a class="list-group-item" href="/2021/12/23/20211223-%E6%9C%8D%E5%8A%A1%E8%B0%83%E7%94%A8/"><i class="fa  fa-book"></i> 服务调用</a>
             
           
-        
+            
           
             
           
