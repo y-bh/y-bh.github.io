@@ -4,7 +4,7 @@
   <!-- 元数据 -->
   <meta charset="utf-8">
   <link rel="icon" href="">
-  <title>XML | 青い栞</title>
+  <title>Java多线程并发 | 青い栞</title>
   <meta name="author" content="FunnyLs" />
   <meta http-equiv="Cache-Control" content="no-transform" />
   <meta http-equiv="Cache-Control" content="no-siteapp" />
@@ -15,16 +15,16 @@
   
     <meta name="keywords" content="" />
   
-  <meta name="description" content="xml简介xml是可扩展的标记性语言 作用 用来保存数据，而且这些数据具有自我描述性 它还可以作为项目或者模块的配置文件 还可以作为网络传输数据的格式（现在json为主）  xml语法文档声明123&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt; &lt;!-- xml 声明 version 是版本的意思 encodi">
+  <meta name="description" content="JMM内存模型JMM（Java Memory Model）本身为一种抽象概念并不真实存在，其描述的是一组规则或规范，通过这组规范定义了程序中各个变量(包括实例字段，静态字段和构成数组对象的元素)的访问方式  JVM运行程序的实体为线程，每个线程创建时JVM都会为其创建一个工作内存（逻辑上），为线程私有。 Java内存模型规定所有变量都存储在主内存，主内存是共享内存区域，所有线程都可访问。 线程对变">
 <meta property="og:type" content="article">
-<meta property="og:title" content="XML">
-<meta property="og:url" content="http://example.com/2021/03/28/XML/index.html">
+<meta property="og:title" content="Java多线程并发">
+<meta property="og:url" content="http://example.com/2022/01/11/2022111-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%B9%B6%E5%8F%91/index.html">
 <meta property="og:site_name" content="青い栞">
-<meta property="og:description" content="xml简介xml是可扩展的标记性语言 作用 用来保存数据，而且这些数据具有自我描述性 它还可以作为项目或者模块的配置文件 还可以作为网络传输数据的格式（现在json为主）  xml语法文档声明123&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt; &lt;!-- xml 声明 version 是版本的意思 encodi">
+<meta property="og:description" content="JMM内存模型JMM（Java Memory Model）本身为一种抽象概念并不真实存在，其描述的是一组规则或规范，通过这组规范定义了程序中各个变量(包括实例字段，静态字段和构成数组对象的元素)的访问方式  JVM运行程序的实体为线程，每个线程创建时JVM都会为其创建一个工作内存（逻辑上），为线程私有。 Java内存模型规定所有变量都存储在主内存，主内存是共享内存区域，所有线程都可访问。 线程对变">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/null">
-<meta property="article:published_time" content="2021-03-27T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-03-28T10:28:10.230Z">
+<meta property="article:published_time" content="2022-01-10T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-01-11T17:35:37.650Z">
 <meta property="article:author" content="FunnyLs">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/null">
@@ -147,17 +147,17 @@
     <div class="kratos-hentry kratos-post-inner clearfix">
         <header class="kratos-entry-header">
             
-                <h1 class="kratos-entry-title text-center">XML</h1>
+                <h1 class="kratos-entry-title text-center">Java多线程并发</h1>
             
             
             <ul class="kratos-post-meta text-center">
-                <li><i class="fa fa-calendar"></i> 2021-03-28</li>
+                <li><i class="fa fa-calendar"></i> 2022-01-11</li>
                 <li><i class="fa fa-user"></i> 作者 FunnyLs</li>
                 <li>
                     <i class="fa fa-edit"></i> 
                     
                     
-                        ~3.25K
+                        ~3.78K
                     
                     字
                 </li>
@@ -166,80 +166,102 @@
         </header>
         <div class="kratos-post-content">
             <div id="expire-alert" class="alert alert-warning hidden" role="alert">
-                本文最后编辑于 <time datetime="1616927290230"></time> 前，其中的内容可能需要更新。
+                本文最后编辑于 <time datetime="1641922537650"></time> 前，其中的内容可能需要更新。
             </div>
             
                 <div class="kratos-post-inner-toc">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#xml%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">xml简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%9C%E7%94%A8"><span class="toc-number">1.1.</span> <span class="toc-text">作用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#xml%E8%AF%AD%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">xml语法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%A1%A3%E5%A3%B0%E6%98%8E"><span class="toc-number">2.1.</span> <span class="toc-text">文档声明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#xml%E6%B3%A8%E9%87%8A"><span class="toc-number">2.2.</span> <span class="toc-text">xml注释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%83%E7%B4%A0%EF%BC%88%E6%A0%87%E7%AD%BE%EF%BC%89"><span class="toc-number">2.3.</span> <span class="toc-text">元素（标签）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99"><span class="toc-number">2.3.1.</span> <span class="toc-text">命名规则</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95-amp-%E5%8F%8C%E6%A0%87%E7%AD%BE"><span class="toc-number">2.3.2.</span> <span class="toc-text">单&amp;双标签</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#xml%E5%B1%9E%E6%80%A7"><span class="toc-number">2.4.</span> <span class="toc-text">xml属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%AD%E6%B3%95%E8%A7%84%E5%88%99"><span class="toc-number">2.5.</span> <span class="toc-text">语法规则</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E5%8C%BA%E5%9F%9F%EF%BC%88CDATA%E5%8C%BA%EF%BC%89"><span class="toc-number">2.5.1.</span> <span class="toc-text">文本区域（CDATA区）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#xml%E8%A7%A3%E6%9E%90%E6%8A%80%E6%9C%AF%E4%BB%8B%E7%BB%8D"><span class="toc-number">3.</span> <span class="toc-text">xml解析技术介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DOM-amp-SAX%E7%AE%80%E4%BB%8B%EF%BC%88%E5%B7%B2%E7%BB%8F%E8%BF%87%E6%97%B6%EF%BC%8C%E4%BD%86%E8%BF%98%E6%98%AF%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%EF%BC%89"><span class="toc-number">3.1.</span> <span class="toc-text">DOM&amp;SAX简介（已经过时，但还是需要了解）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#dom4j%E8%A7%A3%E6%9E%90%E6%8A%80%E6%9C%AF%EF%BC%88%E9%87%8D%E7%82%B9%EF%BC%89"><span class="toc-number">3.1.1.</span> <span class="toc-text">dom4j解析技术（重点）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#dom4j%E7%BC%96%E7%A8%8B%E6%AD%A5%E9%AA%A4"><span class="toc-number">3.1.1.1.</span> <span class="toc-text">dom4j编程步骤</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96document%E5%AF%B9%E8%B1%A1"><span class="toc-number">3.1.2.</span> <span class="toc-text">获取document对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%81%8D%E5%8E%86%E6%A0%87%E7%AD%BE%E8%8E%B7%E5%8F%96%E6%89%80%E6%9C%89%E6%A0%87%E7%AD%BE%E4%B8%AD%E7%9A%84%E5%86%85%E5%AE%B9%EF%BC%88%E9%87%8D%E7%82%B9%EF%BC%89"><span class="toc-number">3.1.3.</span> <span class="toc-text">遍历标签获取所有标签中的内容（重点）</span></a></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JMM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">JMM内存模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E5%AD%90%E6%80%A7"><span class="toc-number">1.1.</span> <span class="toc-text">原子性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E8%A7%81%E6%80%A7"><span class="toc-number">1.2.</span> <span class="toc-text">可见性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E5%BA%8F%E6%80%A7"><span class="toc-number">1.3.</span> <span class="toc-text">有序性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E6%8E%92%E5%BA%8F%E5%8E%9F%E5%88%99"><span class="toc-number">1.3.1.</span> <span class="toc-text">重排序原则</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#synchronized%E6%9C%89%E5%BA%8F%E6%80%A7%E5%8E%9F%E7%90%86"><span class="toc-number">1.3.2.</span> <span class="toc-text">synchronized有序性原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#happens-before%E5%8E%9F%E5%88%99"><span class="toc-number">1.3.3.</span> <span class="toc-text">happens-before原则</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Volatile"><span class="toc-number">2.</span> <span class="toc-text">Volatile</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#volatile%E4%BF%9D%E8%AF%81%E5%8F%AF%E8%A7%81%E6%80%A7%E5%8E%9F%E7%90%86"><span class="toc-number">2.1.</span> <span class="toc-text">volatile保证可见性原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%93%E5%AD%98"><span class="toc-number">2.1.1.</span> <span class="toc-text">缓存</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%AF%E8%A7%81%E6%80%A7%E9%97%AE%E9%A2%98"><span class="toc-number">2.1.2.</span> <span class="toc-text">可见性问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">2.1.3.</span> <span class="toc-text">解决方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E5%8C%96"><span class="toc-number">2.1.4.</span> <span class="toc-text">优化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#volatile%E4%BF%9D%E8%AF%81%E6%9C%89%E5%BA%8F%E6%80%A7%E5%8E%9F%E7%90%86"><span class="toc-number">2.2.</span> <span class="toc-text">volatile保证有序性原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%B1%8F%E9%9A%9C%E6%9C%BA%E5%88%B6"><span class="toc-number">2.2.1.</span> <span class="toc-text">内存屏障机制</span></a></li></ol></li></ol></li></ol>
                 </div>
             
             <hr />
-            <h2 id="xml简介"><a href="#xml简介" class="headerlink" title="xml简介"></a>xml简介</h2><p>xml是可扩展的标记性语言</p>
-<h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><ul>
-<li>用来保存数据，而且这些数据具有自我描述性</li>
-<li>它还可以作为项目或者模块的配置文件</li>
-<li>还可以作为网络传输数据的格式（现在json为主）</li>
-</ul>
-<h2 id="xml语法"><a href="#xml语法" class="headerlink" title="xml语法"></a>xml语法</h2><h3 id="文档声明"><a href="#文档声明" class="headerlink" title="文档声明"></a>文档声明</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span> </span><br><span class="line"><span class="comment">&lt;!-- xml 声明 version 是版本的意思 encoding 是编码 --&gt;</span></span><br><span class="line"><span class="meta">&lt;?xml 要连在一起写，否则会有报错</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="xml注释"><a href="#xml注释" class="headerlink" title="xml注释"></a>xml注释</h3><p>和html相同</p>
-<h3 id="元素（标签）"><a href="#元素（标签）" class="headerlink" title="元素（标签）"></a>元素（标签）</h3><p>xml元素指的是从（且包括）从<strong>开始标签</strong>直到（且包括）<strong>结束标签</strong>的部分。元素可包含其他元素、文本或者两者的混合物。元素也可用有属性。</p>
-<h4 id="命名规则"><a href="#命名规则" class="headerlink" title="命名规则"></a>命名规则</h4><ul>
-<li>名称可以含字母、数字以及其它字符</li>
-<li>名称不能以数字或者标点符号开始</li>
-<li>名称不能包含空格</li>
-</ul>
-<h4 id="单-amp-双标签"><a href="#单-amp-双标签" class="headerlink" title="单&amp;双标签"></a>单&amp;双标签</h4><p>单标签 格式： &lt;标签名 属性=”值” 属性=”值” …… /&gt; </p>
-<p>双标签 格式：&lt; 标签名 属性=”值” 属性=”值” ……&gt;文本数据或子标签</p>
-<h3 id="xml属性"><a href="#xml属性" class="headerlink" title="xml属性"></a>xml属性</h3><p>xml 的标签属性和 html 的标签属性是非常类似的。</p>
-<p>在标签上可以书写属性： 一个标签上可以书写多个属性。每个属性的值必须使用<strong>引号</strong>引起来。规则和标签的书写规则一致。</p>
-<h3 id="语法规则"><a href="#语法规则" class="headerlink" title="语法规则"></a>语法规则</h3><ul>
-<li>所有xml元素都必须有关闭标签（也就是闭合）</li>
-<li>xml标签对大小写敏感</li>
-<li>必须正确嵌套</li>
-<li>必须有根元素<ul>
-<li>根元素就是顶级元素，没有父标签的的元素叫顶级元素。根元素是没有父标签的顶级元素，而且是唯一一个才行。</li>
-</ul>
-</li>
-<li>xml的属性值需加引号</li>
-</ul>
-<h4 id="文本区域（CDATA区）"><a href="#文本区域（CDATA区）" class="headerlink" title="文本区域（CDATA区）"></a>文本区域（CDATA区）</h4><p>CDATA语法可以告诉xml解析器，我CDATA里的文本内容，只是纯文本，不需要xml语法解析</p>
-<p>CDATA格式：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;![CDATA[这里可以原样显示你输入的字符，不会解析xml]]&gt;</span><br></pre></td></tr></table></figure>
-
-<h2 id="xml解析技术介绍"><a href="#xml解析技术介绍" class="headerlink" title="xml解析技术介绍"></a>xml解析技术介绍</h2><p>不管是html还是xml文件他们都是标记型文档，都可以使用w3c组织制定的dom技术来解析。</p>
-<h3 id="DOM-amp-SAX简介（已经过时，但还是需要了解）"><a href="#DOM-amp-SAX简介（已经过时，但还是需要了解）" class="headerlink" title="DOM&amp;SAX简介（已经过时，但还是需要了解）"></a>DOM&amp;SAX简介（已经过时，但还是需要了解）</h3><ul>
-<li><p>dom 解析技术是 W3C 组织制定的，而所有的编程语言都对这个解析技术使用了自己语言的特点进行实现。 Java 对 dom 技术解析标记也做了实现。</p>
-</li>
-<li><p>sun 公司在 JDK5 版本对 dom 解析技术进行升级：SAX（ Simple API for XML ） SAX 解析，它跟 W3C 制定的解析不太一样。它是以类似事件机制通过回调告诉用户当前正在解析的内容。 它是一行一行的读取 xml 文件进行解析的。不会创建大量的 dom 对象。 所以它在解析 xml 的时候，在内存的使用上。和性能上。都优于 Dom 解析。</p>
-</li>
-<li><p>第三方的解析： </p>
+            <h2 id="JMM内存模型"><a href="#JMM内存模型" class="headerlink" title="JMM内存模型"></a>JMM内存模型</h2><p>JMM（Java Memory Model）本身为一种抽象概念并不真实存在，其描述的是一组规则或规范，通过这组规范定义了程序中各个变量(包括实例字段，静态字段和构成数组对象的元素)的访问方式</p>
+<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/62vAAA"><img src="https://z3.ax1x.com/2021/03/18/62vAAA.png" alt="62vAAA.png"></a></p>
+<p>JVM运行程序的实体为线程，每个线程创建时JVM都会为其创建一个<strong>工作内存</strong>（逻辑上），为<strong>线程私有</strong>。</p>
+<p>Java内存模型规定所有变量都存储在<strong>主内存</strong>，主内存是<strong>共享内存区域</strong>，所有线程都可访问。</p>
+<p><strong>线程对变量的操作步骤为</strong>：</p>
+<ol>
+<li>从主内存中读取变量值到工作内存</li>
+<li>对拷贝的值进行操作</li>
+<li>将值写回给主内存</li>
+</ol>
+<p>因为不能直接对主内存的变量值进行修改，因此各个线程中存着主内存变量的拷贝副本。但这样不同线程间的通信也要通过主内存来实现。</p>
+<p>JMM模型需要保证：</p>
 <ul>
-<li>jdom 在 dom 基础上进行了封装 </li>
-<li>dom4j 又对 jdom 进行了封装。（Dom4j是第三方的解析技术。我们需要使用第三方给我们提供好的类库才可以解析 xml 文） </li>
-<li>pull 主要用在 Android 手机开发，是在跟 sax 非常类似都是事件机制解析 xml </li>
+<li>可见性</li>
+<li>原子性</li>
+<li>有序性</li>
 </ul>
-</li>
+<h3 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h3><p>原子表示不可分割，因此原子性为<strong>不被中断操作</strong>。即，当一个线程开始操作后，不会被其他线程干扰导致中断。</p>
+<p><strong>原子性问题</strong>一般为：当线程1、2同时取到了主内存中的值，并在各自的工作内存中进行修改，当要对主内存中的变量进行修改时，线程1的时间片结束。此时线程2修改了主内存的值。而后线程1恢复正常，将修改的值再次写入主内存，造成主内存的值写入了两次，但是值的内容只修改了一次的现象。</p>
+<h3 id="可见性"><a href="#可见性" class="headerlink" title="可见性"></a>可见性</h3><p>当JMM中其中一个线程修改了主内存中变量的值的时候，其他线程需要能够立刻得知修改的值。</p>
+<p><strong>可见性问题</strong>一般为：当线程1修改了变量值想要刷新到主内存中时，线程2读取了主内存中的值，此时线程2读取的是修改前的，读取出错。</p>
+<h3 id="有序性"><a href="#有序性" class="headerlink" title="有序性"></a>有序性</h3><p>线程内操作有序进行，线程间操作有序进行。</p>
+<p>有序性问题一般为：有时写的Java代码的执行顺序并不是按照写的顺序来的。编译器会为了执行效率进行重排序。处理器也可能为了提升性能，对编译器生成的指令进行重排序。</p>
+<h4 id="重排序原则"><a href="#重排序原则" class="headerlink" title="重排序原则"></a>重排序原则</h4><p>as-if-serial语义：重排序之后的代码在单线程环境下执行的结果不能改变。</p>
+<p>JMM提供了三种方式来保证有序性：</p>
+<ul>
+<li>happens-before原则</li>
+<li>synchronized机制</li>
+<li>volatile机制</li>
 </ul>
-<h4 id="dom4j解析技术（重点）"><a href="#dom4j解析技术（重点）" class="headerlink" title="dom4j解析技术（重点）"></a>dom4j解析技术（重点）</h4><p>由于 dom4j 它不是 sun 公司的技术，而属于第三方公司的技术，我们需要使用 dom4j 就需要到 dom4j 官网下载 dom4j 的 jar 包。</p>
-<h5 id="dom4j编程步骤"><a href="#dom4j编程步骤" class="headerlink" title="dom4j编程步骤"></a>dom4j编程步骤</h5><ol>
-<li>先加载xml文件创建document对象</li>
-<li>通过Document对象拿到根元素对象</li>
-<li>通过根元素.elements(标签名);可以返回一个集合，这个集合里放着。所有你指定的标签名的元素对象</li>
-<li>找到你想要修改、删除的子元素，进行相应操作</li>
-<li>保存到硬盘上</li>
+<h4 id="synchronized有序性原理"><a href="#synchronized有序性原理" class="headerlink" title="synchronized有序性原理"></a>synchronized有序性原理</h4><p>synchronized保证有序性的原理很好理解。因为synchronized可以保证同一时间只有线程能访问代码块，而在单线程环境下，JMM能天然保证代码的串行语义。</p>
+<h4 id="happens-before原则"><a href="#happens-before原则" class="headerlink" title="happens-before原则"></a>happens-before原则</h4><p>happens-before原则是Java内存模型中定义的两项操作之间的偏序关系，如果说操作A先行发生于操作B，其实就是说在发生操作B之前，操作A产生的影响能被操作B观察到。“影响”包括修改了内存中共享变量的值、 发送了消息、 调用了方法等。</p>
+<p>Java内存模型存在一些先行发生关系，这些先行发生关系<strong>无须任何同步器协助</strong>就已经存在，可以在编码中直接使用。 如果两个操作之间的关系不在此列，并且无法从下列规则推导出来的话，它们就<strong>没有顺序性保障</strong>，虚拟机可以对它们随意地进行重排序</p>
+<ol>
+<li><strong>程序次序规则</strong>（Program Order Rule）：在一个线程内，按照程序代码顺序，书写在前面的操作先行发生于书写在后面的操作。 准确地说，应该是控制流顺序而不是程序代码顺序，因为要考虑分支、 循环等结构。</li>
+<li><strong>管程锁定规则</strong>（Monitor Lock Rule）：一个unlock操作先行发生于后面对同一个锁的lock操作。 这里必须强调的是同一个锁，而“后面”是指时间上的先后顺序。</li>
+<li><strong>volatile变量规则</strong>（Volatile Variable Rule）：对一个volatile变量的写操作先行发生于后面对这个变量的读操作，这里的“后面”同样是指时间上的先后顺序。</li>
+<li><strong>线程启动规则</strong>（Thread Start Rule）：Thread对象的start()方法先行发生于此线程的每一个动作。</li>
+<li><strong>线程终止规则</strong>（Thread Termination Rule）：线程中的所有操作都先行发生于对此线程的终止检测，我们可以通过Thread.join()方法结束、 Thread.isAlive()的返回值等手段检测到线程已经终止执行。</li>
+<li><strong>线程中断规则</strong>（Thread Interruption Rule）：对线程interrupt()方法的调用先行发生于被中断线程的代码检测到中断事件的发生，可以通过Thread.interrupted()方法检测到是否有中断发生。</li>
+<li><strong>对象终结规则</strong>（Finalizer Rule）：一个对象的初始化完成（构造函数执行结束）先行发生于它的finalize()方法的开始。</li>
+<li><strong>传递性</strong>（Transitivity）：如果操作A先行发生于操作B，操作B先行发生于操作C，那就可以得出操作A先行发生于操作C的结论。</li>
 </ol>
-<h4 id="获取document对象"><a href="#获取document对象" class="headerlink" title="获取document对象"></a>获取document对象</h4><p>先创建SaxReader对象。这个对象，用于读取xml文件，并创建Document</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">*</span><br><span class="line">* dom4j 获取 Documet 对象</span><br><span class="line">*/</span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getDocument</span><span class="params">()</span> <span class="keyword">throws</span> DocumentException </span>&#123;</span><br><span class="line"><span class="comment">// 要创建一个 Document 对象，需要我们先创建一个 SAXReader 对象</span></span><br><span class="line">SAXReader reader = <span class="keyword">new</span> SAXReader();</span><br><span class="line"><span class="comment">// 这个对象用于读取 xml 文件，然后返回一个 Document。</span></span><br><span class="line">Document document = reader.read(<span class="string">&quot;src/books.xml&quot;</span>);</span><br><span class="line"><span class="comment">// 打印到控制台，看看是否创建成功</span></span><br><span class="line">System.out.println(document);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="遍历标签获取所有标签中的内容（重点）"><a href="#遍历标签获取所有标签中的内容（重点）" class="headerlink" title="遍历标签获取所有标签中的内容（重点）"></a>遍历标签获取所有标签中的内容（重点）</h4><ol>
-<li>通过创建 SAXReader 对象。来读取 xml 文件，获取 Document 对象</li>
-<li>通过 Document 对象。拿到 XML 的根元素对象</li>
-<li>通过根元素对象。获取所有的 book 标签对象</li>
-<li>遍历每个 book 标签对象。然后获取到 book 标签对象内的每一个元素，再通过 getText() 方法拿到起始标签和结束标签之间的文本内容</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    读取boks.xml文件生成的book类</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test2</span><span class="params">()</span> <span class="keyword">throws</span> DocumentException </span>&#123;</span><br><span class="line">    <span class="comment">//1.读取books.xml文件</span></span><br><span class="line">        SAXReader saxReader=<span class="keyword">new</span> SAXReader();</span><br><span class="line">        <span class="comment">//在Junit测试中相对路径是从模块名开始算</span></span><br><span class="line">        Document document = saxReader.read(<span class="string">&quot;src/books.xml&quot;</span>);</span><br><span class="line">        <span class="comment">//2.通知document对象获取根元素</span></span><br><span class="line">        Element rootElement = document.getRootElement();</span><br><span class="line">        System.out.println(rootElement);</span><br><span class="line">        <span class="comment">//3.通过根元素获取book标签对象</span></span><br><span class="line">        <span class="comment">//element()和elements()都是通过标签查找子元素</span></span><br><span class="line">        List&lt;Element&gt; books = rootElement.elements(<span class="string">&quot;book&quot;</span>);</span><br><span class="line">        <span class="comment">//4.遍历，处理每个book标签转化为book类</span></span><br><span class="line">        <span class="keyword">for</span> (Element book:books)&#123;</span><br><span class="line">            <span class="comment">//asXML()把标签对象，转化为标签字符串</span></span><br><span class="line">            Element name = book.element(<span class="string">&quot;name&quot;</span>);</span><br><span class="line">            <span class="comment">//getText()可以获取标签中的文本内容</span></span><br><span class="line">            String nameText=name.getText();</span><br><span class="line">            <span class="comment">//直接获取标签名的文本内容</span></span><br><span class="line">            String priceText = book.elementText(<span class="string">&quot;price&quot;</span>);</span><br><span class="line">            String authorText=book.elementText(<span class="string">&quot;author&quot;</span>);</span><br><span class="line">            String snValue = book.attributeValue(<span class="string">&quot;sn&quot;</span>);</span><br><span class="line">            System.out.println(<span class="keyword">new</span> book(snValue,nameText,Double.parseDouble(priceText),authorText));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
+<p>时间先后顺序与先行发生原则之间基本没有太大的关系，所以衡量并发安全问题的时候不要受到时间顺序的干扰，<strong>一切必须以先行发生原则为准</strong>。</p>
+<h2 id="Volatile"><a href="#Volatile" class="headerlink" title="Volatile"></a>Volatile</h2><p>Volatile是Java虚拟机提供的<strong>轻量级的同步机制</strong>，其特点为：</p>
+<ul>
+<li>保证可见性</li>
+<li>不保证原子性</li>
+<li>禁止指令重排序</li>
+</ul>
+<h3 id="volatile保证可见性原理"><a href="#volatile保证可见性原理" class="headerlink" title="volatile保证可见性原理"></a>volatile保证可见性原理</h3><h4 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h4><p>每条指令都是在CPU中执行的，其过程势必涉及到读写数据，而程序运行的数据写在主内存中，这样CPU的执行指令的速度要高于读写主内存中的数据。因此，现代处理器为了提高内存数据的访问速度，会自带多级缓存，其位置在内存与处理器之间。</p>
+<p>老的CPU会有两级缓存（L1和L2），新的CPU会有三级缓存（L1，L2，L3 ）。L1的缓存分为两种，一种为指令缓存，一种是数据缓存。L2、L3则不分缓存和数据。</p>
+<p>L1、L2缓存在每一个CPU核中都有一份，L3则是所有CPU核心共享的内存。</p>
+<p>离CPU越近速度越快，但内存越小。</p>
+<p>速度上：L1&gt;L2&gt;L3&gt;RAM内存。大小上相反。</p>
+<h4 id="可见性问题"><a href="#可见性问题" class="headerlink" title="可见性问题"></a>可见性问题</h4><p>虽然缓存加快了处理器访问内存的速度。但每个 CPU 缓存中有一份自己的内存副本，会带来各个 CPU 在访问同一块内存的数据时，每个 CPU 缓存中的副本可能不一致。</p>
+<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p>使用MESI(缓存一致性协议)来解决可见性问题。</p>
+<p>MESI协议将缓存数据分为四个状态：</p>
+<ul>
+<li>Modified(已修改)：变量改变</li>
+<li>Exclusive(独占的)：只有一个CPU有此变量</li>
+<li>Shared(共享的)：变量同步到所有Cache中</li>
+<li>Invalid(无效的)：当其中一个CPU中的值变为Modified。其余CPU中的值状态变为Invalid</li>
+</ul>
+<p>MESI 这种协议在数据更新后，会标记其它共享的CPU缓存的数据拷贝为Invalid状态，然后当其它CPU再次read的时候，就会出现 cache miss 的问题，此时再从内存中更新数据。</p>
+<p>总结为：其中一个线程更新成功→其余CPU缓存中的值标为Invalid(无效)→其余CPU读取缓存miss→去主内存中获取新值。</p>
+<h4 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h4><p>从主内存中获取新值相比于缓存速度会慢很多，可以考虑从修改主内存的CPU缓存中读取数据。但控制状态也会变得麻烦，需要新加一个状态：Owner(宿主)。主要用于标记更新主内存的源CPU。</p>
+<p>此方式，即为MOESI协议。<strong>因为允许 CPU Cache 间同步数据，所以降低了对内存的操作</strong>，性能是非常大的提升。</p>
+<h3 id="volatile保证有序性原理"><a href="#volatile保证有序性原理" class="headerlink" title="volatile保证有序性原理"></a>volatile保证有序性原理</h3><p>处理器除了缓存外，计算单元与缓存系统之间还包括：本地寄存器、缓冲区。</p>
+<p>若处理器本身完成了计算但是没将新值刷新到缓存中。缓存一致性协议就失去了作用。数据的新值对其他处理器的可见性依旧无法得到保证。</p>
+<p>因此，要解决的是将计算单元计算的新值及时刷新到缓存中，这是单个处理器要解决的问题，依赖于<strong>内存屏障机制</strong>。</p>
+<h4 id="内存屏障机制"><a href="#内存屏障机制" class="headerlink" title="内存屏障机制"></a>内存屏障机制</h4><p>有两个功能：</p>
+<ul>
+<li>阻止屏障前后的没有数据依赖性的代码进行指令重排序，保证程序在一定程度上的<strong>有序性</strong>。</li>
+<li>强制把写缓冲区/高速缓存中的脏数据等写回主内存，让缓存中相应的数据失效，保证数据的<strong>可见性</strong>。</li>
+</ul>
+<p><strong>写内存屏障</strong>(Store Memory Barrier)：强制所有在store屏障指令之前的store指令，都在该store屏障指令执行之前被执行，并把store缓冲区的数据都刷到CPU缓存。这会使得程序状态对其它CPU可见，这样其它CPU可以根据需要介入。</p>
+<p><strong>读内存屏障</strong>(Load Memory Barrier)：强制所有在load屏障指令之后的load指令，都在该load屏障指令执行之后被执行，并且一直等到load缓冲区被该CPU读完才能执行之后的load指令。这使得从其它CPU暴露出来的程序状态对该CPU可见</p>
+<p>总结：</p>
+<p>依照volatile机制：</p>
+<blockquote>
+<p>当第二个操作是volatile写时，不管第一个操作是什么，都不能重排序。这个规则确保volatile写之前的操作不会被编译器重排序到volatile写之后。<br>当第一个操作是volatile读时，不管第二个操作是什么，都不能重排序。这个规则确保volatile读之后的操作不会被编译器重排序到volatile读之前。<br>当第一个操作是volatile写，第二个操作是volatile读时，不能重排序。</p>
+</blockquote>
+<p>因此：</p>
+<ul>
+<li>写volatile变量时，可以确保volatile写之前的操作不会被编译器重排序到volatile写之后。</li>
+<li>读volatile变量时，可以确保volatile读之后的操作不会被编译器重排序到volatile读之前。</li>
+</ul>
 
         </div>
         
@@ -293,7 +315,7 @@
     <script type="text/javascript">
         $(()=>{
             new QRCode("wechat-qr", {
-                text: "http://example.com/2021/03/28/XML/",
+                text: "http://example.com/2022/01/11/2022111-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%B9%B6%E5%8F%91/",
                 width: 150,
                 height: 150,
                 correctLevel : QRCode.CorrectLevel.H
@@ -305,15 +327,11 @@
             const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
             const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
             const twitterBase   = "https://twitter.com/intent/tweet?";
-            const hostUrl       = "http://example.com/2021/03/28/XML/";
-            const title         = "「XML」";
-            const excerpt       = `xml简介xml是可扩展的标记性语言
-作用
-用来保存数据，而且这些数据具有自我描述性
-它还可以作为项目或者模块的配置文件
-还可以作为网络传输数据的格式（现在json为主）
+            const hostUrl       = "http://example.com/2022/01/11/2022111-Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%B9%B6%E5%8F%91/";
+            const title         = "「Java多线程并发」";
+            const excerpt       = `JMM内存模型JMM（Java Memory Model）本身为一种抽象概念并不真实存在，其描述的是一组规则或规范，通过这组规范定义了程序中各个变量(包括实例字段，静态字段和构成数组对象的元素)的访问方式
 
-xml语法文档声明123&lt;?xml version=&...`;
+JVM运行程序的实体为线程...`;
             let _URL;
             switch (dest) {
                 case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
@@ -335,7 +353,7 @@ xml语法文档声明123&lt;?xml version=&...`;
                     
                 </div>
                 <div class="pull-date">
-                <span>最后编辑：2021-03-28</span>
+                <span>最后编辑：2022-01-12</span>
                 </div>
             </div>
         </footer>
@@ -344,12 +362,12 @@ xml语法文档声明123&lt;?xml version=&...`;
         <nav class="navigation post-navigation clearfix" role="navigation">
             
             <div class="nav-previous clearfix">
-                <a title=" Tomcat" href="/2021/03/28/Tomcat/">&lt; 上一篇</a>
+                <a title=" 消息驱动" href="/2022/01/10/2022110-消息驱动(Stream)/">&lt; 上一篇</a>
             </div>
             
             
             <div class="nav-next clearfix">
-                <a title=" Servlet1" href="/2021/03/29/Servlet1/">下一篇 &gt;</a>
+                <a title=" 分布式请求链路跟踪(Sleuth)" href="/2022/01/11/2022111-分布式请求链路跟踪(Sleuth)/">下一篇 &gt;</a>
             </div>
             
         </nav>
@@ -392,7 +410,7 @@ xml语法文档声明123&lt;?xml version=&...`;
         <span class="toc-progress-bar"></span>
     </h4>
     <div class="textwidget">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#xml%E7%AE%80%E4%BB%8B"><span class="toc-text">xml简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%9C%E7%94%A8"><span class="toc-text">作用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#xml%E8%AF%AD%E6%B3%95"><span class="toc-text">xml语法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%A1%A3%E5%A3%B0%E6%98%8E"><span class="toc-text">文档声明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#xml%E6%B3%A8%E9%87%8A"><span class="toc-text">xml注释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%83%E7%B4%A0%EF%BC%88%E6%A0%87%E7%AD%BE%EF%BC%89"><span class="toc-text">元素（标签）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99"><span class="toc-text">命名规则</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95-amp-%E5%8F%8C%E6%A0%87%E7%AD%BE"><span class="toc-text">单&amp;双标签</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#xml%E5%B1%9E%E6%80%A7"><span class="toc-text">xml属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%AD%E6%B3%95%E8%A7%84%E5%88%99"><span class="toc-text">语法规则</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E5%8C%BA%E5%9F%9F%EF%BC%88CDATA%E5%8C%BA%EF%BC%89"><span class="toc-text">文本区域（CDATA区）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#xml%E8%A7%A3%E6%9E%90%E6%8A%80%E6%9C%AF%E4%BB%8B%E7%BB%8D"><span class="toc-text">xml解析技术介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DOM-amp-SAX%E7%AE%80%E4%BB%8B%EF%BC%88%E5%B7%B2%E7%BB%8F%E8%BF%87%E6%97%B6%EF%BC%8C%E4%BD%86%E8%BF%98%E6%98%AF%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%EF%BC%89"><span class="toc-text">DOM&amp;SAX简介（已经过时，但还是需要了解）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#dom4j%E8%A7%A3%E6%9E%90%E6%8A%80%E6%9C%AF%EF%BC%88%E9%87%8D%E7%82%B9%EF%BC%89"><span class="toc-text">dom4j解析技术（重点）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#dom4j%E7%BC%96%E7%A8%8B%E6%AD%A5%E9%AA%A4"><span class="toc-text">dom4j编程步骤</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96document%E5%AF%B9%E8%B1%A1"><span class="toc-text">获取document对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%81%8D%E5%8E%86%E6%A0%87%E7%AD%BE%E8%8E%B7%E5%8F%96%E6%89%80%E6%9C%89%E6%A0%87%E7%AD%BE%E4%B8%AD%E7%9A%84%E5%86%85%E5%AE%B9%EF%BC%88%E9%87%8D%E7%82%B9%EF%BC%89"><span class="toc-text">遍历标签获取所有标签中的内容（重点）</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JMM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B"><span class="toc-text">JMM内存模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E5%AD%90%E6%80%A7"><span class="toc-text">原子性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E8%A7%81%E6%80%A7"><span class="toc-text">可见性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E5%BA%8F%E6%80%A7"><span class="toc-text">有序性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E6%8E%92%E5%BA%8F%E5%8E%9F%E5%88%99"><span class="toc-text">重排序原则</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#synchronized%E6%9C%89%E5%BA%8F%E6%80%A7%E5%8E%9F%E7%90%86"><span class="toc-text">synchronized有序性原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#happens-before%E5%8E%9F%E5%88%99"><span class="toc-text">happens-before原则</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Volatile"><span class="toc-text">Volatile</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#volatile%E4%BF%9D%E8%AF%81%E5%8F%AF%E8%A7%81%E6%80%A7%E5%8E%9F%E7%90%86"><span class="toc-text">volatile保证可见性原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%93%E5%AD%98"><span class="toc-text">缓存</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%AF%E8%A7%81%E6%80%A7%E9%97%AE%E9%A2%98"><span class="toc-text">可见性问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-text">解决方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E5%8C%96"><span class="toc-text">优化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#volatile%E4%BF%9D%E8%AF%81%E6%9C%89%E5%BA%8F%E6%80%A7%E5%8E%9F%E7%90%86"><span class="toc-text">volatile保证有序性原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%B1%8F%E9%9A%9C%E6%9C%BA%E5%88%B6"><span class="toc-text">内存屏障机制</span></a></li></ol></li></ol></li></ol>
     </div>
 </aside>
                 
