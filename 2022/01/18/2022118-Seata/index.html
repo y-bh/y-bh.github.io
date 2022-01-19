@@ -4,7 +4,7 @@
   <!-- 元数据 -->
   <meta charset="utf-8">
   <link rel="icon" href="">
-  <title>分布式请求链路跟踪(Sleuth) | 青い栞</title>
+  <title>Seata | 青い栞</title>
   <meta name="author" content="FunnyLs" />
   <meta http-equiv="Cache-Control" content="no-transform" />
   <meta http-equiv="Cache-Control" content="no-siteapp" />
@@ -15,16 +15,16 @@
   
     <meta name="keywords" content="" />
   
-  <meta name="description" content="概述微服务框架中，一个由客户端发起的请求在后端系统中会经过多个不同的的服务节点调用来协同产生最后的请求结果，每一个前段请求都会形成一条复杂的分布式服务调用链路，链路中的任何一环出现高延时或错误都会引起整个请求最后的失败。 SpringCloud Sleuth提供了一套完整的服务跟踪的解决方案。 使用SpringCloud从F版起已不需要自己构建Zipkin Server了，只需调用jar包即可。">
+  <meta name="description" content="概述分布式事务问题当使用分布式架构之后，单体应用被拆分为微服务应用，原来的模块拆分成独立的应用，分别使用独立的数据源。 当业务操作需要调用多个模块进行的时候，每个模块内部的数据一致性由本地事务保证，但是全局一致性没法保证。  SeataSeata是一款开源的分布式事务解决方案，致力于在微服务架构下提供高性能和简单易用的分布式事务服务。Seata提供了AT、TCC、SAGA、和XA事务模式。主要使用">
 <meta property="og:type" content="article">
-<meta property="og:title" content="分布式请求链路跟踪(Sleuth)">
-<meta property="og:url" content="http://example.com/2022/01/11/2022111-%E5%88%86%E5%B8%83%E5%BC%8F%E8%AF%B7%E6%B1%82%E9%93%BE%E8%B7%AF%E8%B7%9F%E8%B8%AA(Sleuth)/index.html">
+<meta property="og:title" content="Seata">
+<meta property="og:url" content="http://example.com/2022/01/18/2022118-Seata/index.html">
 <meta property="og:site_name" content="青い栞">
-<meta property="og:description" content="概述微服务框架中，一个由客户端发起的请求在后端系统中会经过多个不同的的服务节点调用来协同产生最后的请求结果，每一个前段请求都会形成一条复杂的分布式服务调用链路，链路中的任何一环出现高延时或错误都会引起整个请求最后的失败。 SpringCloud Sleuth提供了一套完整的服务跟踪的解决方案。 使用SpringCloud从F版起已不需要自己构建Zipkin Server了，只需调用jar包即可。">
+<meta property="og:description" content="概述分布式事务问题当使用分布式架构之后，单体应用被拆分为微服务应用，原来的模块拆分成独立的应用，分别使用独立的数据源。 当业务操作需要调用多个模块进行的时候，每个模块内部的数据一致性由本地事务保证，但是全局一致性没法保证。  SeataSeata是一款开源的分布式事务解决方案，致力于在微服务架构下提供高性能和简单易用的分布式事务服务。Seata提供了AT、TCC、SAGA、和XA事务模式。主要使用">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/null">
-<meta property="article:published_time" content="2022-01-10T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-01-18T14:42:16.539Z">
+<meta property="article:published_time" content="2022-01-17T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-01-18T14:41:23.805Z">
 <meta property="article:author" content="FunnyLs">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/null">
@@ -147,17 +147,17 @@
     <div class="kratos-hentry kratos-post-inner clearfix">
         <header class="kratos-entry-header">
             
-                <h1 class="kratos-entry-title text-center">分布式请求链路跟踪(Sleuth)</h1>
+                <h1 class="kratos-entry-title text-center">Seata</h1>
             
             
             <ul class="kratos-post-meta text-center">
-                <li><i class="fa fa-calendar"></i> 2022-01-11</li>
+                <li><i class="fa fa-calendar"></i> 2022-01-18</li>
                 <li><i class="fa fa-user"></i> 作者 FunnyLs</li>
                 <li>
                     <i class="fa fa-edit"></i> 
                     
                     
-                        1466
+                        ~3.88K
                     
                     字
                 </li>
@@ -166,48 +166,83 @@
         </header>
         <div class="kratos-post-content">
             <div id="expire-alert" class="alert alert-warning hidden" role="alert">
-                本文最后编辑于 <time datetime="1642516936539"></time> 前，其中的内容可能需要更新。
+                本文最后编辑于 <time datetime="1642516883805"></time> 前，其中的内容可能需要更新。
             </div>
             
                 <div class="kratos-post-inner-toc">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">使用</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">分布式事务问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Seata"><span class="toc-number">1.2.</span> <span class="toc-text">Seata</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#AT%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.2.1.</span> <span class="toc-text">AT模式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#AT%E6%A8%A1%E5%BC%8F%E6%B5%81%E7%A8%8B"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">AT模式流程</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">2.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TC-TM-RM%E7%BB%84%E4%BB%B6%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="toc-number">3.1.</span> <span class="toc-text">TC&#x2F;TM&#x2F;RM组件执行流程</span></a></li></ol></li></ol>
                 </div>
             
             <hr />
-            <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>微服务框架中，一个由客户端发起的请求在后端系统中会经过多个不同的的服务节点调用来协同产生最后的请求结果，每一个前段请求都会形成一条复杂的分布式服务调用链路，链路中的任何一环出现高延时或错误都会引起整个请求最后的失败。</p>
-<p>SpringCloud Sleuth提供了一套完整的服务跟踪的解决方案。</p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>SpringCloud从F版起已不需要自己构建Zipkin Server了，只需调用jar包即可。</p>
-<p>下载jar包后，运行jar包，访问<a target="_blank" rel="noopener" href="http://localhost:9411/zipkin/%EF%BC%8C%E5%9C%A8%E5%9B%BE%E5%BD%A2%E5%8C%96%E7%95%8C%E9%9D%A2%E6%93%8D%E4%BD%9C">http://localhost:9411/zipkin/，在图形化界面操作</a></p>
+            <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><h3 id="分布式事务问题"><a href="#分布式事务问题" class="headerlink" title="分布式事务问题"></a>分布式事务问题</h3><p>当使用分布式架构之后，单体应用被拆分为微服务应用，原来的模块拆分成独立的应用，分别使用独立的数据源。</p>
+<p>当业务操作需要调用多个模块进行的时候，每个模块内部的数据一致性由本地事务保证，但是全局一致性没法保证。</p>
+<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/7BwDRe"><img src="https://s4.ax1x.com/2022/01/18/7BwDRe.png" alt="7BwDRe.png"></a></p>
+<h3 id="Seata"><a href="#Seata" class="headerlink" title="Seata"></a>Seata</h3><p>Seata是一款开源的分布式事务解决方案，致力于在微服务架构下提供高性能和简单易用的分布式事务服务。Seata提供了AT、TCC、SAGA、和XA事务模式。主要使用的为AT模式。</p>
+<p>其包含三大组件：</p>
 <ol>
-<li>修改8001模块，使其支持显示在zipkin上</li>
-<li>添加pom依赖</li>
+<li>Transaction Coordinator(TC): <strong>事务协调器</strong>，维护全局事务的运行状态，负责协调并驱动全局事务的提交或回滚；</li>
+<li>Transaction Manager (TM): <strong>控制全局事务的边界</strong>，负责开启一个全局事务，并最终发起全局提交或全局回滚的决议；</li>
+<li>Resource Manager (RM): <strong>控制分支事务</strong>，负责分支注册、状态汇报，并接收事务协调器的指令，驱动分支（本地）事务的提交和回滚</li>
 </ol>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--包含了sleuth+zipkin--&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-cloud-starter-zipkin&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/7B0otK"><img src="https://s4.ax1x.com/2022/01/18/7B0otK.png" alt="7B0otK.png"></a></p>
+<ol>
+<li><strong>TM向TC申请开启一个全局事务</strong>，全局事务创建成功并生成一个全局唯一的XID</li>
+<li>XID在微服务调用链路的上下文中传播</li>
+<li>RM向TC注册分支事务，将其纳入XID对应全局事务的管辖</li>
+<li>TM向TC发起针对XID的全局提交或回滚决议</li>
+<li>TC调度XID下管辖的全部分支事务完成提交或回滚请求</li>
+</ol>
+<p>只需要将注解@GolobalTransactional注解标在业务方法上即可</p>
+<h4 id="AT模式"><a href="#AT模式" class="headerlink" title="AT模式"></a>AT模式</h4><ul>
+<li><p>基于支持本地ACID事物的关系型数据库</p>
+</li>
+<li><p>Java应用，通过JDBC访问数据库</p>
+</li>
+</ul>
+<p>整体机制：</p>
+<ol>
+<li>一阶段：业务数据和回滚日志记录在同一个本地事务中提交，释放本地锁和连接资源。</li>
+<li>二阶段：<ul>
+<li>提交异步化，非常快速的完成</li>
+<li>回滚通过一阶段的回滚日志进行反向补偿</li>
+</ul>
+</li>
+</ol>
+<p>一阶段中：</p>
+<p>Seata 会拦截“业务 SQL”，</p>
+<ol>
+<li>解析 SQL 语义，找到“业务 SQL”要更新的业务数据，在业务数据被更 新前，将其保存成“before image”</li>
+<li>执行“业务 SQL”更新业务数据，在业务数据更新之后</li>
+<li>其保存成“after image”，最后生成行锁。</li>
+</ol>
+<p>以上操作全部在一个数据库事务内完成，这样保证了一阶段操作的原子性。</p>
+<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/7BcIrF"><img src="https://s4.ax1x.com/2022/01/18/7BcIrF.png" alt="7BcIrF.png"></a></p>
+<p>二阶段中：</p>
+<ul>
+<li>顺利提交：因为“业务 SQL”在一阶段已经提交至数据库，所以Seata框架只需将一阶段保存的快照数据和行锁删掉，完成数据清理即可。</li>
+<li>回滚：二阶段如果是回滚的话，Seata 就需要回滚一阶段已经执行的“业务 SQL”，还原业务数据。<br>回滚方式便是用“before image”还原业务数据；但在还原前要首先要校验脏写，对比“数据库当前业务数据”和 “after image”，<br>如果两份数据完全一致就说明没有脏写，可以还原业务数据，如果不一致就说明有脏写，出现脏写就需要转人工处理。</li>
+</ul>
+<h5 id="AT模式流程"><a href="#AT模式流程" class="headerlink" title="AT模式流程"></a>AT模式流程</h5><p><a target="_blank" rel="noopener" href="https://imgtu.com/i/7Bgdo9"><img src="https://s4.ax1x.com/2022/01/18/7Bgdo9.png" alt="7Bgdo9.png"></a></p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><ol>
+<li>下载解压后修改conf文件夹下的file.conf文件，主要修改自定义事务组名称+事务日志存储模式为db+数据库连接信息</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">service &#123;</span><br><span class="line">      vgroupMapping.my_test_tx_group &#x3D; &quot;fsp_tx_group&quot;</span><br><span class="line">      default.grouplist &#x3D; &quot;127.0.0.1:8091&quot;</span><br><span class="line">      enableDegrade &#x3D; false</span><br><span class="line">      disable &#x3D; false</span><br><span class="line">      max.commit.retry.timeout &#x3D; &quot;-1&quot;</span><br><span class="line">      max.rollback.retry.timeout &#x3D; &quot;-1&quot;</span><br><span class="line">    &#125;</span><br><span class="line">store &#123;</span><br><span class="line">  ## store mode: file、db、redis</span><br><span class="line">  mode &#x3D; &quot;db&quot;</span><br><span class="line">  ## rsa decryption public key</span><br><span class="line">  publicKey &#x3D; &quot;&quot;</span><br><span class="line">  ## file store property</span><br><span class="line">  file &#123;</span><br><span class="line">    ## store location dir</span><br><span class="line">    dir &#x3D; &quot;sessionStore&quot;</span><br><span class="line">    # branch session size , if exceeded first try compress lockkey, still exceeded throws exceptions</span><br><span class="line">    maxBranchSessionSize &#x3D; 16384</span><br><span class="line">    # globe session size , if exceeded throws exceptions</span><br><span class="line">    maxGlobalSessionSize &#x3D; 512</span><br><span class="line">    # file buffer size , if exceeded allocate new buffer</span><br><span class="line">    fileWriteBufferCacheSize &#x3D; 16384</span><br><span class="line">    # when recover batch read size</span><br><span class="line">    sessionReloadReadSize &#x3D; 100</span><br><span class="line">    # async, sync</span><br><span class="line">    flushDiskMode &#x3D; async</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">   ## database store property</span><br><span class="line">  db &#123;</span><br><span class="line">    ## the implement of javax.sql.DataSource, such as DruidDataSource(druid)&#x2F;BasicDataSource(dbcp)&#x2F;HikariDataSource(hikari) etc.</span><br><span class="line">    datasource &#x3D; &quot;dbcp&quot;</span><br><span class="line">    ## mysql&#x2F;oracle&#x2F;postgresql&#x2F;h2&#x2F;oceanbase etc.</span><br><span class="line">    dbType &#x3D; &quot;mysql&quot;</span><br><span class="line">    driverClassName &#x3D; &quot;com.mysql.cj.jdbc.Driver&quot;</span><br><span class="line">    ## if using mysql to store the data, recommend add rewriteBatchedStatements&#x3D;true in jdbc connection param</span><br><span class="line">    url &#x3D; &quot;jdbc:mysql:&#x2F;&#x2F;127.0.0.1:3306&#x2F;seata?serverTimezone&#x3D;Asia&#x2F;Shanghai&quot;</span><br><span class="line">    user &#x3D; &quot;root&quot;</span><br><span class="line">    password &#x3D; &quot;root&quot;</span><br><span class="line">    minConn &#x3D; 1</span><br><span class="line">    maxConn &#x3D; 3</span><br><span class="line">    globalTable &#x3D; &quot;global_table&quot;</span><br><span class="line">    branchTable &#x3D; &quot;branch_table&quot;</span><br><span class="line">    lockTable &#x3D; &quot;lock_table&quot;</span><br><span class="line">    queryLimit &#x3D; 100</span><br><span class="line">    maxWait &#x3D; 5000</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 
-<ol start="3">
-<li>配置yml文件</li>
+<ol start="2">
+<li>新建seata用的数据库，建表文件在官方github主页上</li>
+<li>指明注册中心为nacos，地址为localhost:8848</li>
 </ol>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">application:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">cloud-payment-service</span></span><br><span class="line">  <span class="attr">zipkin:</span></span><br><span class="line">    <span class="attr">base-url:</span> <span class="string">http://localhost:9411</span></span><br><span class="line">  <span class="attr">sleuth:</span></span><br><span class="line">    <span class="attr">sampler:</span></span><br><span class="line">      <span class="comment">#采样率值介于 0 到 1 之间，1 则表示全部采集</span></span><br><span class="line">     <span class="attr">probability:</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">registry &#123;</span><br><span class="line">  # file 、nacos 、eureka、redis、zk、consul、etcd3、sofa</span><br><span class="line">  type &#x3D; &quot;nacos&quot;</span><br><span class="line"></span><br><span class="line">  nacos &#123;</span><br><span class="line">    application &#x3D; &quot;seata-server&quot;</span><br><span class="line">    serverAddr &#x3D; &quot;localhost:8848&quot;</span><br><span class="line">    group &#x3D; &quot;SEATA_GROUP&quot;</span><br><span class="line">    namespace &#x3D; &quot;&quot;</span><br><span class="line">    cluster &#x3D; &quot;default&quot;</span><br><span class="line">    username &#x3D; &quot;&quot;</span><br><span class="line">    password &#x3D; &quot;&quot;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 
 <ol start="4">
-<li>在controller中添加接口方法</li>
+<li>先启动Nacos,再启动Seata</li>
 </ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/payment/zipkin&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">paymentZipkin</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;hi ,i&#x27;am paymentzipkin server fall back，welcome to atguigu，O(∩_∩)O哈哈~&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="5">
-<li>修改80模块，使其支持zipkin</li>
-<li>添加pom文件，与8001相同</li>
-<li>配置yml文件</li>
-</ol>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">    <span class="attr">application:</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">cloud-order-service</span></span><br><span class="line">    <span class="attr">zipkin:</span></span><br><span class="line">      <span class="attr">base-url:</span> <span class="string">http://localhost:9411</span></span><br><span class="line">    <span class="attr">sleuth:</span></span><br><span class="line">      <span class="attr">sampler:</span></span><br><span class="line">        <span class="attr">probability:</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
-
-<ol start="8">
-<li>在controller创建接口方法</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ====================&gt; zipkin+sleuth</span></span><br><span class="line"><span class="meta">@GetMapping(&quot;/consumer/payment/zipkin&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">paymentZipkin</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    String result = restTemplate.getForObject(<span class="string">&quot;http://localhost:8001&quot;</span>+<span class="string">&quot;/payment/zipkin/&quot;</span>, String.class);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="9">
-<li>启动7001，8001，80，访问该方法地址，在zipkin中会显示记录。</li>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="TC-TM-RM组件执行流程"><a href="#TC-TM-RM组件执行流程" class="headerlink" title="TC/TM/RM组件执行流程"></a>TC/TM/RM组件执行流程</h3><ol>
+<li>TM开启分布式事务(TM向TC注册全局事务记录)</li>
+<li>按业务场景，编排数据库、服务等事务内资源(RM向TC汇报资源准备状态)</li>
+<li>TM结束分布式事务，事务1阶段结束(TM通知TC提交/回滚分布式事务)</li>
+<li>TC总汇事务信息，决定分布式事务是提交还是回滚</li>
+<li>TC通知所有RM提交/回滚资源，事务2阶段结束</li>
 </ol>
 
         </div>
@@ -262,7 +297,7 @@
     <script type="text/javascript">
         $(()=>{
             new QRCode("wechat-qr", {
-                text: "http://example.com/2022/01/11/2022111-%E5%88%86%E5%B8%83%E5%BC%8F%E8%AF%B7%E6%B1%82%E9%93%BE%E8%B7%AF%E8%B7%9F%E8%B8%AA(Sleuth)/",
+                text: "http://example.com/2022/01/18/2022118-Seata/",
                 width: 150,
                 height: 150,
                 correctLevel : QRCode.CorrectLevel.H
@@ -274,10 +309,12 @@
             const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
             const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
             const twitterBase   = "https://twitter.com/intent/tweet?";
-            const hostUrl       = "http://example.com/2022/01/11/2022111-%E5%88%86%E5%B8%83%E5%BC%8F%E8%AF%B7%E6%B1%82%E9%93%BE%E8%B7%AF%E8%B7%9F%E8%B8%AA(Sleuth)/";
-            const title         = "「分布式请求链路跟踪(Sleuth)」";
-            const excerpt       = `概述微服务框架中，一个由客户端发起的请求在后端系统中会经过多个不同的的服务节点调用来协同产生最后的请求结果，每一个前段请求都会形成一条复杂的分布式服务调用链路，链路中的任何一环出现高延时或错误都会引起整个请求最后的失败。
-Spring...`;
+            const hostUrl       = "http://example.com/2022/01/18/2022118-Seata/";
+            const title         = "「Seata」";
+            const excerpt       = `概述分布式事务问题当使用分布式架构之后，单体应用被拆分为微服务应用，原来的模块拆分成独立的应用，分别使用独立的数据源。
+当业务操作需要调用多个模块进行的时候，每个模块内部的数据一致性由本地事务保证，但是全局一致性没法保证。
+
+Seat...`;
             let _URL;
             switch (dest) {
                 case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
@@ -308,13 +345,9 @@ Spring...`;
         <nav class="navigation post-navigation clearfix" role="navigation">
             
             <div class="nav-previous clearfix">
-                <a title=" Java多线程并发" href="/2022/01/11/2022111-Java多线程并发/">&lt; 上一篇</a>
+                <a title=" 分布式请求链路跟踪(Sleuth)" href="/2022/01/11/2022111-分布式请求链路跟踪(Sleuth)/">&lt; 上一篇</a>
             </div>
             
-            
-            <div class="nav-next clearfix">
-                <a title=" Seata" href="/2022/01/18/2022118-Seata/">下一篇 &gt;</a>
-            </div>
             
         </nav>
     
@@ -356,7 +389,7 @@ Spring...`;
         <span class="toc-progress-bar"></span>
     </h4>
     <div class="textwidget">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-text">使用</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-text">概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E9%97%AE%E9%A2%98"><span class="toc-text">分布式事务问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Seata"><span class="toc-text">Seata</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#AT%E6%A8%A1%E5%BC%8F"><span class="toc-text">AT模式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#AT%E6%A8%A1%E5%BC%8F%E6%B5%81%E7%A8%8B"><span class="toc-text">AT模式流程</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TC-TM-RM%E7%BB%84%E4%BB%B6%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="toc-text">TC&#x2F;TM&#x2F;RM组件执行流程</span></a></li></ol></li></ol>
     </div>
 </aside>
                 
